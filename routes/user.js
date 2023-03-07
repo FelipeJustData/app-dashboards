@@ -16,18 +16,18 @@ router.get('/users', (req, res) => {
 
 })
 
-router.get("/register", eAdmin, (req, res) => {
+router.get("/register", (req, res) => {
     res.render("users/register")
 })
 
 // Form add new user
-router.get('/user/add', eAdmin,(req, res) => {
+router.get('/user/add',(req, res) => {
     res.render("user/addusers")
 })
 
 
 // Add new User
-router.post('/users/new', eAdmin,(req, res) => {
+router.post('/users/new',(req, res) => {
     var errors = []
 
     if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
