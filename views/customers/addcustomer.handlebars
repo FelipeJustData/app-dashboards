@@ -1,0 +1,19 @@
+{{#each errors}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{else}}    
+
+{{/each}}
+<h2>Adicionando novo cliente</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/customers/new" method="POST">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" placeholder="Nome do usuário" class="form-control" required>
+            <label for="logo" class="mt-4">Logo:</label>
+            <input type="file" name="logo" id="logo" class="btn"  accept="image/png, image/jpeg"  >
+
+            <br>
+            <button type="submit" class="btn btn-success mt-4">Criar usuário</button>
+        </form>
+    </div>    
+</div>

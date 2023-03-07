@@ -1,0 +1,23 @@
+<a href="/admin/dashboards"><span>< Voltar</span></a>
+<h2>{{dashboard.title}}</h2>
+<p>{{dashboard.description}}</p>
+<br>
+<div class="row mt-2">
+    <div class="col-6">
+        <a href="/admin/dashboards/edit/{{dashboard.id_dash}}">
+            <div class="btn btn-success">Editar dashboard</div>
+        </a>
+    </div>
+    <div class="col-6">
+        <form action="/admin/dashboards/delete" method="POST">
+            <input type="hidden" name="id" value="{{dashboard.id_dash}}">
+            <button type="submit" class="btn btn-danger">Deletar Dashboard</button>
+        </form>
+    </div>
+</div>
+<hr>
+<iframe title="{{dashboard.title}}" width="100%" height="541.25" src={{dashboard.url_desktop}}
+    frameborder="0" allowFullScreen="true"></iframe>
+<br>
+<small>Data Criação: {{dashboard.createdAt}}</small>
+<br>

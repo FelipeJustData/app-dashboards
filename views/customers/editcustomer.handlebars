@@ -1,0 +1,20 @@
+{{#each errors}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{else}}    
+
+{{/each}}
+
+<h2>Editar Cliente</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/customer/edit" method="POST">
+            <input type="hidden" id="id" name="id" value="{{customer.id}}">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" placeholder="Nome do Cliente" class="form-control" value="{{customer.name}}" required>           
+            <label for="logo" class="mt-4">Logo:</label>
+            <input type="file" name="logo" id="logo" class="btn"  accept="image/png, image/jpeg">            
+            <br>
+            <button type="submit" class="btn btn-success">Salvar Edição</button>
+        </form>
+    </div>    
+</div>

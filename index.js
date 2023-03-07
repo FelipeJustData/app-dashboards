@@ -1,0 +1,73 @@
+const express = require('express')
+const app = express()
+const handlebars = require('express-handlebars')
+const bodyParser = require('body-parser')
+const path = require("path") 
+const User = require("./models/User")
+const Customer = require("./models/Customer")
+const flash = require('connect-flash')
+const passport = require("passport")
+const session = require('express-session')
+const users = require("./routes/user")
+require("./config/auth")(passport)
+const admin = require('./routes/admin')
+// conseguir ler as variaveis de ambiente
+require("dotenv").config({
+    path:'variables.env'
+})
+
+
+
+// Settings
+    //session
+    app.use(session({
+        secret: 'site de dashboards',
+        resave: true,
+        saveUninitialized: true
+    }))
+
+    app.use(passport.initialize())
+    app.use(passport.session())
+    app.use(flash())
+
+    //middleware
+    app.use((req,res,next) => {
+        res.locals.success_msg = req.flash("success_msg")
+        res.locals.error_msg = req.flash("error_msg")
+        res.locals.error = req.flash("error")
+        res.locals.user = req.user || null
+        next()
+    })
+
+
+    // body parser
+    app.use(bodyParser.urlencoded({extended: true}))
+    app.use(bodyParser.json())
+
+    // Template Engine
+    app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
+    app.set('view engine','handlebars')
+
+
+    // Public
+    app.use(express.static(path.join(__dirname,"public")))
+
+
+// Routes
+
+    app.get('/cad', (req, res) => {
+        res.render("form")
+    })
+
+    app.get('/', (req, res) => {
+        res.render('index')
+    })
+
+    app.use('/users', users)
+    app.use('/admin', admin)
+
+
+const PORT = process.env.PORT || 8081
+app.listen(PORT, function(){
+    console.log(`Servidor rodando na porta: ${PORT}` )
+})

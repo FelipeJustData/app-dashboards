@@ -1,0 +1,27 @@
+<h2>Clientes:</h2>
+<hr>
+<a href="/admin/add"><button class="btn btn-success">Adicionar novo Cliente</button></a>
+<br><br>
+<div class="row">
+{{#each customers}}
+<div class="col-6">
+    <div class="card mt-4">        
+            <div class="card-body">
+                <h5>{{name}}</h5>                
+                <small>Data de criação: {{createdAt}}</small>
+                <div class="row mt-2">
+                    <div class="col-6"><a href="/admin/customers/edit/{{id}}"><div class="btn btn-success">Editar Cliente</div></a></div>
+                    <div class="col-6">
+                        <form action="/admin/customers/deletecustomer" method="POST">
+                            <input type="hidden" name="id" value="{{id}}">
+                            <button type="submit" class="btn btn-danger">Deletar Cliente</button>
+                        </form>
+                    </div>
+                </div>          
+            </div>
+    </div>             
+</div>
+{{else}}
+<h3 class="mt-3">Nenhum cliente registrado</h3>
+{{/each}}
+</div>

@@ -1,0 +1,45 @@
+{{#each errors}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{else}}    
+
+{{/each}}
+<h2>Adicionando nova dashboard</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/dashboard/new" method="POST">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" placeholder="Título do dashboard" class="form-control">
+            <label for="description">Descrição:</label>
+            <input type="text" id="description" name="description" placeholder="Descrição" class="form-control">
+            <label for="url_desktop">URL dashboard desktop:</label>            
+            <input id="url_desktop" name="url_desktop" placeholder="Desktop" class="form-control">
+            <label for="url_mobile">URL dashboard mobile:</label>            
+            <input id="url_mobile" name="url_mobile" placeholder="Mobile" class="form-control">
+            <label for="url_bigscreen">URL dashboard tela grande:</label>            
+            <input id="url_bigscreen" name="url_bigscreen" placeholder="Tela grande" class="form-control">
+            <label for="type">Tipo: </label>
+            <select id="type" name="type" placeholder="Tipo da dashboard" class="form-control">
+                <option value="Power BI">Power BI</option>
+                <option value="Looker Studio">Looker Studio</option>
+                <option value="Tableau">Tableau</option>
+            </select>
+            <label for="project">Projeto: (AJUSTAR)</label>
+            <select id="project" name="project" placeholder="Projeto" class="form-control">
+                <option value="0">projeto 1</option>
+                <option value="1">projeto 2</option>
+                <option value="2">projeto 3</option>
+            </select>
+            <label for="customer">Cliente: </label>
+            <select id="customer" name="customer" placeholder="cliente" class="form-control">
+                {{#each customer}}
+                <option value="{{id}}">{{name}}</option>
+                {{else}}
+                <option value="0">Nenhum cliente registrado</option>
+                {{/each}}
+            </select>
+
+            <br>
+            <button type="submit" class="btn btn-success">Criar dashboard</button>
+        </form>
+    </div>    
+</div>
