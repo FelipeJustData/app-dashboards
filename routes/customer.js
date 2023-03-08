@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Customer = require("../models/Customer")
+const { route } = require('./user')
 
 //const {eAdmin} = require("../helpers/eAdmin")
 
@@ -14,6 +15,16 @@ router.get('/customers', (req,res) => {
         res.redirect("/admin")
     })
     
+})
+
+router.get('/customers/:name', (req, res) => {
+    Customer.findOne({where: {name: req.params.name}}).then((customer) => {
+        res.render('customers/view', {customer: customer})
+
+    }).catch((error) => {
+        req.flash("error_msg", "Erro ao acessar cliente "+error)
+        res.redirect("/admin")
+    })
 })
 
 module.exports = router

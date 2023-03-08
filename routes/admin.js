@@ -93,6 +93,21 @@ router.post("/customer/edit", (req, res) => {
     })
 })
 
+router.get('/customers/:name', (req, res) => {
+    Customer.findOne({where: {name: req.params.name}}).then((customer) => {
+        Dashboard.findAll({where: {id_customer: customer.id}}).then((dashboards) => {
+            res.render('customers/view', {customer: customer, dashboards: dashboards})
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)
+            res.redirect("/admin/customers")
+        })       
+    }).catch((error) => {
+        req.flash("error_msg", "Erro ao acessar cliente "+error)
+        res.redirect("/admin/customers")
+    })
+})
+
+
 /** DASHBOARDS */
 // List Dashboards
 router.get("/dashboards", (req,res) => {
