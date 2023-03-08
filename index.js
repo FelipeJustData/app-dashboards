@@ -67,7 +67,7 @@ require("dotenv").config({
     app.use('/admin', admin)
 
 
-const PORT = 8081 //process.env.PORT || 8081
+const PORT = process.env.PORT || 8081
 app.listen(PORT, function(){
     console.log(`Servidor rodando na porta: ${PORT}` )
 })
