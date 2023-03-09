@@ -4,6 +4,7 @@ const User = require("../models/User")
 const bcrypt = require('bcryptjs')
 const passport = require("passport")
 const { eAdmin } = require("../helpers/eAdmin")
+const Customer = require('../models/Customer')
 
 // List All Users
 router.get('/users', (req, res) => {
@@ -16,7 +17,7 @@ router.get('/users', (req, res) => {
 
 })
 
-router.get("/register", (req, res) => {
+router.get("/register", eAdmin,(req, res) => {
     res.render("users/register")
 })
 
@@ -137,13 +138,28 @@ router.get("/login", (req, res) => {
     res.render("users/login")
 })
 
-router.post("/login", (req, res, next) => {
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/users/login",
-        failureFlash: true
-    })(req, res, next)
+router.get("/login/:name", (req, res) => {
+    Customer.findOne({where: {name: req.params.name}}).then((customer) => {
+        res.render("users/login",{customer: customer})
+    })    
 })
+
+router.post("/login", (req, res, next) => {
+    if(req.body.name_customer){
+        passport.authenticate("local", {
+            successRedirect: "/admin/customers/"+req.body.name_customer,
+            failureRedirect: "/login/"+req.body.name_customer,
+            failureFlash: true
+        })(req, res, next)
+    }else{
+        passport.authenticate("local", {
+            successRedirect: "/",
+            failureRedirect: "/users/login",
+            failureFlash: true
+        })(req, res, next)
+    }
+})
+
 
 // LOGOUT
 router.get("/logout", (req, res) => {

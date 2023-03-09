@@ -93,7 +93,7 @@ router.post("/customer/edit", (req, res) => {
     })
 })
 
-router.get('/customers/:name', (req, res) => {
+router.get('/customers/:name', eAdmin, (req, res) => {
     Customer.findOne({where: {name: req.params.name}}).then((customer) => {
         Dashboard.findAll({where: {id_customer: customer.id}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
