@@ -1,0 +1,25 @@
+<h2>Página de projetos</h2>
+<br>
+
+<hr>
+<a href="/projects/add"><button class="btn btn-success">Adicionar novo Projeto</button></a>
+<br><br>
+<div class="row">
+<hr>
+<h5>Selecione o cliente para visualizar os projetos</h5>
+{{#each customers}}
+<div class="col-6">
+    <div class="card mt-4">        
+            <div class="card-body">
+                <h5>{{name}}</h5>                                                
+
+                <a href="/projects/{{id}}">Ver projetos</a>
+     
+            </div>
+    </div>             
+</div>
+{{else}}
+<h5>Nenhum projeto cadastrado</h5>
+{{/each}}
+
+</div>

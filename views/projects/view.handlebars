@@ -1,0 +1,20 @@
+<h2>Projetos de {{customer.name}}</h2>
+
+{{#each projects}}
+<div class="col-6">
+    <div class="card mt-4">        
+            <div class="card-body">
+                <h5>{{name}}</h5>
+                
+                <strong>{{title}}</strong>               
+
+                <a href="/admin/customer/{{idCustomer}}">Acessar</a>
+     
+            </div>
+    </div>             
+</div>
+{{else}}
+<h5>Nenhum projeto cadastrado</h5>
+{{/each}}
+
+</div>

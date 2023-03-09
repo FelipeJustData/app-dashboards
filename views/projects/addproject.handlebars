@@ -1,0 +1,27 @@
+{{#each errors}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{else}}    
+
+{{/each}}
+<h2>Adicionando novo Projeto</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/projects/new" method="POST">
+            <label for="name">Título do projeto:</label>
+            <input type="text" id="title" name="title" placeholder="Título do projeto" class="form-control" required>
+            <label for="settings" class="mt-4">Configurações:</label>
+            <input type="text" name="settings" id="settings" class="form-control" placeholder="Configurações do projeto">
+            <label for="customer" class="mt-4">Selecionar cliente:</label>
+            <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer" class="form-control" required> 
+            <option selected>Selecionar</option>
+            {{#each customers}}
+                <option value={{id}}>{{name}}</option>
+            {{else}}
+
+            {{/each}}
+            </select>            
+            <br>
+            <button type="submit" class="btn btn-success mt-4">Criar projeto</button>
+        </form>
+    </div>    
+</div>

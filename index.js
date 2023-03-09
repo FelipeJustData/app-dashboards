@@ -4,13 +4,17 @@ const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const path = require("path") 
 const User = require("./models/User")
-const Customer = require("./models/Customer")
 const flash = require('connect-flash')
 const passport = require("passport")
 const session = require('express-session')
 const users = require("./routes/user")
 require("./config/auth")(passport)
 const admin = require('./routes/admin')
+const projects = require('./routes/project')
+
+/**const Project = require("./models/Projects")
+const Customer = require("./models/Customer")**/
+
 // conseguir ler as variaveis de ambiente
 require("dotenv").config({
     path:'variables.env'
@@ -65,9 +69,11 @@ require("dotenv").config({
 
     app.use('/users', users)
     app.use('/admin', admin)
+    app.use('/projects', projects)
 
 
-const PORT = process.env.PORT || 8081
+
+const PORT = 8081
 app.listen(PORT, function(){
     console.log(`Servidor rodando na porta: ${PORT}` )
 })

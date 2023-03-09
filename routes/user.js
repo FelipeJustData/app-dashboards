@@ -8,14 +8,15 @@ const Customer = require('../models/Customer')
 
 // List All Users
 router.get('/users', (req, res) => {
-    User.findAll().then((users => {
+    User.findAll().then((users) => {
         res.render("users/users", { users: users })
-    })).catch((error) => {
+    }).catch((error) => {
         req.flash("error_msg", "Erro ao lista usuários " + error)
         res.redirect("/admin")
     })
 
 })
+
 
 router.get("/register", eAdmin,(req, res) => {
     res.render("users/register")

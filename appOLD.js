@@ -9,6 +9,7 @@ const mongoose  = require('mongoose')
 const session = require('express-session')
 const flash = require('connect-flash')
 const users = require("./routes/user")
+const projects = require("./routes/project")
 const passport = require("passport")
 require("./config/auth")(passport)
 
@@ -56,6 +57,7 @@ require("./config/auth")(passport)
 
     app.use('/admin', admin)
     app.use('/users', users)
+    app.use('/projects', projects)
 
 //Outros
 const PORT = 8081
