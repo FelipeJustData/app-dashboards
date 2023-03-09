@@ -3,10 +3,10 @@ require("dotenv").config({
     path:'variables.env'
 })
 
-const db_name = 'appjust' //process.env.DB_NAME
-const db_user = 'root' //process.env.DB_USER
-const db_pass = '123456' //process.env.DB_PASS
-const db_host = 'localhost'//process.env.DB_HOST
+const db_name = process.env.DB_NAME
+const db_user = process.env.DB_USER
+const db_pass = process.env.DB_PASS
+const db_host = process.env.DB_HOST
 
     //Connect MySQL
     const sequelize = new Sequelize(db_name,db_user,db_pass,{
