@@ -1,4 +1,6 @@
 const db = require("../db/db")
+const Customer = require('./Customer')
+const Project = require('./Projects')
 
 const Dashboard = db.sequelize.define('dashboards', {
     id_dash:{
@@ -25,15 +27,23 @@ const Dashboard = db.sequelize.define('dashboards', {
     },
     type:{
         type: db.Sequelize.STRING
-    },
-    id_project:{
-        type: db.Sequelize.INTEGER
-    },
-    id_customer:{
-        type: db.Sequelize.INTEGER
-    },
+    }
+})
+Dashboard.belongsTo(Project, {
+    constraint: true,
+    foreignKey: 'idProject'
+})
+Project.hasMany(Dashboard, {
+    foreignKey: 'idProject'
 })
 
+Dashboard.belongsTo(Customer, {
+    constraint: true,
+    foreignKey: 'idCustomer'
+})
+Customer.hasMany(Dashboard, {
+    foreignKey: 'idCustomer'
+})
 //Dashboard.sync({force: true})
 
 module.exports = Dashboard

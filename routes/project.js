@@ -16,7 +16,7 @@ router.get('/', (req,res) => {
  })
 
  // List All Projects by customer
-router.get('/:id', (req,res) => {
+router.get('/customer/:id', (req,res) => {
     Customer.findOne({where: {id: req.params.id}}).then((customer) => {
         Project.findAll({where: {idCustomer: req.params.id}}).then((projects) => {       
             res.render('projects/view', {projects: projects, customer: customer}) 

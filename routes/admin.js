@@ -3,6 +3,7 @@ const router = express.Router()
 const Customer = require("../models/Customer")
 const Dashboard = require("../models/Dashboards")
 const { eAdmin } = require("../helpers/eAdmin")
+const Project = require('../models/Projects')
 
 /** CUSTOMERS */
 // List All Customers
@@ -95,7 +96,7 @@ router.post("/customer/edit", (req, res) => {
 
 router.get('/customers/:name', eAdmin, (req, res) => {
     Customer.findOne({where: {name: req.params.name}}).then((customer) => {
-        Dashboard.findAll({where: {id_customer: customer.id}}).then((dashboards) => {
+        Dashboard.findAll({where: {idCustomer: customer.id}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)
@@ -109,7 +110,7 @@ router.get('/customers/:name', eAdmin, (req, res) => {
 
 router.get('/customer/:id', eAdmin, (req, res) => {    
     Customer.findOne({where: {id: req.params.id}}).then((customer) => {
-        Dashboard.findAll({where: {id_customer: customer.id}}).then((dashboards) => {
+        Dashboard.findAll({where: {idCustomer: customer.id}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)
@@ -144,8 +145,31 @@ router.get("/dashboards", (req,res) => {
 
 // Add dashboard
 router.get("/dashboards/add", (req,res) => {
-    Customer.findAll().then((customer) => { //SUBSTITUIR PELO CLIENTE
-        res.render("admin/adddashboard", {customer: customer})
+    Customer.findAll().then((customer) => {
+        Project.findAll().then((projects) => {
+            res.render("admin/adddashboard", {customer: customer, projects: projects})
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao listar projetos - "+error)
+            res.redirect("/admin")
+        })
+        
+    }).catch((error) => {
+        req.flash("error_msg", "Erro ao adicionar dashboard - "+error)
+        res.redirect("/admin")
+    }) 
+
+})
+
+// Add dashboard customer
+router.get("/dashboard/customer/:id", (req,res) => {
+    Customer.findOne({where: {id: req.params.id}}).then((customer) => {
+        Project.findAll().then((projects) => {
+            res.render("admin/adddashboard", {customer: customer, projects: projects})
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao listar projetos - "+error)
+            res.redirect("/admin")
+        })
+        
     }).catch((error) => {
         req.flash("error_msg", "Erro ao adicionar dashboard - "+error)
         res.redirect("/admin")
@@ -159,7 +183,11 @@ router.post("/dashboard/new", (req,res) => {
     var errors = []
 
     if(req.body.customer == '0'){
-        errors.push({text: "Cliente inválido"})
+        errors.push({texto: "Cliente inválido - Cadastre um cliente primeiro"})
+    }
+
+    if(req.body.project == '0'){
+        errors.push({texto: "Projeto inválido - Cadastre um projeto primeiro"})
     }
 
     if(errors.length > 0){

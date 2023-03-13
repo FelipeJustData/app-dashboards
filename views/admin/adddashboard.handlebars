@@ -23,11 +23,13 @@
                 <option value="Looker Studio">Looker Studio</option>
                 <option value="Tableau">Tableau</option>
             </select>
-            <label for="project">Projeto: (AJUSTAR)</label>
+            <label for="project">Projeto:</label>
             <select id="project" name="project" placeholder="Projeto" class="form-control">
-                <option value="0">projeto 1</option>
-                <option value="1">projeto 2</option>
-                <option value="2">projeto 3</option>
+                {{#each projects}}
+                <option value="{{id}}">{{title}}</option>
+                {{else}}                
+                <option value="0">Nenhum projeto registrado</option>
+                {{/each}}
             </select>
             <label for="customer">Cliente: </label>
             <select id="customer" name="customer" placeholder="cliente" class="form-control">
