@@ -154,7 +154,7 @@ router.post("/login", (req, res, next) => {
         })(req, res, next)
     }else{
         passport.authenticate("local", {
-            successRedirect: "/",
+            successRedirect: "/home/"+req.body.email,
             failureRedirect: "/users/login",
             failureFlash: true
         })(req, res, next)
