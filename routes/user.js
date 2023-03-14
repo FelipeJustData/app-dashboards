@@ -145,7 +145,7 @@ router.get("/login/:name", (req, res) => {
     })    
 })
 
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res, next) => {  
     if(req.body.name_customer){
         passport.authenticate("local", {
             successRedirect: "/admin/customers/"+req.body.name_customer,
@@ -153,13 +153,14 @@ router.post("/login", (req, res, next) => {
             failureFlash: true
         })(req, res, next)
     }else{
-        passport.authenticate("local", {
-            successRedirect: "/home/"+req.body.email,
+        passport.authenticate("local", {            
+            successRedirect: "/home/",
             failureRedirect: "/users/login",
             failureFlash: true
         })(req, res, next)
     }
 })
+
 
 
 // LOGOUT

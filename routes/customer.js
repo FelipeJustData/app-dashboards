@@ -3,6 +3,7 @@ const router = express.Router()
 const Customer = require("../models/Customer")
 const { route } = require('./user')
 const {eAdmin} = require("../helpers/eAdmin")
+const { eUser} = require("../helpers/eUser")
 
 /** CUSTOMERS */
 // List All Customers
@@ -16,7 +17,7 @@ router.get('/customers', eAdmin,(req,res) => {
     
 })
 
-router.get('/customers/:name', eAdmin, (req, res) => {
+router.get('/customers/:name', eUser, (req, res) => {
     Customer.findOne({where: {name: req.params.name}}).then((customer) => {
         res.render('customers/view', {customer: customer})
 

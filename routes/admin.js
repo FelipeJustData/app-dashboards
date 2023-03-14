@@ -4,6 +4,7 @@ const Customer = require("../models/Customer")
 const Dashboard = require("../models/Dashboards")
 const { eAdmin } = require("../helpers/eAdmin")
 const Project = require('../models/Projects')
+const { eUser} = require("../helpers/eUser")
 
 /** CUSTOMERS */
 // List All Customers
@@ -94,7 +95,7 @@ router.post("/customer/edit", (req, res) => {
     })
 })
 
-router.get('/customers/:name', eAdmin, (req, res) => {
+router.get('/customers/:name', eUser, (req, res) => {
     Customer.findOne({where: {name: req.params.name}}).then((customer) => {
         Dashboard.findAll({where: {idCustomer: customer.id}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})

@@ -12,6 +12,7 @@ require("./config/auth")(passport)
 const admin = require('./routes/admin')
 const projects = require('./routes/project')
 const { eAdmin } = require("./helpers/eAdmin")
+const { eUser } = require("./helpers/eUser")
 
 /**const Project = require("./models/Projects")
 const Customer = require("./models/Customer")**/
@@ -60,18 +61,20 @@ require("dotenv").config({
 
 // Routes
 
-    app.get('/home/:email', eAdmin,(req, res) => {
+    app.get('/home', eUser,(req, res) => {
+        res.render("home",{user: req.user})
+        /*
         User.findOne({where: {email:  req.params.email}}).then((user) => {
             res.render("home",{user: user})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao localizar usuário - " + error)
             res.redirect("/")
-        })
+        })*/
         
     })
 
     app.get('/', (req, res) => {
-        res.render('index')
+        res.render('users/login')
     })
 
     app.use('/users', users)
