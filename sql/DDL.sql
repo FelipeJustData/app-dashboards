@@ -1,24 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 5.1.3
--- https://www.phpmyadmin.net/
 --
--- Host: sql.freedb.tech
--- Tempo de geração: 24/03/2023 às 14:57
--- Versão do servidor: 8.0.28
--- Versão do PHP: 8.0.16
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `freedb_appjust`
+-- Banco de dados: `DB_PLATAFORMA_DATAVIZ`
 --
 
 -- --------------------------------------------------------
@@ -127,15 +108,195 @@ CREATE TABLE `users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
--- Erro ao ler dados para tabela freedb_appjust.users: #1226 - Usuário 'freedb_user-app' tem excedido o 'max_questions' recurso (atual valor: 800)
-<div class="alert alert-danger" role="alert"><h1>Erro</h1><p><strong>Query SQL:</strong>  <a href="#" class="copyQueryBtn" data-text="SET SQL_QUOTE_SHOW_CREATE = 1">Copiar</a>
-<a href="index.php?route=/database/sql&sql_query=SET+SQL_QUOTE_SHOW_CREATE+%3D+1&show_query=1&db=freedb_appjust"><span class="nowrap"><img src="themes/dot.gif" title="Editar" alt="Editar" class="icon ic_b_edit">&nbsp;Editar</span></a>    </p>
-<p>
-<code class="sql"><pre>
-SET SQL_QUOTE_SHOW_CREATE = 1
-</pre></code>
-</p>
-<p>
-    <strong>Mensagem do MySQL: </strong><a href="./url.php?url=https%3A%2F%2Fdev.mysql.com%2Fdoc%2Frefman%2F8.0%2Fen%2Fserver-error-reference.html" target="mysql_doc"><img src="themes/dot.gif" title="Documentação" alt="Documentação" class="icon ic_b_help"></a>
-</p>
-<code>#1226 - Usuário 'freedb_user-app' tem excedido o 'max_questions' recurso (atual valor: 800)</code><br></div>
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `users_modules`
+--
+
+CREATE TABLE `users_modules` (
+  `id_user_module` int NOT NULL,
+  `name_module` varchar(255) NOT NULL,
+  `typ_permission` varchar(255) NOT NULL,
+  `access` tinyint(1) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `id_user` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `user_permissions`
+--
+
+CREATE TABLE `user_permissions` (
+  `id_user_permissions` int NOT NULL,
+  `des_project_access` tinyint(1) NOT NULL,
+  `des_dashboard_access` tinyint(1) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `id_user` int DEFAULT NULL,
+  `id_project` int DEFAULT NULL,
+  `id_dashboard` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Índices de tabela `dashboards`
+--
+ALTER TABLE `dashboards`
+  ADD PRIMARY KEY (`id_dashboard`),
+  ADD KEY `id_project` (`id_project`);
+
+--
+-- Índices de tabela `metadata`
+--
+ALTER TABLE `metadata`
+  ADD PRIMARY KEY (`id_metadata`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Índices de tabela `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`id_project`),
+  ADD KEY `id_customer` (`id_customer`);
+
+--
+-- Índices de tabela `url_dashboards`
+--
+ALTER TABLE `url_dashboards`
+  ADD PRIMARY KEY (`id_url_dashboard`),
+  ADD KEY `id_dashboard` (`id_dashboard`);
+
+--
+-- Índices de tabela `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_user`);
+
+--
+-- Índices de tabela `users_modules`
+--
+ALTER TABLE `users_modules`
+  ADD PRIMARY KEY (`id_user_module`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Índices de tabela `user_permissions`
+--
+ALTER TABLE `user_permissions`
+  ADD PRIMARY KEY (`id_user_permissions`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_project` (`id_project`),
+  ADD KEY `id_dashboard` (`id_dashboard`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id_customer` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `dashboards`
+--
+ALTER TABLE `dashboards`
+  MODIFY `id_dashboard` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `metadata`
+--
+ALTER TABLE `metadata`
+  MODIFY `id_metadata` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `id_project` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `url_dashboards`
+--
+ALTER TABLE `url_dashboards`
+  MODIFY `id_url_dashboard` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `users_modules`
+--
+ALTER TABLE `users_modules`
+  MODIFY `id_user_module` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `user_permissions`
+--
+ALTER TABLE `user_permissions`
+  MODIFY `id_user_permissions` int NOT NULL AUTO_INCREMENT;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `dashboards`
+--
+ALTER TABLE `dashboards`
+  ADD CONSTRAINT `dashboards_ibfk_1` FOREIGN KEY (`id_project`) REFERENCES `projects` (`id_project`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `metadata`
+--
+ALTER TABLE `metadata`
+  ADD CONSTRAINT `metadata_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `projects`
+--
+ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customers` (`id_customer`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `url_dashboards`
+--
+ALTER TABLE `url_dashboards`
+  ADD CONSTRAINT `url_dashboards_ibfk_1` FOREIGN KEY (`id_dashboard`) REFERENCES `dashboards` (`id_dashboard`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `users_modules`
+--
+ALTER TABLE `users_modules`
+  ADD CONSTRAINT `users_modules_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `user_permissions`
+--
+ALTER TABLE `user_permissions`
+  ADD CONSTRAINT `user_permissions_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_permissions_ibfk_2` FOREIGN KEY (`id_project`) REFERENCES `projects` (`id_project`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_permissions_ibfk_3` FOREIGN KEY (`id_dashboard`) REFERENCES `dashboards` (`id_dashboard`) ON DELETE SET NULL ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
