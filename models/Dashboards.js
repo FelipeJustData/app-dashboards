@@ -3,7 +3,7 @@ const Customer = require('./Customer')
 const Project = require('./Projects')
 
 const Dashboard = db.sequelize.define('dashboards', {
-    id_dash:{
+    id_dashboard:{
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -16,34 +16,23 @@ const Dashboard = db.sequelize.define('dashboards', {
     description:{
         type: db.Sequelize.STRING
     },
-    url_desktop:{
-        type: db.Sequelize.STRING
+    des_status:{
+        type: db.Sequelize.STRING,
+        allowNull: false
     },
-    url_mobile:{
-        type: db.Sequelize.STRING
-    },
-    url_bigscreen:{
-        type: db.Sequelize.STRING
-    },
-    type:{
-        type: db.Sequelize.STRING
+    dat_expiration: {
+        type: db.Sequelize.DATE
     }
 })
 Dashboard.belongsTo(Project, {
     constraint: true,
-    foreignKey: 'idProject'
+    foreignKey: 'id_project'
 })
 Project.hasMany(Dashboard, {
-    foreignKey: 'idProject'
+    foreignKey: 'id_project'
 })
 
-Dashboard.belongsTo(Customer, {
-    constraint: true,
-    foreignKey: 'idCustomer'
-})
-Customer.hasMany(Dashboard, {
-    foreignKey: 'idCustomer'
-})
-//Dashboard.sync({force: true})
+
+Dashboard.sync({force: true})
 
 module.exports = Dashboard

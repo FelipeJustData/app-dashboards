@@ -1,0 +1,6 @@
+PORT=3091
+DB_HOST=sql.freedb.tech
+DB_USER=freedb_user-app
+DB_PASS="Vt4w9#&rfY!sEdK"
+DB_NAME=freedb_appjust
+

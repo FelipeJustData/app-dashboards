@@ -18,7 +18,7 @@ router.get('/users', (req, res) => {
 })
 
 
-router.get("/register", eAdmin,(req, res) => {
+router.get("/register",(req, res) => {
     res.render("users/register")
 })
 
@@ -57,26 +57,27 @@ router.post('/users/new',(req, res) => {
     }
     else {
 
-        User.findOne({ where: { email: req.body.email } }).then((user) => {
+        User.findOne({ where: { email_user: req.body.email } }).then((user) => {
             if (user) {
                 req.flash("error_msg", "Email já cadastrado")
                 res.redirect("/users/register")
             } else {
                 const newUser = {
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: req.body.password,
-                    user_type: req.body.user_type
+                    name_user: req.body.name,
+                    email_user: req.body.email,
+                    password_user: req.body.password,
+                    typ_user: req.body.user_type,
+                    is_just: true
                 }
 
                 bcrypt.genSalt(10, (error, salt) => {
-                    bcrypt.hash(newUser.password, salt, (error, hash) => {
+                    bcrypt.hash(newUser.password_user, salt, (error, hash) => {
                         if (error) {
                             req.flash("error_msg", "Erro ao criptografar senha - " + error)
                             res.redirect("/")
                         }
                         else {
-                            newUser.password = hash
+                            newUser.password_user = hash
                             User.create(newUser).then(() => {
                                 //console.log("Usuário cadastrado com sucesso")
                                 req.flash("success_msg", "Usuário cadastrado com sucesso")
@@ -159,7 +160,7 @@ router.post("/login", (req, res, next) => {
             failureFlash: true
         })(req, res, next)
     }
-})
+}) 
 
 
 

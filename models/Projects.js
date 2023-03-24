@@ -8,21 +8,46 @@ const Project = db.sequelize.define('projects', {
         allowNull: false,
         primaryKey: true
     },
-    title:{
+    nam_project:{
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    settings:{
+    des_autoplay:{
+        type: db.Sequelize.STRING
+    },
+    des_autoplay_timing:{
+        type: db.Sequelize.STRING
+    },
+    des_project_image_desktop: {
+        type: db.Sequelize.BLOB('medium')        
+    },
+    des_project_image_mobile: {
+        type: db.Sequelize.BLOB('medium')        
+    },
+    dat_expiration: {
+        type: db.Sequelize.DATE
+    },
+    des_principal_color: {
+        type: db.Sequelize.STRING
+    },
+    des_secundary_color: {
+        type: db.Sequelize.STRING
+    },
+    des_menu_color: {
+        type: db.Sequelize.STRING
+    },
+    des_options_colors: {
         type: db.Sequelize.STRING
     }
 })
 Project.belongsTo(Customer, {
     constraint: true,
-    foreignKey: 'idCustomer'
+    foreignKey: 'id_customer'
 })
 Customer.hasMany(Project, {
-    foreignKey: 'idCustomer'
+    foreignKey: 'id_customer'
 })
-//Project.sync({force: true})
+
+Project.sync({force: true})
 
 module.exports = Project

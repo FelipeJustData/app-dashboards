@@ -1,31 +1,35 @@
 const db = require("../db/db")
 
 const User = db.sequelize.define('users', {
-    id:{
+    id_user:{
         type: db.Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    name:{
+    name_user:{
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    email: {
+    email_user: {
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    user_type: {
+    typ_user: {
        // type: db.Sequelize.ENUM("Administrador","Leitor","Editor"),
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    password: {
+    password_user: {
         type: db.Sequelize.STRING,
         allowNull: false
+    },
+    is_just: {
+        type: db.Sequelize.BOOLEAN,
+        defaultValue: false
     }
 })
 
-//User.sync({force: true})
+User.sync({force: true})
 
 module.exports = User

@@ -16,6 +16,16 @@ const { eUser } = require("./helpers/eUser")
 
 /**const Project = require("./models/Projects")
 const Customer = require("./models/Customer")**/
+try{
+    const User_Module = require("./models/User_Module")
+}catch(err){
+    console.log("Erro ao gerar module - "+err)
+}
+
+const Metadata = require("./models/Metadata")
+const Url_Dashboard = require("./models/Url_Dashboard")
+const User_Permissions = require("./models/User_Permissions")
+
 
 // conseguir ler as variaveis de ambiente
 require("dotenv").config({

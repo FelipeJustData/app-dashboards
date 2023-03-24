@@ -10,12 +10,12 @@ module.exports = function(passport){
 
     passport.use(new localStrategy({usernameField: 'email'}, (email, password, done) => {
 
-        User.findOne({where: {email: email}}).then((user) => {
+        User.findOne({where: {email_user: email}}).then((user) => {
             if(!user){
                 return done(null, false, {message: "Conta não existe"})
             }
 
-            bcrypt.compare(password, user.password, (error, equals) => {
+            bcrypt.compare(password, user.password_user, (error, equals) => {
                 if(equals){
                     return done(null, user)
                 }else{
