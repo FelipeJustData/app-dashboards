@@ -22,10 +22,6 @@ router.get("/register",(req, res) => {
     res.render("users/register")
 })
 
-// Form add new user
-router.get('/user/add',(req, res) => {
-    res.render("user/addusers")
-})
 
 
 // Add new User
