@@ -15,7 +15,6 @@ router.get('/customers', (req, res) => {
         req.flash("error_msg", "Erro ao listar clientes " + error)
         res.redirect("/admin")
     })
-
 })
 
 router.get("/add", eAdmin, (req, res) => {
@@ -33,14 +32,14 @@ router.post("/customers/new", eAdmin,(req, res) => {
         res.render("customers/addcustomer", { errors: errors })
     }
 
-    Customer.findOne({ where: { name: req.body.name } }).then((customer) => {
+    Customer.findOne({ where: { name_customer: req.body.name } }).then((customer) => {
         if (customer) {
             req.flash("error_msg", "Cliente já cadastrado")
             res.redirect("/admin/add")
         } else {
             const newCustomer = {
-                name: req.body.name,
-                logo: req.body.logo
+                name_customer: req.body.name,
+                logotipo_customer: req.body.logo
             }
             Customer.create(newCustomer).then(() => {
                 //console.log("Usuário cadastrado com sucesso")
@@ -59,7 +58,7 @@ router.post("/customers/new", eAdmin,(req, res) => {
 
 // Delete Customer
 router.post("/customers/deletecustomer", eAdmin,(req, res) => {
-    Customer.destroy({ where: { id: req.body.id } }).then(() => {
+    Customer.destroy({ where: { id_customer: req.body.id } }).then(() => {
         req.flash("success_msg", "Cliente deletado com sucesso")
         res.redirect("/admin/customers")
     }).catch((error) => {
@@ -70,7 +69,7 @@ router.post("/customers/deletecustomer", eAdmin,(req, res) => {
 
 // Search customer by ID
 router.get("/customers/edit/:id", eAdmin,(req, res) => {
-    Customer.findOne({ where: { id: req.params.id } }).then((customer) => {
+    Customer.findOne({ where: { id_customer: req.params.id } }).then((customer) => {
         res.render("customers/editcustomer", { customer: customer })
     }).catch((error) => {
         req.flash("error_msg", "Cliente não existe - " + error)
@@ -82,10 +81,10 @@ router.get("/customers/edit/:id", eAdmin,(req, res) => {
 router.post("/customer/edit", (req, res) => {
 
     Customer.update({
-        name: req.body.name,
-        logo: req.body.logo        
+        name_customer: req.body.name,
+        logotipo_customer: req.body.logo        
     }, {
-        where: { id: req.body.id }
+        where: { id_customer: req.body.id }
     }).then(() => {
         req.flash("success_msg", "Cliente editado com sucesso")
         res.redirect("/admin/customers")
@@ -96,8 +95,8 @@ router.post("/customer/edit", (req, res) => {
 })
 
 router.get('/customers/:name', eUser, (req, res) => {
-    Customer.findOne({where: {name: req.params.name}}).then((customer) => {
-        Dashboard.findAll({where: {idCustomer: customer.id}}).then((dashboards) => {
+    Customer.findOne({where: {name_customer: req.params.name}}).then((customer) => {
+        Dashboard.findAll({where: {idCustomer: customer.id_customer}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)
@@ -110,8 +109,8 @@ router.get('/customers/:name', eUser, (req, res) => {
 })
 
 router.get('/customer/:id', eAdmin, (req, res) => {    
-    Customer.findOne({where: {id: req.params.id}}).then((customer) => {
-        Dashboard.findAll({where: {idCustomer: customer.id}}).then((dashboards) => {
+    Customer.findOne({where: {id_customer: req.params.id}}).then((customer) => {
+        Dashboard.findAll({where: {idCustomer: customer.id_customer}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)

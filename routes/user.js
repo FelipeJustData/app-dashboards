@@ -77,7 +77,7 @@ router.post('/users/new',(req, res) => {
                             User.create(newUser).then(() => {
                                 //console.log("Usuário cadastrado com sucesso")
                                 req.flash("success_msg", "Usuário cadastrado com sucesso")
-                                res.redirect("/")
+                                res.redirect("/users/users")
                             }).catch((error) => {
                                 req.flash("error_msg", "Erro ao cadastrar usuário")
                                 res.redirect("/users/register")
@@ -95,7 +95,7 @@ router.post('/users/new',(req, res) => {
 
 // Search User by ID
 router.get("/users/edit/:id", eAdmin,(req, res) => {
-    User.findOne({ where: { id: req.params.id } }).then((user) => {
+    User.findOne({ where: { id_user: req.params.id } }).then((user) => {
         res.render("users/editusers", { user: user })
     }).catch((error) => {
         req.flash("error_msg", "Usuário não existe - " + error)
@@ -107,11 +107,11 @@ router.get("/users/edit/:id", eAdmin,(req, res) => {
 router.post("/users/edit", (req, res) => {
 
     User.update({
-        name: req.body.name,
-        email: req.body.email,
-        user_type: req.body.user_type
+        name_user: req.body.name,
+        email_user: req.body.email,
+        typ_user: req.body.user_type
     }, {
-        where: { id: req.body.id }
+        where: { id_user: req.body.id }
     }).then(() => {
         req.flash("success_msg", "Usuário editado com sucesso")
         res.redirect("/users/users")
@@ -123,7 +123,7 @@ router.post("/users/edit", (req, res) => {
 
 // Delete User
 router.post("/users/delete", eAdmin,(req, res) => {
-    User.destroy({ where: { id: req.body.id } }).then(() => {
+    User.destroy({ where: { id_user: req.body.id } }).then(() => {
         req.flash("success_msg", "Usuário deletado com sucesso")
         res.redirect("/users/users")
     }).catch((error) => {
@@ -157,8 +157,6 @@ router.post("/login", (req, res, next) => {
         })(req, res, next)
     }
 }) 
-
-
 
 // LOGOUT
 router.get("/logout", (req, res) => {

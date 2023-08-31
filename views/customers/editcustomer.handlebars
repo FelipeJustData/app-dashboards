@@ -8,9 +8,9 @@
 <div class="card">
     <div class="card-body">
         <form action="/admin/customer/edit" method="POST">
-            <input type="hidden" id="id" name="id" value="{{customer.id}}">
+            <input type="hidden" id="id" name="id" value="{{customer.id_customer}}">
             <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" placeholder="Nome do Cliente" class="form-control" value="{{customer.name}}" required>           
+            <input type="text" id="name" name="name" placeholder="Nome do Cliente" class="form-control" value="{{customer.name_customer}}" required>           
             <label for="logo" class="mt-4">Logo:</label>
             <input type="file" name="logo" id="logo" class="btn"  accept="image/png, image/jpeg">            
             <br>

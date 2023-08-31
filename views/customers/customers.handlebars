@@ -7,17 +7,18 @@
 <div class="col-6">
     <div class="card mt-4">        
             <div class="card-body">
-                <h5>{{name}}</h5>                
+                <img src="{{logotipo_customer}}" alt="">
+                <h5>{{name_customer}}</h5>                
                 <small>Data de criação: {{createdAt}}</small>
                 <div class="row mt-2">
-                    <div class="col-4"><a href="/admin/customers/edit/{{id}}"><div class="btn btn-success">Editar Cliente</div></a></div>
+                    <div class="col-4"><a href="/admin/customers/edit/{{id_customer}}"><div class="btn btn-success">Editar Cliente</div></a></div>
                     <div class="col-4">
                         <form action="/admin/customers/deletecustomer" method="POST">
-                            <input type="hidden" name="id" value="{{id}}">
+                            <input type="hidden" name="id" value="{{id_customer}}">
                             <button type="submit" class="btn btn-danger">Deletar Cliente</button>
                         </form>
                     </div>
-                    <div class="col-4"><a href="/admin/customers/{{name}}"><div class="btn btn-info">Página do Cliente</div></a></div>
+                    <div class="col-4"><a href="/admin/customers/{{name_customer}}"><div class="btn btn-info">Página do Cliente</div></a></div>
                 </div>          
             </div>
     </div>             

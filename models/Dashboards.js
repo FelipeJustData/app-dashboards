@@ -33,6 +33,6 @@ Project.hasMany(Dashboard, {
 })
 
 
-Dashboard.sync({force: true})
+//Dashboard.sync({force: true})
 
 module.exports = Dashboard

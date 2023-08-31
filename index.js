@@ -71,7 +71,7 @@ require("dotenv").config({
 
 // Routes
 
-    app.get('/home', eUser,(req, res) => {
+    app.get('/home',eAdmin, (req, res) => {
         res.render("home",{user: req.user})
         /*
         User.findOne({where: {email:  req.params.email}}).then((user) => {
