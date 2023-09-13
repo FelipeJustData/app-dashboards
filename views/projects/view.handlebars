@@ -1,17 +1,17 @@
-<h2>Projetos de {{customer.name}}</h2>
+<h2>Projetos de {{customer.name_customer}}</h2>
 
 {{#each projects}}
 <div class="col-6">
     <div class="card mt-4">        
             <div class="card-body">
-                <h5>{{name}}</h5>
+                <h5>{{nam_project}}</h5>
                 
-                <strong>{{title}}</strong>   
+                <span>Expira em: {{dat_expiration}}</span>
                 <br>            
 
-                <a href="/admin/customer/{{idCustomer}}">Acessar ></a>
+                <a href="/admin/customer/{{id_customer}}">Acessar ></a>
                 <br>
-                <a href="/admin/dashboard/customer/{{idCustomer}}">Adicionar Dashboard ></a>
+                <a href="/admin/dashboard/customer/{{id_customer}}">Adicionar Dashboard ></a>
      
             </div>
     </div>             

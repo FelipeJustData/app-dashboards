@@ -1,27 +1,80 @@
 {{#each errors}}
-    <div class="alert alert-danger">{{texto}}</div>
-{{else}}    
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
 
 {{/each}}
 <h2>Adicionando novo Projeto</h2>
 <div class="card">
     <div class="card-body">
         <form action="/projects/new" method="POST">
-            <label for="name">Título do projeto:</label>
-            <input type="text" id="title" name="title" placeholder="Título do projeto" class="form-control" required>
-            <label for="settings" class="mt-4">Configurações:</label>
-            <input type="text" name="settings" id="settings" class="form-control" placeholder="Configurações do projeto">
+            <label for="name">Nome do projeto:</label>
+            <input type="text" id="nam_project" name="nam_project" placeholder="Nome do projeto" class="form-control"
+                required>
             <label for="customer" class="mt-4">Selecionar cliente:</label>
-            <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer" class="form-control" required> 
-            <option selected>Selecionar</option>
-            {{#each customers}}
-                <option value={{id}}>{{name}}</option>
-            {{else}} 
+            <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
+                class="form-control" required>
+                <option selected>Selecionar</option>
+                {{#each customers}}
+                <option value={{id_customer}}>{{name_customer}}</option>
+                {{else}}
 
-            {{/each}}
-            </select>            
-            <br>
+                {{/each}}
+            </select>
+
+            <div class="row">
+                <div class="col">
+                    <label for="des_autoplay" class="mt-4">Autoplay:</label>
+                    <input type="text" name="des_autoplay" id="des_autoplay" class="form-control"
+                        placeholder="Autoplay">
+                </div>
+                <div class="col">
+                    <label for="des_autoplay_timing" class="mt-4">Autoplay Timing:</label>
+                    <input type="text" name="des_autoplay_timing" id="des_autoplay_timing" class="form-control"
+                        placeholder="Autoplay timing">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="custom-file">
+                        <label for="project_image_desktop" class="mt-4 custom-file-label">Imagem desktop:</label>
+                        <input type="file" name="project_image_desktop" id="project_image_desktop"
+                            class="btn custom-file-input" accept="image/png, image/jpeg">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="custom-file">
+                        <label for="project_image_mobile" class="mt-4 custom-file-label">Imagem mobile:</label>
+                        <input type="file" name="project_image_mobile" id="project_image_mobile"
+                            class="btn custom-file-input" accept="image/png, image/jpeg">
+                    </div>
+
+                </div>
+            </div>
+
+            <label for="dat_expiration" class="mt-4">Data expiração:</label>
+            <input type="text" name="dat_expiration" id="dat_expiration" class="form-control" placeholder="dd/mm/aa">
+
+            <div class="row">
+                <div class="col">
+                    <label for="principal_color" class="mt-4">Cor principal:</label>
+                    <input type="text" name="principal_color" id="principal_color" class="form-control"
+                        placeholder="Cor principal">
+                </div>
+                <div class="col">
+                    <label for="secundary_color" class="mt-4">Cor secundária:</label>
+                    <input type="text" name="secundary_color" id="secundary_color" class="form-control"
+                        placeholder="Cor secundária">
+                </div>
+                <div class="col">
+                    <label for="enu_color" class="mt-4">Cor do menu:</label>
+                    <input type="text" name="enu_color" id="enu_color" class="form-control"
+                        placeholder="Cor do menu">
+                </div>
+            </div>
+            <label for="options_colors" class="mt-4">Opções de cores:</label>
+            <input type="text" name="options_colors" id="options_colors" class="form-control" placeholder="Opções de cores">
+            
             <button type="submit" class="btn btn-success mt-4">Criar projeto</button>
         </form>
-    </div>    
+    </div>
 </div>

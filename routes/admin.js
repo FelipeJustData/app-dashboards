@@ -110,7 +110,7 @@ router.get('/customers/:name', eUser, (req, res) => {
 
 router.get('/customer/:id', eAdmin, (req, res) => {    
     Customer.findOne({where: {id_customer: req.params.id}}).then((customer) => {
-        Dashboard.findAll({where: {idCustomer: customer.id_customer}}).then((dashboards) => {
+        Dashboard.findAll({where: {id_customer: customer.id_customer}}).then((dashboards) => {
             res.render('customers/view', {customer: customer, dashboards: dashboards})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao acessar dashboards do cliente "+error)
@@ -162,17 +162,17 @@ router.get("/dashboards/add", (req,res) => {
 
 // Add dashboard customer
 router.get("/dashboard/customer/:id", (req,res) => {
-    Customer.findOne({where: {id: req.params.id}}).then((customer) => {
+    Customer.findOne({where: {id_customer: req.params.id}}).then((customer) => {
         Project.findAll().then((projects) => {
             res.render("admin/adddashboard", {customer: customer, projects: projects})
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar projetos - "+error)
-            res.redirect("/admin")
+            res.redirect("/home")
         })
         
     }).catch((error) => {
         req.flash("error_msg", "Erro ao adicionar dashboard - "+error)
-        res.redirect("/admin")
+        res.redirect("/home")
     }) 
 
 })

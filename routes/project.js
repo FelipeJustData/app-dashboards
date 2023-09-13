@@ -17,8 +17,8 @@ router.get('/', (req,res) => {
 
  // List All Projects by customer
 router.get('/customer/:id', (req,res) => {
-    Customer.findOne({where: {id: req.params.id}}).then((customer) => {
-        Project.findAll({where: {idCustomer: req.params.id}}).then((projects) => {       
+    Customer.findOne({where: {id_customer: req.params.id}}).then((customer) => {
+        Project.findAll({where: {id_customer: req.params.id}}).then((projects) => {       
             res.render('projects/view', {projects: projects, customer: customer}) 
             }).catch((error) => {
                 req.flash("error_msg", "Erro ao listar projetos " + error)
@@ -44,9 +44,17 @@ router.get("/add", (req, res) => {
 
 router.post("/new", (req, res) => {
     const newProject = {
-        title: req.body.title,
-        settings: req.body.settings,
-        idCustomer: req.body.customer
+        nam_project: req.body.nam_project,
+        des_autoplay: req.body.des_autoplay,
+        des_autoplay_timing: req.body.des_autoplay_timing,
+        des_project_image_desktop: req.body.des_project_image_desktop,
+        des_project_image_mobile: req.body.des_project_image_mobile,
+        dat_expiration: req.body.dat_expiration,
+        des_principal_color: req.body.des_principal_color,
+        des_secundary_color: req.body.des_secundary_color,
+        des_menu_color: req.body.des_menu_color,
+        des_options_colors: req.body.des_options_colors,
+        id_customer: req.body.customer
     }
     console.log(typeof idCustomer)
     Project.create(newProject).then(() => {
