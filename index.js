@@ -16,6 +16,7 @@ const { eUser } = require("./helpers/eUser")
 
 /**const Project = require("./models/Projects")
 const Customer = require("./models/Customer")**/
+
 try{
     const User_Module = require("./models/User_Module")
 }catch(err){
@@ -71,7 +72,7 @@ require("dotenv").config({
 
 // Routes
 
-    app.get('/home',eAdmin, (req, res) => {
+    app.get('/home',eUser , (req, res) => {
         res.render("home",{user: req.user})
         /*
         User.findOne({where: {email:  req.params.email}}).then((user) => {
@@ -79,12 +80,11 @@ require("dotenv").config({
         }).catch((error) => {
             req.flash("error_msg", "Erro ao localizar usuário - " + error)
             res.redirect("/")
-        })*/
-        
+        })*/        
     })
 
-    app.get('/', (req, res) => {
-        res.render('users/login')
+    app.get('/',eUser , (req, res) => {
+        res.render("home",{user: req.user})
     })
 
     app.use('/users', users)

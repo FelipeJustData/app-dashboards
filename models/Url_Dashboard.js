@@ -21,6 +21,10 @@ const Url_Dashboard = db.sequelize.define('url_dashboard', {
         defaultValue: false,
         allowNull: false
     },
+    typ_plataform_dashboard:{
+        type: db.Sequelize.STRING,
+        allowNull: false
+    },
     typ_database: {
         type: db.Sequelize.STRING
     }

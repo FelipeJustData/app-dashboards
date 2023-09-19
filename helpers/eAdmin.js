@@ -9,7 +9,7 @@ module.exports = {
         if(req.params.name_user){
             res.redirect("/users/login/"+req.params.name_user)
         }else{
-            res.redirect("/")
+            res.redirect("/home")
         }        
     }
 }

@@ -1,0 +1,31 @@
+{{#each errors}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{else}}    
+
+{{/each}}
+<h2>Atualizando dashboard</h2>
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/dashboardurl/new" method="POST">
+            {{#with dashboard}}
+            <label for="id_dashboard">Dashboard: {{title}}</label>            
+            <input type="hidden" id="id_dashboard" name="id_dashboard" value="{{id_dashboard}}" class="form-control">
+            {{/with}}
+            <label for="url_dashboard">Url do dashboard:</label>
+            <input type="text" id="url_dashboard" name="url_dashboard" placeholder="URL do dashboard" class="form-control">
+            <label for="typ_screen">Tipo de tela:</label>
+            <input type="text" id="typ_screen" name="typ_screen" placeholder="Tipo de tela" class="form-control">
+            <label for="is_default">Default:</label>
+            <input type="text" id="is_default" name="is_default" placeholder="Default" class="form-control">
+
+            <label for="typ_plataform_dashboard">Plataforma:</label>            
+            <input id="typ_plataform_dashboard" name="typ_plataform_dashboard" placeholder="Plataforma" class="form-control">
+            <label for="typ_database">Tipo de base:</label>            
+            <input id="typ_database" name="typ_database" placeholder="Tipo de base" class="form-control">
+        
+      
+            <br>
+            <button type="submit" class="btn btn-success">Criar dashboard</button>
+        </form>
+    </div>    
+</div>

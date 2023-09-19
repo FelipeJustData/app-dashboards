@@ -1,67 +1,133 @@
 <style>
+    @import url(https://fonts.googleapis.com/css2?family=Anton&family=K2D:wght@500&display=swap);
+
     #bg-login {
-        background-image: url('/img/background-login.png');
+        /* background-image: url('/img/background-login.png');*/
+
         background-repeat: no-repeat;
         background-position: center;
         background-repeat: no-repeat;
         background-size: 100% 100%;
+        padding: 50px 100px;
+    }
+
+    #img-login{
+        width: 866px;
+height: 617px;
+flex-shrink: 0;
+    }
+
+    #bg-login:fullscreen {
+        background-color: #fbfaf7;
     }
 
     #card-login {
         border-radius: 0px;
-        padding: 110px 96px 48px !important;
-        background-color: rgba(242, 242, 242, 0.8);
+        position: absolute;
+        width: 739px;
+        height: 295px;
+        margin-left: -10%;
+        margin-bottom: -2%;
+        flex-shrink: 0;
+        background: #EAE9E8;
+        align-items: center;
+        border:none;
     }
 
     label {
         color: #000 !important;
     }
 
-    input{
+    input {
         border-radius: 4px !important;
     }
 
     #btn-login {
-        background: #07C38D;
+        display: flex;
+        width: 363px;
+        padding: 16px 32px;
+        justify-content: center;
+        align-items: center;
         border-radius: 4px;
-        left: 159px;
-        top: 300px;
-        padding: 8px 16px 8px 16px;
-        font-size: 18px;
-        font-weight: 700;
-        color:#f2f2f2;    
-        box-shadow: 4px 4px 6px 0px #00000026 !important;
-        border: none;
+        background: var(--just-colors-008, #1C1B1D);
 
     }
 
-    #logo-just{
-        background-color: #FFF;
-        border-radius: 50%;
-        margin-bottom: -62px;
+    #logo-just {}
+
+    .col-workspae-login {
+        padding: 50px 0px 20px;
+        background: linear-gradient(180deg, #07C38D 0%, #0DFFBA 100%);
+    }
+
+    .p-login {
+        font-family: Anton;
+        font-size: 80px;
+        font-weight: 400;
+        line-height: 96px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-left: -20px;
+        line-height: 1em;
+        z-index: 100;
         position: relative;
-        z-index: 100000;
-        width: 120px;
-        
+    }
+
+    .col-form-login {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+
+    .card-body {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-control {
+        display: flex;
+        width: 363px;
+        padding: 16px 32px;
+        align-items: center;
+        gap: 8px;
+        border-radius: 4px;
+        border: 2px solid var(--just-colors-008, #1C1B1D);
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+        color: var(--just-colors-008, #1C1B1D);
+        font-family: K2D;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
     }
 </style>
 
 <div class="container-fluid" id="bg-login">
-    <div class="row align-items-center min-vh-100">
-        <div class="col-3"></div>
-        <div class="col-6 p-5">
+    <div class="row">
+        <div class="col-4">
             <div class="col text-center">
-                <img src="/img/logo-just-login.png" alt="Logo Just" id="logo-just">
+                <img src="/img/compact-negative-signature.svg" alt="Logo Just" id="logo-just">
             </div>
-            
+            <div class="col text-center">
+                <p class="p-login">Olá!</p>
+            </div>
+            <div class="col text-center col-workspae-login">
+                <p class="p-login">Acesse sua área de trabalho</p>
+            </div>
+        </div>
+        <div class="col-4 col-form-login">
             <div class="card p-2" id="card-login">
                 <div class="card-body">
                     <form action="/users/login" method="POST">
-                        <input type="hidden" name="name_customer" value="{{customer.name}}">
-                        <label for="email">Email </label>
-                        <input type="email" class="form-control" name="email" required>
-                        <label class="mt-3" for="password">Senha </label>
-                        <input type="password" class="form-control" name="password" required>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
                         <div class="col text-center">
                             <button class="btn btn-success mt-4" id="btn-login">Entrar</button>
                         </div>
@@ -70,6 +136,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-3"></div>
+        <div class="col-4">
+            <div class="col text-center">
+                <img src="/img/bg-img-login.jpg" alt="" id="img-login">
+            </div>
+        </div>
     </div>
 </div>

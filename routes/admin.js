@@ -2,9 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Customer = require("../models/Customer")
 const Dashboard = require("../models/Dashboards")
+const Url_Dashboard = require("../models/Url_Dashboard")
 const { eAdmin } = require("../helpers/eAdmin")
 const Project = require('../models/Projects')
 const { eUser} = require("../helpers/eUser")
+const { error } = require('console')
 
 /** CUSTOMERS */
 // List All Customers
@@ -132,12 +134,12 @@ router.get("/dashboards", (req,res) => {
             res.render("admin/dashboards",{dashboards: dashboards, customers: customers})        
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar clientes - " + error)
-            res.redirect("/admin")
+            res.redirect("/")
         })
 
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar dashboards - " + error)
-        res.redirect("/admin")
+        res.redirect("/")
     })
 
     
@@ -157,7 +159,6 @@ router.get("/dashboards/add", (req,res) => {
         req.flash("error_msg", "Erro ao adicionar dashboard - "+error)
         res.redirect("/admin")
     }) 
-
 })
 
 // Add dashboard customer
@@ -196,17 +197,14 @@ router.post("/dashboard/new", (req,res) => {
         const newDashboard = {
             title: req.body.title,
             description: req.body.description,
-            url_desktop: req.body.url_desktop,
-            url_mobile: req.body.url_mobile,
-            url_bigscreen: req.body.url_bigscreen,
-            type: req.body.type,
+            des_status: req.body.des_status,
+            dat_expiration: req.body.dat_expiration,
             id_project: req.body.project,
             id_customer: req.body.customer
-
         }
 
         Dashboard.create(newDashboard).then(() => {
-            req.flash("success_msg", "Dashboard criada com sucesso!")
+            req.flash("success_msg", "Dashboard criada com sucesso! Agora insira os detalhes dela")
             res.redirect("/admin/dashboards")
         }).catch((error) => {
             req.flash("error_msg", "Houve erro ao cadastrar dashboard - "+error)
@@ -217,11 +215,48 @@ router.post("/dashboard/new", (req,res) => {
 
 // show dashboard
 router.get("/dashboards/:id", (req, res) => {
-    Dashboard.findOne({where: {id_dash: req.params.id}}).then((dashboard) => {
-        res.render("admin/showdashboard", {dashboard: dashboard})
+    Dashboard.findOne({where: {id_dashboard: req.params.id}}).then((dashboard) => {
+        Url_Dashboard.findAll({where: {id_dashboard: dashboard.id_dashboard}}).then((url_dashboard) => {
+            res.render("admin/showdashboard", {dashboard: dashboard, url_dashboard: url_dashboard})
+        }).catch((error) => {
+            req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
+            res.redirect("/admin/dashboards")
+        })    
     }).catch((error) => {
         req.flash("error_msg","Dashboard não existe - "+ error)
         res.redirect("/admin/dashboards")
     })   
 })
+
+// Add dashboard url
+router.get("/dashboards/addurl/:id", (req,res) => {
+    Dashboard.findOne({where: {id_dashboard: req.params.id}}).then((dashboard) => {
+        res.render("admin/adddashboarddetails", {dashboard: dashboard})
+    }).catch((error) => {
+        req.flash("error_msg","Dashboard não existe - "+ error)
+        res.redirect("/admin/dashboards")
+    })  
+})
+
+//Save new dashboardurl
+router.post("/dashboardurl/new", (req,res) => {
+
+    const newDashboardUrl = {
+        id_dashboard: req.body.id_dashboard,
+        url_dashboard: req.body.url_dashboard,
+        typ_screen: req.body.typ_screen,
+        is_default: req.body.is_default,
+        typ_plataform_dashboard: req.body.typ_plataform_dashboard,
+        typ_database: req.body.typ_database
+    }
+
+    Url_Dashboard.create(newDashboardUrl).then(() => {
+        req.flash("success_msg", "Dashboard atualizada")
+        res.redirect("/admin/dashboards")
+    }).catch((error) => {
+        req.flash("error_msg", "Houve erro ao atualizar dashboard - "+error)
+        res.redirect("/admin/dashboards")
+    })
+})
+
 module.exports = router

@@ -22,6 +22,9 @@ const Dashboard = db.sequelize.define('dashboards', {
     },
     dat_expiration: {
         type: db.Sequelize.DATE
+    },
+    dat_update: {
+        type: db.Sequelize.DATE
     }
 })
 Dashboard.belongsTo(Project, {
