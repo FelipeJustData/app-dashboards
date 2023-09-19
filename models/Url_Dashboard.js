@@ -38,6 +38,6 @@ Dashboard.hasMany(Url_Dashboard, {
 })
 
 
-//Url_Dashboard.sync({force: true})
+Url_Dashboard.sync({force: true})
 
 module.exports = Url_Dashboard

@@ -44,6 +44,6 @@ Dashboard.hasMany(User_Permissions, {
     foreignKey: 'id_dashboard'
 })
 
-//User_Permissions.sync({force: true})
+User_Permissions.sync({force: true})
 
 module.exports = User_Permissions

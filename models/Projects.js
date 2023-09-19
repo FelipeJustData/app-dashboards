@@ -48,6 +48,6 @@ Customer.hasMany(Project, {
     foreignKey: 'id_customer'
 })
 
-//Project.sync({force: true})
+Project.sync({force: true})
 
 module.exports = Project
