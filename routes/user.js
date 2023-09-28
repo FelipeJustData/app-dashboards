@@ -4,10 +4,11 @@ const User = require("../models/User")
 const bcrypt = require('bcryptjs')
 const passport = require("passport")
 const { eAdmin } = require("../helpers/eAdmin")
+const { eUser } = require("../helpers/eUser")
 const Customer = require('../models/Customer')
 
 // List All Users
-router.get('/users', (req, res) => {
+router.get('/users', eUser, (req, res) => {
     User.findAll().then((users) => {
         res.render("users/users", { users: users })
     }).catch((error) => {
@@ -18,14 +19,14 @@ router.get('/users', (req, res) => {
 })
 
 
-router.get("/register",(req, res) => {
+router.get("/register", eAdmin,(req, res) => {
     res.render("users/register")
 })
 
 
 
 // Add new User
-router.post('/users/new',(req, res) => {
+router.post('/users/new', eAdmin,(req, res) => {
     var errors = []
 
     if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {

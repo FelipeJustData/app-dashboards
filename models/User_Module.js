@@ -30,6 +30,6 @@ User.hasOne(User_Module, {
     foreignKey: 'id_user'
 })
 
-User_Module.sync({force: true})
+User_Module.sync()
 
 module.exports = User_Module

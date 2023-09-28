@@ -56,7 +56,7 @@ router.post("/new", (req, res) => {
         des_options_colors: req.body.des_options_colors,
         id_customer: req.body.customer
     }
-    console.log(typeof idCustomer)
+
     Project.create(newProject).then(() => {
         //console.log("Usuário cadastrado com sucesso")
         req.flash("success_msg", "Projeto cadastrado com sucesso")

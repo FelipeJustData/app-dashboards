@@ -57,8 +57,11 @@
   .header-bar {
     background: #F2F1EF;
     height: 110px;
-    padding: 20px 20px 0px 0px;
-    margin-left: 300px;
+    padding: 20px 20px 0px 322px;   
+    
+  }
+  body{
+    overflow-x: hidden;
   }
 
   .nav-link-logout {
@@ -69,10 +72,9 @@
 
   .logout {
     text-align: left;
-    margin-top: auto;
-    /* Para alinhar na parte inferior */
+    margin-top: 90%;   
     padding-bottom: 20px;
-    /* Espaçamento na parte inferior */
+    padding-left: 20px;
   }
 
   .search {
@@ -117,31 +119,36 @@
     border-radius: 4px;
     background: var(--just-colors-010, #FBFAF7);
     color: #757474;
-font-family: K2D;
-font-size: 18px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-text-decoration: none;
+    font-family: K2D;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
   }
-  
-  .btn-navbar:hover{
+
+  .btn-navbar:hover {
     color: #757474;
     text-decoration: none;
     border-radius: 4px;
     background: var(--just-colors-010, #FBFAF7);
   }
 
-  a.txt-btn-navbar{
+  a.txt-btn-navbar {
     text-decoration: none;
   }
+
+  .sidebar-collapse{
+   
+  }
+
 </style>
 
 
-<nav class="sidebar">
+<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
   <a href="/"><img src="/img/compact-negative-signature.svg" alt="Logo Just" id="logo-just"></a>
   <ul>
-    <li class="item-menu ">
+    <li class="item-menu item-menu-ativo">
       <a href="/">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
             class="bi bi-house-door-fill" viewBox="0 0 16 16">
@@ -201,6 +208,11 @@ text-decoration: none;
             d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
         </svg></span> <span class="txt-logout"></span>Logout</a>
   </div>
+  <!--
+  <div class="btnCollapse">
+    <button id="sidebarCollapse">X</button>
+  </div>
+  -->
 
 </nav>
 <div class="row header-bar">
@@ -216,10 +228,10 @@ text-decoration: none;
     </div>
   </div>
   <div class="col-2">
-    <a class="txt-btn-navbar" href="/admin/dashboards/add"><button class="btn btn-navbar">+ Add Dash</button></a>    
+    <a class="txt-btn-navbar" href="/admin/dashboards/add"><button class="btn btn-navbar">+ Add Dash</button></a>
   </div>
   <div class="col-2">
-    <a class="txt-btn-navbar" href="/projects/add"><button class="btn btn-navbar">+ Add Projeto</button></a>    
+    <a class="txt-btn-navbar" href="/projects/add"><button class="btn btn-navbar">+ Add Projeto</button></a>
   </div>
   <div class="col-4" style="text-align: right;">
     <p>Bem vindo(a), <strong>{{user.name_user}}</strong></p>
@@ -227,26 +239,16 @@ text-decoration: none;
   </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var sidebarCollapse = document.getElementById('sidebarCollapse');
+    
 
-<!--
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark fixed-top" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/home">
-        <img src="/img/Logo_header.svg" alt="Logo" width="100" height="50" class="d-inline-block align-text-top">      
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/home">Home</a>
-          </li>               
-          <li class="nav-item">
-            <a class="nav-link" href="/users/logout">Logout</a>
-          </li>   
-        </ul>  
-      </div>
-    </div>
-  </nav>
-  -->
+    if (sidebarCollapse) {
+        sidebarCollapse.addEventListener('click', function () {         
+            sidebar.classList.toggle('sidebar-collapse');
+        });
+    }
+});
+
+</script>

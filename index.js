@@ -3,7 +3,6 @@ const app = express()
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const path = require("path") 
-const User = require("./models/User")
 const flash = require('connect-flash')
 const passport = require("passport")
 const session = require('express-session')
@@ -22,11 +21,6 @@ try{
 }catch(err){
     console.log("Erro ao gerar module - "+err)
 }
-
-const Metadata = require("./models/Metadata")
-const Url_Dashboard = require("./models/Url_Dashboard")
-const User_Permissions = require("./models/User_Permissions")
-
 
 // conseguir ler as variaveis de ambiente
 require("dotenv").config({
@@ -72,18 +66,11 @@ require("dotenv").config({
 
 // Routes
 
-    app.get('/home',eUser , (req, res) => {
+    app.get('/home',eAdmin, (req, res) => {
         res.render("home",{user: req.user})
-        /*
-        User.findOne({where: {email:  req.params.email}}).then((user) => {
-            res.render("home",{user: user})
-        }).catch((error) => {
-            req.flash("error_msg", "Erro ao localizar usuário - " + error)
-            res.redirect("/")
-        })*/        
     })
 
-    app.get('/',eUser , (req, res) => {
+    app.get('/',eUser, (req, res) => {
         res.render("home",{user: req.user})
     })
 

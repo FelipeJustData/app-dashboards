@@ -146,7 +146,7 @@ router.get("/dashboards", (req,res) => {
 })
 
 // Add dashboard
-router.get("/dashboards/add", (req,res) => {
+router.get("/dashboards/add",eAdmin, (req,res) => {
     Customer.findAll().then((customer) => {
         Project.findAll().then((projects) => {
             res.render("admin/adddashboard", {customer: customer, projects: projects})
@@ -162,7 +162,7 @@ router.get("/dashboards/add", (req,res) => {
 })
 
 // Add dashboard customer
-router.get("/dashboard/customer/:id", (req,res) => {
+router.get("/dashboard/customer/:id",eAdmin, (req,res) => {
     Customer.findOne({where: {id_customer: req.params.id}}).then((customer) => {
         Project.findAll().then((projects) => {
             res.render("admin/adddashboard", {customer: customer, projects: projects})
@@ -215,9 +215,9 @@ router.post("/dashboard/new", (req,res) => {
 
 // show dashboard
 router.get("/dashboards/:id", (req, res) => {
-    Dashboard.findOne({where: {id_dashboard: req.params.id}}).then((dashboard) => {
-        Url_Dashboard.findAll({where: {id_dashboard: dashboard.id_dashboard}}).then((url_dashboard) => {
-            res.render("admin/showdashboard", {dashboard: dashboard, url_dashboard: url_dashboard})
+    Dashboard.findAll().then((dashboards) => {
+        Url_Dashboard.findAll({where: {id_dashboard: req.params.id}}).then((url_dashboard) => {
+            res.render("admin/showdashboard", {dashboards: dashboards, url_dashboard: url_dashboard})
         }).catch((error) => {
             req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
             res.redirect("/admin/dashboards")

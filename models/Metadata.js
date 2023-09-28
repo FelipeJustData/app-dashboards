@@ -40,6 +40,6 @@ User.hasMany(Metadata, {
 })
 
 
-Metadata.sync({force: true})
+Metadata.sync()
 
 module.exports = Metadata
