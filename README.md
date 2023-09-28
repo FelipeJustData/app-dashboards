@@ -61,11 +61,17 @@ Para instalar a aplicação localmente, siga estas etapas:
 O código está organizado em várias seções, cada uma desempenhando um papel importante no funcionamento da aplicação.
 
 :small_blue_diamond: [Importação de Módulos](#importação-de-módulos)
+
 :small_blue_diamond: [Configurações](#configurações)
+
 :small_blue_diamond: [Middleware](#middleware)
+
 :small_blue_diamond: [Body Parser e Template Engine](#body-parser-e-template-engine)
+
 :small_blue_diamond: [Arquivos Estáticos](#arquivos-estáticos)
+
 :small_blue_diamond: [Rotas](#rotas)
+
 :small_blue_diamond: [Inicialização do Servidor](#inicialização-do-servidor)
 
 ### Importação de Módulos
