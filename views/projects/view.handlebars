@@ -1,23 +1,23 @@
-<h2>Projetos de {{customer.name_customer}}</h2>
+<h2>Projetos de {{project.nam_project}}</h2>
+<br>
+{{>_navbardashboards}}
+<hr>
 
-{{#each projects}}
-<div class="col-6">
-    <div class="card mt-4">        
-            <div class="card-body">
-                <h5>{{nam_project}}</h5>
-                
-                <span>Expira em: {{dat_expiration}}</span>
-                <br>            
-
-                <a href="/admin/customer/{{id_customer}}">Acessar ></a>
-                <br>
-                <a href="/admin/dashboard/customer/{{id_customer}}">Adicionar Dashboard ></a>
-     
+<div class="container mt-4">
+    <div class="row">
+        {{#each dashboards}}
+        <div class="col-4" style="margin-bottom: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{title}}</h3>
+                    <p>{{description}}</p>
+                    <a href="/admin/dashboards/{{id_dashboard}}"><button class="btn btn-info">Acessar
+                            dashboard</button></a>
+                </div>
             </div>
-    </div>             
-</div>
-{{else}}
-<h5>Nenhum projeto cadastrado</h5>
-{{/each}}
-
+        </div>
+        {{else}}
+        <p>Nenhum dashboard postado</p>
+        {{/each}}
+    </div>
 </div>

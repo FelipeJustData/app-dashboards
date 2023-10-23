@@ -3,20 +3,22 @@
 
 <hr>
 
-<h5>Selecione o cliente para visualizar os projetos</h5>
-{{#each customers}}
+<h5>Selecione o projeto para visualizar</h5>
+{{#each projects}}
 <div class="col-6">
     <div class="card mt-4">        
             <div class="card-body">
-                <h5>{{name_customer}}</h5>                                                
+                <h5>{{nam_project}}</h5>
+                                
+                <br>            
 
-                <a href="/projects/customer/{{id_customer}}">Ver projetos</a>
+                <a href="/projects/{{id_project}}"><button  class="btn btn-primary">Acessar Projeto</button></a>
+                <br>
      
             </div>
     </div>             
 </div>
 {{else}}
-<h5>Nenhum projeto cadastrado</h5>
+<h5>Nenhum projeto para ser exibido</h5>
 {{/each}}
 
-</div>

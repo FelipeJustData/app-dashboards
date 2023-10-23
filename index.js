@@ -13,6 +13,7 @@ const projects = require('./routes/project')
 const customers = require('./routes/customer')
 const { eAdmin } = require("./helpers/eAdmin")
 const ifAdmin = require("./helpers/ifAdmin")
+
 const { eUser } = require("./helpers/eUser")
 
 const Project = require("./models/Projects")
@@ -64,6 +65,17 @@ app.engine('handlebars', handlebars.engine({
     helpers: ifAdmin
 }))
 app.set('view engine', 'handlebars')
+
+var hbs = handlebars.create({});
+
+hbs.handlebars.registerHelper('eq', function (a, b) {
+    if (a === b) {
+        return a === b;
+    }
+})
+hbs.handlebars.registerHelper('includes', function (arr, value, options) {
+    return arr && arr.includes(value)
+})
 
 
 // Public
@@ -142,7 +154,7 @@ app.get('/', eUser, (req, res) => {
                 res.redirect("/");
             });
     }
-    
+
 })
 
 app.use('/users', users)

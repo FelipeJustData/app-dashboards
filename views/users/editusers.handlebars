@@ -5,7 +5,38 @@
 {{/each}}
 
 <h2>Editar usuário</h2>
-<div class="card">
+<form action="/users/users/edit/{{user.id_user}}" method="POST">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" placeholder="Nome do usuário" class="form-control" value="{{userEdit.name_user}}" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Email do usuário" class="form-control" value="{{userEdit.email_user}}" required>
+    <label for="user_type">Tipo de Usuário:</label>
+    <select class="form-select" id="user_type" name="user_type" class="form-control" required>
+        <option value="Leitor" {{#if (eq userEdit.typ_user "Leitor")}} selected {{/if}}>Leitor</option>
+        <option value="Editor" {{#if (eq userEdit.typ_user "Editor")}} selected {{/if}}>Editor</option>
+        <option value="Administrador" {{#if (eq userEdit.typ_user "Administrador")}} selected {{/if}}>Administrador</option>
+    </select>
+
+    <label for="project_permissions">Permissões de projeto:</label>
+    <select class="form-select" id="project_permissions" name="project_permissions[]" multiple>
+        {{#each projects}}
+            <option value="{{id_project}}" {{#if (includes userPermissions.id_project id_project)}} selected {{/if}}>{{nam_project}}</option>
+        {{/each}}
+    </select>
+
+    <label for="dashboard_permissions">Permissões de dashboard:</label>
+    <select class="form-select" id="dashboard_permissions" name="dashboard_permissions[]" multiple>
+        {{#each dashboards}}
+            <option value="{{id_dashboard}}" {{#if (includes userPermissions.id_dashboard id_dashboard)}} selected {{/if}}>{{title}}</option>
+        {{/each}}
+    </select>
+
+    <button type="submit" class="btn btn-primary">Atualizar Usuário</button>
+</form>
+
+<!--
+  
+  <div class="card">
     <div class="card-body">
         <form action="/users/users/edit" method="POST">
             <input type="hidden" id="id" name="id" value="{{user.id_user}}">
@@ -25,3 +56,8 @@
         </form>
     </div>    
 </div>
+
+
+  
+    -->
+

@@ -23,7 +23,7 @@ router.get('/users', eAdmin, (req, res) => {
 })
 
 
-router.get("/register", eAdmin, (req, res) => {
+router.get("/register", (req, res) => {
     Projects.findAll().then((projects) => {
         res.render("users/register", { projects: projects })
     }).catch((error) => {
@@ -36,7 +36,7 @@ router.get("/register", eAdmin, (req, res) => {
 
 
 // Add new User
-router.post('/users/new', eAdmin, (req, res) => {
+router.post('/users/new', (req, res) => {
     var errors = []
 
     if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
@@ -139,7 +139,7 @@ router.post('/users/new', eAdmin, (req, res) => {
         })
     }
 })
-
+/*
 // Search User by ID
 router.get("/users/edit/:id", eAdmin, (req, res) => {
     User.findOne({ where: { id_user: req.params.id } }).then((user) => {
@@ -167,6 +167,89 @@ router.post("/users/edit", (req, res) => {
         res.redirect("/users/users")
     })
 })
+*/
+// Rota para exibir o formulário de edição de usuário e permissões
+router.get('/users/edit/:id', eAdmin, async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const userEdit = await User.findByPk(userId);
+
+        if (!userEdit) {
+            req.flash("error_msg", "Usuário não encontrado");
+            return res.redirect("/users/users");
+        }
+
+        // Buscar as permissões do usuário
+        const userPermissions = await User_Permissions.findAll({ where: { id_user: userId } });
+
+        // Buscar todos os projetos e dashboards disponíveis
+        const projects = await Projects.findAll();
+        const dashboards = await Dashboards.findAll();
+
+        res.render("users/editusers", {
+            userEdit,
+            userPermissions,
+            projects,
+            dashboards,
+        });
+    } catch (error) {
+        req.flash("error_msg", "Erro ao carregar dados de usuário - " + error);
+        res.redirect("/users/users");
+    }
+});
+
+// Rota para processar a edição do usuário e permissões 
+router.post('/users/edit/:id', eAdmin, async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        // Atualizar os dados do usuário (nome, email, senha, etc.)
+        await User.update(
+            {
+                name_user: req.body.name,
+                email_user: req.body.email,
+                typ_user: req.body.user_type,
+            },
+            {
+                where: { id_user: userId },
+            }
+        );
+
+        // Remover todas as permissões existentes para o usuário
+        await User_Permissions.destroy({
+            where: { id_user: userId },
+        });
+
+        // Adicionar as novas permissões com base no formulário
+        const projectPermissions = req.body.project_permissions;
+        const dashboardPermissions = req.body.dashboard_permissions;
+
+        if (projectPermissions && dashboardPermissions) {
+            for (const projectId of projectPermissions) {
+                for (const dashboardId of dashboardPermissions) {
+                    const dashboard = await Dashboards.findByPk(dashboardId);
+
+                    if (dashboard && dashboard.id_project === projectId) {
+                        await User_Permissions.create({
+                            id_user: userId,
+                            id_project: projectId,
+                            id_dashboard: dashboardId,
+                            des_dashboard_access: true,
+                            des_project_access: true,
+                        });
+                    }
+                }
+            }
+        }
+
+        req.flash("success_msg", "Usuário atualizado com sucesso");
+        res.redirect("/users/users");
+    } catch (error) {
+        req.flash("error_msg", "Erro ao atualizar usuário - " + error);
+        res.redirect(`/users/edit/${userId}`);
+    }
+});
+
 
 // Delete User
 router.post("/users/delete", eAdmin, (req, res) => {
@@ -231,64 +314,83 @@ module.exports = router
 
 //PERMISSIONS
 // Search User by ID
-router.get("/users/permissions/:id", eAdmin, (req, res) => {
-    const projectstotal = []
-    User.findOne({ where: { id_user: req.params.id } }).then((user) => {
-        User_Permissions.findAll({ where: { id_user: req.params.id }}).then((user_permissions) => {
-            for (const permissions of user_permissions){
-                Projects.findAll({where: { id_project: {[Op.ne]: permissions.id_project}}}).then((projects) => {
-                    projectstotal.push(projects)
-                })
-            }            
-            
-            res.render("users/permissions", { user: user, user_permissions: user_permissions, projectstotal: projectstotal  })
-        }).catch((error) => {
-            req.flash("error_msg", "Nenhum projeto cadastrado - " + error)
-            res.redirect("/users/users")
-        })
-    }).catch((error) => {
-        req.flash("error_msg", "Usuário não existe - " + error)
-        res.redirect("/users/users")
-    })
+router.get("/users/permissions/:id", eAdmin, async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const userEdit = await User.findByPk(userId);
+
+        if (!userEdit) {
+            req.flash("error_msg", "Usuário não encontrado");
+            return res.redirect("/users/users");
+        }
+
+        // Buscar as permissões do usuário
+        const userPermissions = await User_Permissions.findAll({ where: { id_user: userId } });
+
+        // Buscar todos os projetos e dashboards disponíveis
+        const projects = await Projects.findAll();
+        const dashboards = await Dashboards.findAll();
+
+        res.render("users/permissions", {
+            userEdit,
+            userPermissions,
+            projects,
+            dashboards,
+        });
+    } catch (error) {
+        req.flash("error_msg", "Erro ao carregar dados de usuário - " + error);
+        res.redirect("/users/users");
+    }
 })
 
 
 router.post("/users/permissions", eAdmin, async (req, res) => {
-    const projects = req.body.project_permissions
-    const dashboards = req.body.dashboard_permissions
-    const id_user = req.body.id_user
+    try {
+        const userId = req.params.id;
 
-    // Para cada projeto selecionado, crie um registro na tabela 'user_permissions' associando o usuário ao projeto
-    if (projects && projects.length > 0) {
-        for (const projectId of projects) {
-            if (!isNaN(parseFloat(projectId)) && isFinite(projectId)) {
-                if (dashboards) {
-                    for (const dashboardId of dashboards) {
-                        const dashboard = await Dashboards.findOne({ where: { id_project: projectId, id_dashboard: dashboardId } });
-                        if (dashboard) {
-                            await User_Permissions.create({
-                                id_user: id_user,
-                                id_project: projectId,
-                                id_dashboard: dashboardId,
-                                des_dashboard_access: true,
-                                des_project_access: true
-                            })
-                        }
+        // Atualizar os dados do usuário (nome, email, senha, etc.)
+        await User.update(
+            {
+                name_user: req.body.name,
+                email_user: req.body.email,
+                typ_user: req.body.user_type,
+            },
+            {
+                where: { id_user: userId },
+            }
+        );
+
+        // Remover todas as permissões existentes para o usuário
+        await User_Permissions.destroy({
+            where: { id_user: userId },
+        });
+
+        // Adicionar as novas permissões com base no formulário
+        const projectPermissions = req.body.project_permissions;
+        const dashboardPermissions = req.body.dashboard_permissions;
+
+        if (projectPermissions && dashboardPermissions) {
+            for (const projectId of projectPermissions) {
+                for (const dashboardId of dashboardPermissions) {
+                    const dashboard = await Dashboards.findByPk(dashboardId);
+
+                    if (dashboard && dashboard.id_project === projectId) {
+                        await User_Permissions.create({
+                            id_user: userId,
+                            id_project: projectId,
+                            id_dashboard: dashboardId,
+                            des_dashboard_access: true,
+                            des_project_access: true,
+                        });
                     }
-
-                } else {
-                    await User_Permissions.create({
-                        id_user: id_user,
-                        id_project: projectId,
-                        des_dashboard_access: false,
-                        des_project_access: true
-                    })
                 }
             }
-
         }
-    }
 
-    req.flash("success_msg", "Usuário cadastrado com sucesso")
-    res.redirect("/users/users")
+        req.flash("success_msg", "Usuário atualizado com sucesso");
+        res.redirect("/users/users");
+    } catch (error) {
+        req.flash("error_msg", "Erro ao atualizar usuário - " + error);
+        res.redirect(`/users/edit/${userId}`);
+    }
 })
