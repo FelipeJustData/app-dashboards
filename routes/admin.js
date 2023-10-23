@@ -7,6 +7,7 @@ const { eAdmin } = require("../helpers/eAdmin")
 const Project = require('../models/Projects')
 const { eUser} = require("../helpers/eUser")
 const { error } = require('console')
+const User_Permissions = require("../models/User_Permissions")
 
 /** CUSTOMERS */
 // List All Customers
@@ -127,20 +128,42 @@ router.get('/customer/:id', eAdmin, (req, res) => {
 
 /** DASHBOARDS */
 // List Dashboards
-router.get("/dashboards", (req,res) => {
-
-    Dashboard.findAll().then((dashboards) => {
-        Customer.findAll().then((customers) => {
-            res.render("admin/dashboards",{dashboards: dashboards, customers: customers})        
+router.get("/dashboards", eUser,(req,res) => { 
+    if (req.user.typ_user == "Administrador") {
+        Dashboard.findAll().then((dashboards) => {
+            Customer.findAll().then((customers) => {
+                res.render("admin/dashboards",{dashboards: dashboards, customers: customers})        
+            }).catch((error) => {
+                req.flash("error_msg", "Erro ao listar clientes - " + error)
+                res.redirect("/")
+            })
+    
         }).catch((error) => {
-            req.flash("error_msg", "Erro ao listar clientes - " + error)
+            req.flash("error_msg", "Erro ao listar dashboards - " + error)
             res.redirect("/")
         })
+    }
+    else {
+        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
+            .then((userPermissions) => {
+                // Coleta os IDs dos projetos permitidos
+                const dashboardId = userPermissions.map(permission => permission.id_dashboard);
 
-    }).catch((error) => {
-        req.flash("error_msg", "Erro ao listar dashboards - " + error)
-        res.redirect("/")
-    })
+                // Busca os projetos correspondentes aos IDs coletados
+                Dashboard.findAll({ where: { id_dashboard: dashboardId } })
+                    .then((dashboards) => {
+                        res.render("admin/dashboards", { user: req.user, dashboards: dashboards });
+                    })
+                    .catch((error) => {
+                        req.flash("error_msg", "Erro ao listar projetos - " + error);
+                        res.redirect("/");
+                    });
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Erro em permissões do usuário - " + error);
+                res.redirect("/");
+            });
+    }       
 
     
 })
@@ -215,17 +238,46 @@ router.post("/dashboard/new", (req,res) => {
 
 // show dashboard
 router.get("/dashboards/:id", (req, res) => {
-    Dashboard.findAll().then((dashboards) => {
-        Url_Dashboard.findAll({where: {id_dashboard: req.params.id}}).then((url_dashboard) => {
-            res.render("admin/showdashboard", {dashboards: dashboards, url_dashboard: url_dashboard})
+    if (req.user.typ_user == "Administrador") {
+        Dashboard.findAll().then((dashboards) => {
+            Url_Dashboard.findAll({where: {id_dashboard: req.params.id}}).then((url_dashboard) => {
+                res.render("admin/showdashboard", {dashboards: dashboards, url_dashboard: url_dashboard})
+            }).catch((error) => {
+                req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
+                res.redirect("/admin/dashboards")
+            })    
         }).catch((error) => {
-            req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
+            req.flash("error_msg","Dashboard não existe - "+ error)
             res.redirect("/admin/dashboards")
-        })    
-    }).catch((error) => {
-        req.flash("error_msg","Dashboard não existe - "+ error)
-        res.redirect("/admin/dashboards")
-    })   
+        })
+    }
+    else {
+        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
+            .then((userPermissions) => {
+                // Coleta os IDs dos projetos permitidos
+                const dashboardId = userPermissions.map(permission => permission.id_dashboard);
+
+                // Busca os projetos correspondentes aos IDs coletados
+                Dashboard.findAll({ where: { id_dashboard: dashboardId } })
+                    .then((dashboards) => {
+                        Url_Dashboard.findAll({where: {id_dashboard: req.params.id}}).then((url_dashboard) => {
+                            res.render("admin/showdashboard", {dashboards: dashboards, url_dashboard: url_dashboard})
+                        }).catch((error) => {
+                            req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
+                            res.redirect("/admin/dashboards")
+                        })
+                        
+                    })
+                    .catch((error) => {
+                        req.flash("error_msg", "Erro ao listar projetos - " + error);
+                        res.redirect("/");
+                    });
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Erro em permissões do usuário - " + error);
+                res.redirect("/");
+            });
+    }       
 })
 
 // Add dashboard url

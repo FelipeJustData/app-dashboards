@@ -1,19 +1,25 @@
 {{>_navbardashboards}}
 <hr>
 
-{{#each dashboards}}
+{{#ifAdmin user.typ_user}}
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-body">
-            <h3>{{title}}</h3>
-            <p>{{description}}</p>
-            <a href="/admin/dashboards/addurl/{{id_dashboard}}"><button class="btn btn-info">Inserir detalhes</button></a>          
-            <a href="/admin/dashboards/{{id_dashboard}}"><button class="btn btn-info">Acessar dashboard</button></a>
-            
+    <div class="row">
+        {{#each dashboards}}
+        <div class="col-4" style="margin-bottom: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{title}}</h3>
+                    <p>{{description}}</p>
+                    <a href="/admin/dashboards/addurl/{{id_dashboard}}"><button class="btn btn-info">Inserir
+                            detalhes</button></a>
+                    <a href="/admin/dashboards/{{id_dashboard}}"><button class="btn btn-info">Acessar
+                            dashboard</button></a>
+                </div>
+            </div>
         </div>
+        {{else}}
+        <p>Nenhum dashboard postado</p>
+        {{/each}}
     </div>
 </div>
-
-{{else}}
-    <p>Nenhum dashboard postado</p>
-{{/each}}
+{{/ifAdmin}}

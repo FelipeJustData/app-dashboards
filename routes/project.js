@@ -2,17 +2,46 @@ const express = require('express')
 const router = express.Router()
 const Customer = require("../models/Customer")
 const Project = require("../models/Projects")
+const Dashboard = require("../models/Dashboards")
 const {eAdmin} = require("../helpers/eAdmin")
+const { eUser } = require("../helpers/eUser")
+const User_Permissions = require("../models/User_Permissions")
 
 // Página inicial de projetos
 // List All Projects
-router.get('/', (req,res) => {
-    Customer.findAll().then((customers) => {
-     res.render('projects/projects', {customers: customers}) 
-     }).catch((error) => {
-         req.flash("error_msg", "Erro ao listar projetos " + error)
-         res.redirect("/")
-     })       
+router.get('/', eUser,(req,res) => {
+    if (req.user.typ_user == "Administrador") {
+        // Busca os projetos correspondentes aos IDs coletados
+        Project.findAll()
+            .then((projects) => {
+                res.render("home", { user: req.user, projects: projects });
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Erro ao listar projetos - " + error);
+                res.redirect("/");
+            });
+    }
+    else {
+        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
+            .then((userPermissions) => {
+                // Coleta os IDs dos projetos permitidos
+                const projectIds = userPermissions.map(permission => permission.id_project);
+
+                // Busca os projetos correspondentes aos IDs coletados
+                Project.findAll({ where: { id_project: projectIds } })
+                    .then((projects) => {
+                        res.render("home", { user: req.user, projects: projects });
+                    })
+                    .catch((error) => {
+                        req.flash("error_msg", "Erro ao listar projetos - " + error);
+                        res.redirect("/");
+                    });
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Erro em permissões do usuário - " + error);
+                res.redirect("/");
+            });
+    }       
  })
 
  // List All Projects by customer
@@ -66,6 +95,16 @@ router.post("/new", (req, res) => {
         res.redirect("/projects/add")
     })
 })
+
+router.get('/get-dashboards/:projectIds', (req, res) => {
+    const projectIds = req.params.projectIds.split(','); // Obtenha os IDs dos projetos selecionados
+    
+    Dashboard.findAll({where: {id_project: projectIds}}).then((dashboards) => {
+        res.json(dashboards)
+    }).catch((error) => {
+        res.status(500).json({error: "Error ao buscar dashboards"})
+    })
+});
 
 
 module.exports = router

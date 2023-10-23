@@ -57,10 +57,11 @@
   .header-bar {
     background: #F2F1EF;
     height: 110px;
-    padding: 20px 20px 0px 322px;   
-    
+    padding: 20px 20px 0px 322px;
+
   }
-  body{
+
+  body {
     overflow-x: hidden;
   }
 
@@ -72,7 +73,7 @@
 
   .logout {
     text-align: left;
-    margin-top: 90%;   
+    margin-top: 90%;
     padding-bottom: 20px;
     padding-left: 20px;
   }
@@ -85,7 +86,7 @@
   .search input {
 
     border-radius: 0;
-    width: 400px;
+    width: 100%;
     height: 60px;
     flex-shrink: 0;
     border-radius: 4px;
@@ -138,10 +139,50 @@
     text-decoration: none;
   }
 
-  .sidebar-collapse{
-   
+  .collapsed {
+    width: 80px;
+    padding-left: 10px;
+    /* Largura quando recolhida */
+    /* Outros estilos de recolhimento, como ocultar texto ou ícones, ajuste conforme necessário */
   }
 
+  .collapsed ul li .txt-menu {
+    display: none;
+  }
+
+  .header-bar-expand {
+    padding-left: 110px;
+  }
+
+  .mainContainer-expand {
+    padding-left: 130px !important;
+  }
+
+  .btnCollapse{
+    border-radius: 80px;
+  }
+
+  /* Estilo para a div que envolve o botão de expandir/recolher */
+#sidebar .btnCollapse {
+  text-align: right;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  right: -15px;
+}
+
+/* Estilo para o botão de expandir/recolher */
+#sidebar .btnCollapse button {
+  margin: 0;
+  padding: 10px 10px; /* Ajuste o espaçamento interno conforme necessário */
+  border-radius: 50px;
+}
+
+/* Estilo para o botão de expandir/recolher quando a barra estiver recolhida */
+#sidebar.collapsed .btnCollapse {
+  text-align: center; /* Centralize o botão quando a barra estiver recolhida */
+  right: -40px;
+}
 </style>
 
 
@@ -178,8 +219,9 @@
         <span class="txt-menu">Projetos</span>
       </a>
     </li>
+    {{#ifAdmin user.typ_user}}
     <li class="item-menu">
-      <a href="#">
+      <a href="/customers/customers">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
             class="bi bi-people-fill" viewBox="0 0 16 16">
             <path
@@ -187,7 +229,27 @@
           </svg></span>
         <span class="txt-menu">Clientes</span>
       </a>
-    </li>
+    </li> 
+    <li class="item-menu">
+      <a href="/users/users">
+        <svg height="24" width="24" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 248.349 248.349" xml:space="preserve">
+<g>
+	<g>
+		<path style="fill:#010002;" d="M9.954,241.305h228.441c3.051,0,5.896-1.246,7.805-3.416c1.659-1.882,2.393-4.27,2.078-6.723
+			c-5.357-41.734-31.019-76.511-66.15-95.053c-14.849,14.849-35.348,24.046-57.953,24.046s-43.105-9.197-57.953-24.046
+			C31.09,154.65,5.423,189.432,0.071,231.166c-0.315,2.453,0.424,4.846,2.078,6.723C4.058,240.059,6.903,241.305,9.954,241.305z"/>
+		<path style="fill:#010002;" d="M72.699,127.09c1.333,1.398,2.725,2.73,4.166,4.019c12.586,11.259,29.137,18.166,47.309,18.166
+			s34.723-6.913,47.309-18.166c1.441-1.289,2.834-2.622,4.166-4.019c1.327-1.398,2.622-2.828,3.84-4.329
+			c9.861-12.211,15.8-27.717,15.8-44.6c0-39.216-31.906-71.116-71.116-71.116S53.059,38.95,53.059,78.16
+			c0,16.883,5.939,32.39,15.8,44.6C70.072,124.262,71.366,125.687,72.699,127.09z"/>
+	</g>
+</g>
+</svg></span>
+        <span class="txt-menu">Usuários</span>
+      </a>
+    </li>    
+    {{/ifAdmin}}
     <li class="item-menu">
       <a href="#">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -199,23 +261,12 @@
       </a>
     </li>
   </ul>
-  <div class="logout">
-    <a class="nav-link-logout" href="/users/logout"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-          fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
-          <path fill-rule="evenodd"
-            d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
-        </svg></span> <span class="txt-logout"></span>Logout</a>
-  </div>
-  <!--
   <div class="btnCollapse">
-    <button id="sidebarCollapse">X</button>
+    <button id="sidebarCollapse">&lt;</button>
   </div>
-  -->
-
 </nav>
-<div class="row header-bar">
+
+<div class="row header-bar" id="header-bar">
   <div class="col-4 col-search-input">
     <div class="search">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="fa-search" viewBox="0 0 32 32" fill="none">
@@ -224,31 +275,55 @@
           stroke="#757474" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <input type="text" class="form-control" placeholder="">
-
     </div>
   </div>
   <div class="col-2">
+    {{#ifAdmin user.typ_user}}
     <a class="txt-btn-navbar" href="/admin/dashboards/add"><button class="btn btn-navbar">+ Add Dash</button></a>
+    {{/ifAdmin}}
   </div>
   <div class="col-2">
+    {{#ifAdmin user.typ_user}}
     <a class="txt-btn-navbar" href="/projects/add"><button class="btn btn-navbar">+ Add Projeto</button></a>
+    {{/ifAdmin}}
   </div>
   <div class="col-4" style="text-align: right;">
     <p>Bem vindo(a), <strong>{{user.name_user}}</strong></p>
+    <div class="">
+      <a class="nav-link-logout" href="/users/logout"><span><svg xmlns="http://www.w3.org/2000/svg" width="16"
+            height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
+            <path fill-rule="evenodd"
+              d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
+          </svg></span> <span class="txt-logout"></span>Logout</a>
+    </div>
 
   </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var sidebarCollapse = document.getElementById('sidebarCollapse');
-    
+  document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('sidebar');
+    const collapseButton = document.getElementById('sidebarCollapse');
+    const headerBar = document.getElementById('header-bar')
+    const mainContainer = document.getElementById('main-container')
+    const sidebarCollapse = document.getElementById('sidebarCollapse')
 
-    if (sidebarCollapse) {
-        sidebarCollapse.addEventListener('click', function () {         
-            sidebar.classList.toggle('sidebar-collapse');
-        });
+    // Função para alternar as classes da barra lateral
+    function toggleSidebar() {
+      sidebar.classList.toggle('collapsed');
+      headerBar.classList.toggle('header-bar-expand')
+      mainContainer.classList.toggle('mainContainer-expand')
+      if(sidebarCollapse.innerHTML == "&lt;"){
+        sidebarCollapse.innerHTML = "&gt;"
+      }else{
+        sidebarCollapse.innerHTML = "&lt;"
+      }
+      
     }
-});
 
+    // Adicionar um ouvinte de evento ao botão de expansão/recolhimento
+    collapseButton.addEventListener('click', toggleSidebar);
+  });
 </script>

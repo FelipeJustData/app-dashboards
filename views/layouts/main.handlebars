@@ -12,12 +12,14 @@
 </head>
 <body>
     <style>
-        
+        #main-container{
+            padding-left: 320px;
+        }
     </style>    
     {{#if user}}
     {{>_navbar}}
 
-    <div class="container-fluid mt-4" style="padding-left: 320px;">
+    <div class="container-fluid mt-4" id="main-container">
         <div class="row">
         {{#if error}}
             <div class="alert alert-danger">{{error}}</div>

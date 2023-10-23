@@ -12,8 +12,9 @@
                 <small>{{email_user}}</small><br>
                 <small>Data de criação: {{createdAt}}</small>
                 <div class="row mt-2">
-                    <div class="col-6"><a href="/users/users/edit/{{id_user}}"><div class="btn btn-success">Editar Usuário</div></a></div>
-                    <div class="col-6">
+                    <div class="col-4"><a href="/users/users/permissions/{{id_user}}"><div class="btn btn-success">Permissões</div></a></div>
+                    <div class="col-4"><a href="/users/users/edit/{{id_user}}"><div class="btn btn-success">Editar Usuário</div></a></div>
+                    <div class="col-4">
                         <form action="/users/users/delete" method="POST">
                             <input type="hidden" name="id" value="{{id_user}}">
                             <button type="submit" class="btn btn-danger">Deletar Usuário</button>
