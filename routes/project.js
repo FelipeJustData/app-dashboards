@@ -71,10 +71,10 @@ router.get('/', eUser, (req, res) => {
 })
 
 // List All Projects
-router.get('/:id', eUser, (req, res) => {
+router.get('/view/:id', eUser, (req, res) => {
     if (req.user.typ_user == "Administrador") {
-        Project.findAll().then((project) => {
-            Dashboard.findAll().then((dashboards) => {
+        Project.findByPk(req.params.id).then((project) => {
+            Dashboard.findAll({ where: { id_project: project.id_project } }).then((dashboards) => {
                 res.render('projects/view', { project: project, dashboards: dashboards })
             })
                 .catch((error) => {
@@ -91,12 +91,12 @@ router.get('/:id', eUser, (req, res) => {
         User_Permissions.findAll({ where: { id_user: req.user.id_user } })
             .then((userPermissions) => {
                 // Coleta os IDs dos projetos permitidos
-                const projectIds = userPermissions.map(permission => permission.id_project);
+                const dashboardId = userPermissions.map(permission => permission.id_dashboard);
 
                 // Busca os projetos correspondentes aos IDs coletados
                 Project.findByPk(req.params.id)
                     .then((project) => {
-                        Dashboard.findAll({ where: { id_project: req.params.id } })
+                        Dashboard.findAll({ where: { id_dashboard: dashboardId } })
                             .then((dashboards) => {
                                 res.render("projects/view", { user: req.user, project: project, dashboards: dashboards });
                             })
@@ -176,6 +176,16 @@ router.get('/get-dashboards/:projectIds', (req, res) => {
 
     Dashboard.findAll({ where: { id_project: projectIds } }).then((dashboards) => {
         res.json(dashboards)
+    }).catch((error) => {
+        res.status(500).json({ error: "Error ao buscar dashboards" })
+    })
+});
+
+router.get('/get-projects/:id_customer', (req, res) => {
+    const customer = req.params.id_customer
+
+    Project.findAll({ where: { id_customer: customer } }).then((projects) => {
+        res.json(projects)
     }).catch((error) => {
         res.status(500).json({ error: "Error ao buscar dashboards" })
     })

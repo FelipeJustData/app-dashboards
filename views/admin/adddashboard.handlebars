@@ -1,9 +1,106 @@
 {{#each errors}}
-    <div class="alert alert-danger">{{texto}}</div>
-{{else}}    
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
 
 {{/each}}
 <h2>Adicionando nova dashboard</h2>
+<form action="/admin/dashboard/new" method="POST">
+    <label for="title">Título:</label>
+    <input class="form-control" type="text" id="title" name="title" required>
+
+    <label for="description">Descrição:</label>
+    <input class="form-control" type="text" id="description" name="description">
+
+    <label for="des_status">Status:</label>
+    <input class="form-control" type="text" id="des_status" name="des_status" required>
+
+    <label for="dat_expiration">Data de Expiração:</label>
+    <input class="form-control" type="date" id="dat_expiration" name="dat_expiration">
+
+    <!-- Selecione o cliente -->
+    <label for="customer">Cliente:</label>
+    <select class="form-control" id="customer" name="customer" required>
+        <option value="0">Selecione um cliente</option>
+        {{#each customers}}
+        <option value="{{id_customer}}">{{name_customer}}</option>
+        {{/each}}
+    </select>
+
+    <!-- Selecione o projeto -->
+    <label for="project">Projeto:</label>
+    <select class="form-control" id="project" name="project" required>
+        <option value="0">Selecione um projeto</option>
+    </select>
+
+    <!-- Campos para URLs do dashboard -->
+    <h3>URLs do Dashboard</h3>
+    <div id="urlFields">
+        <!-- Este bloco será preenchido dinamicamente com campos de URL -->
+    </div>
+    <button class="btn btn-primary" type="button" id="addUrlField">Adicionar URL</button>
+
+    <button class="btn btn-primary" type="submit">Salvar Dashboard e URLs</button>
+</form>
+
+<script>
+    // JavaScript para adicionar campos de URL dinamicamente
+    document.getElementById('addUrlField').addEventListener('click', function () {
+        const urlFields = document.getElementById('urlFields');
+        const newUrlField = document.createElement('div');
+        newUrlField.innerHTML = `
+
+        <label for="url_dashboard">URL:</label>
+        <input class="form-control" type="text" name="dashboardUrls[][url_dashboard]" required>
+        
+        <label for="typ_screen">Tipo de Tela:</label>
+        <input class="form-control" type="text" name="dashboardUrls[][typ_screen]" required> 
+                
+        <label for="typ_plataform_dashboard">Plataforma:</label>
+        <input class="form-control" type="text" name="dashboardUrls[][typ_plataform_dashboard]" required>
+        
+        <label for="typ_database">Banco de Dados:</label>
+        <input class="form-control" type="text" name="dashboardUrls[][typ_database]">
+        <hr>
+    `;
+        urlFields.appendChild(newUrlField);
+    });
+
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('customer').addEventListener('change', function () {
+        const selectedCustomer = this.value;
+        
+        // Enviar solicitação para buscar os dashboards relacionados
+        fetch(`/projects/get-projects/${selectedCustomer}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('data: '+data)
+                // Atualize o campo "dashboard_permissions" com as opções de dashboards disponíveis
+                const projectsSelect = document.getElementById('project');
+                projectsSelect.innerHTML = '';
+
+                data.forEach(project => {
+                    const option = document.createElement('option');
+                    option.value = project.id_project;
+                    option.textContent = project.nam_project; // Altere para o campo apropriado do seu dashboard
+
+                    projectsSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dashboards:', error);
+            });
+    });
+});
+
+</script>
+
+
+<!--
 <div class="card">
     <div class="card-body">
         <form action="/admin/dashboard/new" method="POST">
@@ -17,7 +114,7 @@
             <label for="dat_expiration">Data expiração:</label>            
             <input id="dat_expiration" name="dat_expiration" placeholder="Data de expiração" class="form-control">
         
-        <!--
+        /////////
             <label for="url_bigscreen">URL dashboard tela grande:</label>            
             <input id="url_bigscreen" name="url_bigscreen" placeholder="Tela grande" class="form-control">
             <label for="type">Tipo: </label>
@@ -26,7 +123,7 @@
                 <option value="Looker Studio">Looker Studio</option>
                 <option value="Tableau">Tableau</option>
             </select> 
-        -->
+        ////////////
 
             <label for="project">Projeto:</label>
             <select id="project" name="project" placeholder="Projeto" class="form-control">
@@ -49,3 +146,4 @@
         </form>
     </div>    
 </div>
+-->
