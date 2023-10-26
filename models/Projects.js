@@ -25,7 +25,7 @@ const Project = db.sequelize.define('projects', {
         type: db.Sequelize.BLOB('medium')        
     },
     dat_expiration: {
-        type: db.Sequelize.DATE
+        type: db.Sequelize.STRING
     },
     des_principal_color: {
         type: db.Sequelize.STRING

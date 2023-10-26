@@ -181,6 +181,53 @@ router.get('/get-dashboards/:projectIds', (req, res) => {
     })
 });
 
+
+// Edit Project
+router.get("/project/edit/:id", (req, res) => {
+    Project.findByPk(req.params.id).then((project) => {
+        Customer.findByPk(project.id_customer).then((customerProject) => {
+            Customer.findAll().then((customers) => {
+                res.render("projects/editproject", {project: project,customerProject: customerProject, customers: customers })
+            }).catch((error) => {
+                req.flash("error_msg", "Erro ao listar clientes " + error)
+                res.redirect("/")
+            })
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao listar cliente do projeto " + error)
+            res.redirect("/")
+        })
+    }).catch((error) =>{
+        req.flash("error_msg", "Erro ao listar projeto " + error)
+        res.redirect("/")
+    })   
+
+})
+
+//save update
+router.post("/update/:id", (req, res) => {
+    const projectID = req.params.id
+
+    const updateProject = {
+        nam_project: req.body.nam_project,
+        des_autoplay: req.body.des_autoplay,
+        des_autoplay_timing: req.body.des_autoplay_timing,
+        dat_expiration: req.body.dat_expiration,
+        des_principal_color: req.body.des_principal_color,
+        des_secundary_color: req.body.des_secundary_color,
+        des_menu_color: req.body.des_menu_color,
+        des_options_colors: req.body.des_options_colors,
+        id_customer: req.body.customer
+    }
+
+    Project.update(updateProject,{where: {id_project: projectID}}).then(() =>{
+        req.flash("success_msg", "Projeto atualizado com sucesso")
+        res.redirect("/projects/")
+    }).catch((error) => {
+        req.flash("error_msg", "Erro ao cadastrar projeto -" + error)
+        res.redirect("/projects/add")
+    })   
+})
+
 router.get('/get-projects/:id_customer', (req, res) => {
     const customer = req.params.id_customer
 

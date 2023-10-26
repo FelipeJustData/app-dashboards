@@ -8,6 +8,12 @@ const Project = require('../models/Projects')
 const { eUser} = require("../helpers/eUser")
 const { error } = require('console')
 const User_Permissions = require("../models/User_Permissions")
+const fs = require('fs');
+const path = require('path');
+const multer = require("multer");
+const { storage } = require('../config/multerConfig');
+const upload = multer({ storage: storage });
+
 
 /** CUSTOMERS */
 // List All Customers
@@ -25,38 +31,40 @@ router.get("/add", eAdmin, (req, res) => {
 })
 
 // add new customer
-router.post("/customers/new", eAdmin,(req, res) => {
-    var errors = []
+router.post('/customers/new',eAdmin, upload.single('logo'), (req, res) => {
+    const { name, des_mode } = req.body;
+    const logoFile = req.file.filename;    
 
-    if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
-        errors.push({ texto: "Nome inválido" })
-    }
-    if (errors.length > 0) {
-        res.render("customers/addcustomer", { errors: errors })
+    if (!name) {
+        req.flash("error_msg", "Nome inválido");
+        return res.redirect("/admin/add");
     }
 
-    Customer.findOne({ where: { name_customer: req.body.name } }).then((customer) => {
-        if (customer) {
-            req.flash("error_msg", "Cliente já cadastrado")
-            res.redirect("/admin/add")
-        } else {
-            const newCustomer = {
-                name_customer: req.body.name,
-                logotipo_customer: req.body.logo
-            }
-            Customer.create(newCustomer).then(() => {
-                //console.log("Usuário cadastrado com sucesso")
-                req.flash("success_msg", "Cliente cadastrado com sucesso")
-                res.redirect("/admin/customers")
-            }).catch((error) => {
-                req.flash("error_msg", "Erro ao cadastrar cliente")
-                res.redirect("/admin/add")
+    // Agora, você pode verificar se um arquivo foi enviado e salvá-lo no banco de dados.
+    if (logoFile && logoFile != "undefined") {
+        const newCustomer = {
+            name_customer: name,
+            des_mode: des_mode,
+            logotipo_customer: logoFile // Armazena os dados binários do arquivo
+        };
+
+
+
+        Customer.create(newCustomer)
+            .then(() => {
+                req.flash("success_msg", "Cliente cadastrado com sucesso");
+                res.redirect("/admin/add");
             })
-        }
-    }).catch((error) => {
-        req.flash("error_mag", "Error interno - " + error)
-    })
-})
+            .catch((error) => {
+                req.flash("error_msg", "Erro ao cadastrar cliente");
+                res.redirect("/admin/add");
+            });
+    } else {
+        req.flash("error_msg", "Você deve enviar um logotipo");
+        res.redirect("/admin/add");
+    }
+});
+
 
 
 // Delete Customer
@@ -81,11 +89,11 @@ router.get("/customers/edit/:id", eAdmin,(req, res) => {
 })
 
 // Save Edit Customer
-router.post("/customer/edit", (req, res) => {
+router.post("/customer/edit",eAdmin, upload.single('logo'), (req, res) => {
 
     Customer.update({
         name_customer: req.body.name,
-        logotipo_customer: req.body.logo        
+        logotipo_customer: req.file.filename     
     }, {
         where: { id_customer: req.body.id }
     }).then(() => {
@@ -97,6 +105,7 @@ router.post("/customer/edit", (req, res) => {
     })
 })
 
+/*
 router.get('/customers/:name', eUser, (req, res) => {
     Customer.findOne({where: {name_customer: req.params.name}}).then((customer) => {
         Dashboard.findAll({where: {idCustomer: customer.id_customer}}).then((dashboards) => {
@@ -124,6 +133,30 @@ router.get('/customer/:id', eAdmin, (req, res) => {
         res.redirect("/admin/customers")
     })
 })
+*/
+
+// Rota para exibir a imagem do cliente
+router.get('/customer/logo/:id', (req, res) => {
+    const customerId = req.params.id;
+
+    Customer.findByPk(customerId)
+        .then((customer) => {
+            if (customer && customer.logotipo_customer) {
+                // Define o cabeçalho Content-Type com base na extensão da imagem
+                res.set('Content-Type', 'image/*');
+                // Envie os dados da imagem como resposta
+                res.send(customer.logotipo_customer);
+            } else {
+                // Se não houver imagem, envie uma imagem padrão ou uma mensagem de erro
+                // Exemplo: res.sendFile('caminho/para/imagem-padroes/sem-imagem.jpg');
+                res.status(404).send('Imagem não encontrada');
+            }
+        })
+        .catch((error) => {
+            req.flash('error_msg', 'Erro ao carregar a imagem do cliente - ' + error);
+            res.status(500).send('Erro interno do servidor');
+        });
+});
 
 
 /** DASHBOARDS */
@@ -258,7 +291,7 @@ router.post("/dashboard/new", (req,res) => {
 
 
 // show dashboard
-router.get("/dashboards/:id", (req, res) => {
+router.get("/dashboard/view/:id", (req, res) => {
     if (req.user.typ_user == "Administrador") {
         Dashboard.findAll().then((dashboards) => {
             Url_Dashboard.findAll({where: {id_dashboard: req.params.id}}).then((url_dashboard) => {
@@ -301,15 +334,7 @@ router.get("/dashboards/:id", (req, res) => {
     }       
 })
 
-// Add dashboard url
-router.get("/dashboards/addurl/:id", (req,res) => {
-    Dashboard.findOne({where: {id_dashboard: req.params.id}}).then((dashboard) => {
-        res.render("admin/adddashboarddetails", {dashboard: dashboard})
-    }).catch((error) => {
-        req.flash("error_msg","Dashboard não existe - "+ error)
-        res.redirect("/admin/dashboards")
-    })  
-})
+
 
 
 /*
@@ -335,7 +360,7 @@ router.post("/dashboardurl/new", (req,res) => {
 })
 */
 
-// Rota para cadastrar um novo dashboard e suas URLs
+// Add dasboard
 router.post("/dashboard/new", (req, res) => {
     var errors = [];
 
@@ -393,7 +418,7 @@ router.post("/dashboard/new", (req, res) => {
 });
 
 // Delete dashboard
-router.post("/dashboard/deletedashboard", eAdmin,(req, res) => {
+router.post("/dashboard/delete", eAdmin,(req, res) => {
     Dashboard.destroy({ where: { id_dashboard: req.body.id } }).then(() => {
         req.flash("success_msg", "Dashboard deletado com sucesso")
         res.redirect("/admin/dashboards")
@@ -402,4 +427,73 @@ router.post("/dashboard/deletedashboard", eAdmin,(req, res) => {
     })
 })
 
+
+//Edit dashboard
+router.get("/dashboard/edit/:id", eAdmin, (req, res) => {
+
+    Dashboard.findByPk(req.params.id).then((dashboard) =>{
+        Url_Dashboard.findAll({where: {id_dashboard: dashboard.id_dashboard}}).then((urlDashboards) =>{
+            res.render("admin/editdashboard", {dashboard: dashboard, urlDashboards: urlDashboards})            
+        }).catch((error) =>{
+            req.flash("error_msg", "Erro ao listar URLs - " + error);
+            res.redirect("/admin/dashboards");
+        })
+    }).catch((error) => {
+        req.flash("error_msg", "Erro ao listar Dashboard - " + error);
+        res.redirect("/admin/dashboards");
+    })
+
+    
+});
+
+// Add dasboard
+router.post("/dashboard/edit", (req, res) => {
+    const idDashboard = req.body.id_dashboard
+
+        const updateDashboard = {
+            title: req.body.title,
+            description: req.body.description,
+            des_status: req.body.des_status,
+            dat_expiration: req.body.dat_expiration
+        };
+
+        // Crie o novo dashboard na tabela 'dashboards'
+        Dashboard.update(updateDashboard,{where: {id_dashboard: idDashboard}})
+            .then((dashboard) => {
+                //req.flash("success_msg", "Dashboard criada com sucesso! Agora insira os detalhes dela");
+
+                // Crie as URLs do dashboard (você pode iterar sobre as URLs na solicitação)
+                const dashboardUrls = req.body.dashboardUrls; // Suponhamos que os dados das URLs são enviados como um array
+
+                if (dashboardUrls && dashboardUrls.length > 0) {
+                    dashboardUrls.forEach((url) => {
+                        const updateDashboardUrl = {
+                            url_dashboard: url.url_dashboard,
+                            typ_screen: url.typ_screen,
+                            is_default: url.is_default,
+                            typ_plataform_dashboard: url.typ_plataform_dashboard,
+                            typ_database: url.typ_database,
+                        };
+
+                        try {
+                            // Crie a URL do dashboard na tabela 'url_dashboard'
+                            Url_Dashboard.update(updateDashboardUrl,{where:{id_dashboard: idDashboard}});                            
+                        } catch (error) {
+                            req.flash("error_msg", "Houve erro ao atualizar url da dashboard - " + error);
+                            res.redirect("/admin/dashboards");
+                        }
+                        
+                    });
+                }else{
+                    Url_Dashboard.destroy({where: {id_dashboard:idDashboard}})
+                }
+
+                res.redirect("/admin/dashboards");
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Houve erro ao cadastrar dashboard - " + error);
+                res.redirect("/admin/dashboards");
+            });
+    
+});
 module.exports = router

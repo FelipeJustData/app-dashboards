@@ -11,9 +11,20 @@
                 <div class="card-body">
                     <h3>{{title}}</h3>
                     <p>{{description}}</p>                    
-                    <a href="/admin/dashboards/{{id_dashboard}}"><button class="btn btn-info">Acessar
-                            dashboard</button></a>
-                    <a href="/admin/dashboard/deletedashboard/{{id_dashboard}}"><button class="btn btn-danger">Deletar </button></a>                            
+                    <div class="row mt-2">                        
+                        <div class="col-4">
+                            <form action="/admin/dashboard/delete/" method="POST">
+                                <input type="hidden" name="id" value="{{id_dashboard}}">
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Tem certeza que deseja excluir esse dasboard?');">Deletar
+                                    </button>
+                            </form>
+                        </div>
+                        <div class="col-4"><a href="/admin/dashboard/edit/{{id_dashboard}}"><button class="btn btn-warning">Editar
+                            </button></a></div>
+                        <div class="col-4"><a href="/admin/dashboard/view/{{id_dashboard}}"><button class="btn btn-info">Acessar
+                            </button></a></div>
+                    </div>
                 </div>
             </div>
         </div>

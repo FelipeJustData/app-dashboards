@@ -6,7 +6,7 @@
 <h2>Adicionando novo cliente</h2>
 <div class="card">
     <div class="card-body">
-        <form action="/admin/customers/new" method="POST">
+        <form action="/admin/customers/new" method="POST" enctype="multipart/form-data">
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" placeholder="Nome do usuário" class="form-control" required>
             <label for="logo" class="mt-4">Logo:</label>

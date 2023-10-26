@@ -77,6 +77,14 @@ hbs.handlebars.registerHelper('includes', function (arr, value, options) {
     return arr && arr.includes(value)
 })
 
+hbs.handlebars.registerHelper('lt', function (a, b, options) {
+    if (a < b) {
+        return true;
+      } else {
+        return false;
+      }
+})
+
 
 // Public
 app.use(express.static(path.join(__dirname, "public")))

@@ -3,27 +3,34 @@
 <a href="/admin/add"><button class="btn btn-success">Adicionar novo Cliente</button></a>
 <br><br>
 <div class="row">
-{{#each customers}}
-<div class="col-6">
-    <div class="card mt-4">        
+    {{#each customers}}
+    <div class="col-6">
+        <div class="card mt-4">
             <div class="card-body">
-                <img src="{{logotipo_customer}}" alt="">
-                <h5>{{name_customer}}</h5>                
+                
+                <img src="/uploads/{{logotipo_customer}}" alt="{{name_customer}}" style="width: 80px;"/>
+                
+                <h5>{{name_customer}}</h5>
                 <small>Data de criação: {{createdAt}}</small>
                 <div class="row mt-2">
-                    <div class="col-4"><a href="/admin/customers/edit/{{id_customer}}"><div class="btn btn-success">Editar Cliente</div></a></div>
+                    <div class="col-4"><a href="/admin/customers/edit/{{id_customer}}">
+                            <div class="btn btn-success">Editar Cliente</div>
+                        </a></div>
                     <div class="col-4">
                         <form action="/admin/customers/deletecustomer" method="POST">
                             <input type="hidden" name="id" value="{{id_customer}}">
-                            <button type="submit" class="btn btn-danger">Deletar Cliente</button>
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Tem certeza que deseja excluir? Isso apagará todos os projetos e dashboards desse cliente.');">Deletar
+                                Cliente</button>
                         </form>
                     </div>
-                    <div class="col-4"><a href="/admin/customers/{{name_customer}}"><button class="btn btn-secondary" disabled>Página do Cliente</button></a></div>
-                </div>          
+                    <div class="col-4"><a href="/admin/customers/{{name_customer}}"><button class="btn btn-secondary"
+                                disabled>Página do Cliente</button></a></div>
+                </div>
             </div>
-    </div>             
-</div>
-{{else}}
-<h3 class="mt-3">Nenhum cliente registrado</h3>
-{{/each}}
+        </div>
+    </div>
+    {{else}}
+    <h3 class="mt-3">Nenhum cliente registrado</h3>
+    {{/each}}
 </div>

@@ -21,7 +21,7 @@ const Dashboard = db.sequelize.define('dashboards', {
         allowNull: false
     },
     dat_expiration: {
-        type: db.Sequelize.DATE
+        type: db.Sequelize.STRING
     },
     dat_update: {
         type: db.Sequelize.DATE

@@ -12,7 +12,7 @@ const Customer = db.sequelize.define('customers', {
         allowNull: false
     },
     logotipo_customer: {
-        type: db.Sequelize.BLOB('medium')        
+        type: db.Sequelize.STRING     
     },
     des_mode: {
         type: db.Sequelize.STRING

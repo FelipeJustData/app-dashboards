@@ -3,19 +3,19 @@
 {{else}}
 
 {{/each}}
-<h2>Adicionando novo Projeto</h2>
+<h2>Editar Projeto</h2>
 <div class="row">
     <div class="col-8">
         <div class="card">
             <div class="card-body">
-                <form action="/projects/new" method="POST">
+                <form action="/projects/update/{{project.id_project}}" method="POST">
                     <label for="name">Nome do projeto*:</label>
                     <input type="text" id="nam_project" name="nam_project" placeholder="Nome do projeto"
-                        class="form-control" required>
+                        class="form-control" value="{{project.nam_project}}" required>
                     <label for="customer" class="mt-4">Selecionar cliente*:</label>
                     <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
                         class="form-control" required>
-                        <option selected>Selecionar</option>
+                        <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
                         {{#each customers}}
                         <option value={{id_customer}}>{{name_customer}}</option>
                         {{else}}
@@ -27,14 +27,15 @@
                         <div class="col">
                             <label for="des_autoplay" class="mt-4">Autoplay:</label>
                             <input type="text" name="des_autoplay" id="des_autoplay" class="form-control"
-                                placeholder="Autoplay">
+                                placeholder="Autoplay" value="{{project.des_autoplay}}">
                         </div>
                         <div class="col">
                             <label for="des_autoplay_timing" class="mt-4">Autoplay Timing:</label>
                             <input type="text" name="des_autoplay_timing" id="des_autoplay_timing" class="form-control"
-                                placeholder="Autoplay timing">
+                                placeholder="Autoplay timing" value="{{project.des_autoplay_timing}}">
                         </div>
                     </div>
+                    <!--
                     <div class="row">
                         <div class="col">
                             <div class="custom-file">
@@ -52,34 +53,33 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> -->
 
                     <label for="dat_expiration" class="mt-4">Data expiração:</label>
-                    <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
-                        >
+                    <input type="date" name="dat_expiration" id="dat_expiration" class="form-control" value="{{project.dat_expiration}}">
 
                     <div class="row">
                         <div class="col">
                             <label for="principal_color" class="mt-4">Cor principal:</label>
-                            <input type="text" name="des_principal_color" id="des_principal_color" class="form-control"
-                                placeholder="Cor principal">
+                            <input type="text" name="principal_color" id="principal_color" class="form-control"
+                                placeholder="Cor principal" value="{{project.des_principal_color}}">
                         </div>
                         <div class="col">
                             <label for="secundary_color" class="mt-4">Cor secundária:</label>
-                            <input type="text" name="secundary_color" id="des_secundary_color" class="form-control"
-                                placeholder="Cor secundária">
+                            <input type="text" name="secundary_color" id="secundary_color" class="form-control"
+                                placeholder="Cor secundária" value="{{project.des_secundary_color}}">
                         </div>
                         <div class="col">
-                            <label for="des_menu_color" class="mt-4">Cor do menu:</label>
-                            <input type="text" name="des_menu_color" id="des_menu_color" class="form-control"
-                                placeholder="Cor do menu">
+                            <label for="enu_color" class="mt-4">Cor do menu:</label>
+                            <input type="text" name="enu_color" id="enu_color" class="form-control"
+                                placeholder="Cor do menu" value="{{project.des_menu_color}}">
                         </div>
                     </div>
                     <label for="options_colors" class="mt-4">Opções de cores:</label>
                     <input type="text" name="options_colors" id="options_colors" class="form-control"
-                        placeholder="Opções de cores">
+                        placeholder="Opções de cores" value="{{project.des_options_colors}}">
 
-                    <button type="submit" class="btn btn-success mt-4">Criar projeto</button>
+                    <button type="submit" class="btn btn-success mt-4">Salvar projeto</button>
                 </form>
             </div>
         </div>

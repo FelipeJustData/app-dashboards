@@ -17,7 +17,7 @@
                     <div class="col-4">
                         <form action="/users/users/delete" method="POST">
                             <input type="hidden" name="id" value="{{id_user}}">
-                            <button type="submit" class="btn btn-danger">Deletar Usuário</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir esse usuário?');">Deletar Usuário</button>
                         </form>
                     </div>
                 </div>          

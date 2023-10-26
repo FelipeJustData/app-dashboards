@@ -273,7 +273,7 @@ router.post("/users/delete", eAdmin, (req, res) => {
 
 // LOGIN
 router.get("/login", (req, res) => {
-    res.render("users/login")
+    res.render("users/login",{styles: [{src:"/styles/pages/login.css"}]})
 })
 
 router.get("/login/:name", (req, res) => {
