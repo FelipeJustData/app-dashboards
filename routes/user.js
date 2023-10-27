@@ -273,7 +273,7 @@ router.post("/users/delete", eAdmin, (req, res) => {
 
 // LOGIN
 router.get("/login", (req, res) => {
-    res.render("users/login",{styles: [{src:"/styles/pages/login.css"}]})
+    res.render("users/login", { styles: [{ src: "/styles/pages/login.css" }] })
 })
 
 router.get("/login/:name", (req, res) => {
@@ -335,7 +335,7 @@ router.get("/users/permissions/:id", eAdmin, async (req, res) => {
             userEdit,
             userPermissions,
             projects,
-            dashboards,
+            dashboards
         });
     } catch (error) {
         req.flash("error_msg", "Erro ao carregar dados de usuário - " + error);

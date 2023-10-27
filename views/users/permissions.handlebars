@@ -1,31 +1,64 @@
 {{#each errors}}
-    <div class="alert alert-danger">{{texto}}</div>
-{{else}}    
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
 
 {{/each}}
 <h2>Permissões</h2>
 <p>Alterando permissões de: <b>{{userEdit.name_user}}</b></p>
-<form action="/users/users/edit/{{user.id_user}}" method="POST">
+<form action="/users/users/edit/{{userEdit.id_user}}" method="POST">
     <label for="user_type">Tipo de Usuário:</label>
     <select class="form-select" id="user_type" name="user_type" class="form-control" required>
-        <option value="Leitor" {{#if (eq userEdit.typ_user "Leitor")}} selected {{/if}}>Leitor</option>
-        <option value="Editor" {{#if (eq userEdit.typ_user "Editor")}} selected {{/if}}>Editor</option>
-        <option value="Administrador" {{#if (eq userEdit.typ_user "Administrador")}} selected {{/if}}>Administrador</option>
+        <option value="Leitor" {{#if (eq userEdit.typ_user "Leitor" )}} selected {{/if}}>Leitor</option>
+        <option value="Editor" {{#if (eq userEdit.typ_user "Editor" )}} selected {{/if}}>Editor</option>
+        <option value="Administrador" {{#if (eq userEdit.typ_user "Administrador" )}} selected {{/if}}>Administrador
+        </option>
     </select>
 
-    <label for="project_permissions">Permissões de projeto:</label>
-    <select class="form-select" id="project_permissions" name="project_permissions[]" multiple>
+    <label for="project_permissions">Permissões de projeto</label>
+    <select class="form-select" class="form-control" id="project_permissions" name="project_permissions[]" multiple>
+        <option selected>Selecionar</option>
         {{#each projects}}
-            <option value="{{id_project}}" {{#if (includes userPermissions.id_project id_project)}} selected {{/if}}>{{nam_project}}</option>
+        <option value={{id_project}}>{{nam_project}}</option>
+        {{else}}
         {{/each}}
+    </select>
+    <label for="dashboard_permissions">Permissões de dashboards</label>
+    <select class="form-select" class="form-control" id="dashboard_permissions" name="dashboard_permissions[]" multiple>
+
     </select>
 
-    <label for="dashboard_permissions">Permissões de dashboard:</label>
-    <select class="form-select" id="dashboard_permissions" name="dashboard_permissions[]" multiple>
-        {{#each dashboards}}
-            <option value="{{id_dashboard}}" {{#if (includes userPermissions.id_dashboard id_dashboard)}} selected {{/if}}>{{title}}</option>
-        {{/each}}
-    </select>
+
 
     <button type="submit" class="btn btn-primary">Atualizar Usuário</button>
 </form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('project_permissions').addEventListener('change', function () {
+            const selectedProjects = Array.from(this.selectedOptions, option => option.value);
+
+            // Enviar solicitação para buscar os dashboards relacionados
+            fetch(`/projects/get-dashboards/${selectedProjects.join(',')}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('data: ' + data)
+                    // Atualize o campo "dashboard_permissions" com as opções de dashboards disponíveis
+                    const dashboardPermissions = document.getElementById('dashboard_permissions');
+                    dashboardPermissions.innerHTML = '';
+
+                    data.forEach(dashboard => {
+                        const option = document.createElement('option');
+                        option.value = dashboard.id_dashboard;
+                        option.textContent = dashboard.title; // Altere para o campo apropriado do seu dashboard
+
+                        dashboardPermissions.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dashboards:', error);
+                });
+        });
+    });
+
+</script>
