@@ -5,7 +5,7 @@
 {{/each}}
 <h2>Permissões</h2>
 <p>Alterando permissões de: <b>{{userEdit.name_user}}</b></p>
-<form action="/users/users/edit/{{userEdit.id_user}}" method="POST">
+<form action="/users/users/editpermission/{{userEdit.id_user}}" method="POST">
     <label for="user_type">Tipo de Usuário:</label>
     <select class="form-select" id="user_type" name="user_type" class="form-control" required>
         <option value="Leitor" {{#if (eq userEdit.typ_user "Leitor" )}} selected {{/if}}>Leitor</option>

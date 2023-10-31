@@ -6,20 +6,30 @@
 <h5>Selecione o projeto para visualizar</h5>
 {{#each projects}}
 <div class="col-6">
-    <div class="card mt-4">        
-            <div class="card-body">
-                <h5>{{nam_project}}</h5>
-                                
-                <br> 
-                <a href="/projects/project/delete/{{id_project}}"><button  class="btn btn-danger">Apagar Projeto</button></a>           
-                <a href="/projects/project/edit/{{id_project}}"><button  class="btn btn-warning">Editar Projeto</button></a>
-                <a href="/projects/view/{{id_project}}"><button  class="btn btn-primary">Acessar Projeto</button></a>
-                <br>
-     
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5>{{nam_project}}</h5>
+
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <form action="/projects/project/delete" method="POST">
+                        <input type="hidden" name="id" value="{{id_project}}">
+                        <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir esse projeto?');">Deletar
+                            Projeto</button>
+                    </form>
+                </div>
+                <div class="col-4"><a href="/projects/project/edit/{{id_project}}"><button
+                            class="btn btn-warning">Editar Projeto</button></a></div>
+                <div class="col-4"><a href="/projects/view/{{id_project}}"><button class="btn btn-primary">Acessar
+                            Projeto</button></a></div>
             </div>
-    </div>             
+
+
+        </div>
+    </div>
 </div>
 {{else}}
 <h5>Nenhum projeto para ser exibido</h5>
 {{/each}}
-

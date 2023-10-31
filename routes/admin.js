@@ -53,7 +53,7 @@ router.post('/customers/new',eAdmin, upload.single('logo'), (req, res) => {
         Customer.create(newCustomer)
             .then(() => {
                 req.flash("success_msg", "Cliente cadastrado com sucesso");
-                res.redirect("/admin/add");
+                res.redirect("/customers/customers");
             })
             .catch((error) => {
                 req.flash("error_msg", "Erro ao cadastrar cliente");
@@ -90,19 +90,33 @@ router.get("/customers/edit/:id", eAdmin,(req, res) => {
 
 // Save Edit Customer
 router.post("/customer/edit",eAdmin, upload.single('logo'), (req, res) => {
-
-    Customer.update({
-        name_customer: req.body.name,
-        logotipo_customer: req.file.filename     
-    }, {
-        where: { id_customer: req.body.id }
-    }).then(() => {
-        req.flash("success_msg", "Cliente editado com sucesso")
-        res.redirect("/admin/customers")
-    }).catch((error) => {
-        req.flash("error_msg", "Erro ao editar cliente - " + error)
-        res.redirect("/admin/customers")
-    })
+    if(req.file){
+        Customer.update({
+            name_customer: req.body.name,
+            logotipo_customer: req.file.filename     
+        }, {
+            where: { id_customer: req.body.id }
+        }).then(() => {
+            req.flash("success_msg", "Cliente editado com sucesso")
+            res.redirect("/admin/customers")
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao editar cliente - " + error)
+            res.redirect("/admin/customers")
+        })
+    }else{
+        Customer.update({
+            name_customer: req.body.name 
+        }, {
+            where: { id_customer: req.body.id }
+        }).then(() => {
+            req.flash("success_msg", "Cliente editado com sucesso")
+            res.redirect("/admin/customers")
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao editar cliente - " + error)
+            res.redirect("/admin/customers")
+        })
+    }
+    
 })
 
 /*

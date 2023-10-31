@@ -250,6 +250,52 @@ router.post('/users/edit/:id', eAdmin, async (req, res) => {
     }
 });
 
+// Rota para processar a edição de permissões 
+router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
+    const userId = req.params.id;
+    try {
+
+
+        // Remover todas as permissões existentes para o usuário
+        await User_Permissions.destroy({
+            where: { id_user: userId },
+        });
+
+        // Adicionar as novas permissões com base no formulário
+        const projectPermissions = req.body.project_permissions;
+        const dashboardPermissions = req.body.dashboard_permissions;
+
+        try {
+            if (projectPermissions && dashboardPermissions) {
+                for (const projectId of projectPermissions) {
+                    for (const dashboardId of dashboardPermissions) {
+                        const dashboard = await Dashboards.findByPk(dashboardId);
+                        if (dashboard && dashboard.id_project == projectId) {
+                            await User_Permissions.create({
+                                id_user: userId,
+                                id_project: projectId,
+                                id_dashboard: dashboardId,
+                                des_dashboard_access: true,
+                                des_project_access: true,
+                            });
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            req.flash("error_msg", "Erro ao cadastrar usuário" + error);
+            res.redirect("/users/users");
+        }
+
+
+        req.flash("success_msg", "Permissão do usuário atualizado com sucesso");
+        res.redirect("/users/users");
+    } catch (error) {
+        req.flash("error_msg", "Erro ao atualizar usuário - " + error);
+        res.redirect(`/users/edit/${userId}`);
+    }
+});
+
 
 // Delete User
 router.post("/users/delete", eAdmin, (req, res) => {
@@ -394,3 +440,37 @@ router.post("/users/permissions", eAdmin, async (req, res) => {
         res.redirect(`/users/edit/${userId}`);
     }
 })
+
+// Rota para listar todos os usuários e suas permissões
+router.get('/users-permissions', async (req, res) => {
+    try {
+        const usersWithPermissions = await User.findAll({
+            include: [
+                
+                    
+                    
+                        {
+                            model: Projects,
+                            attributes: ['nam_project'],
+                            include: [
+                                {
+                                    model: User_Permissions,
+                                    attributes: ['des_project_access']
+                                }
+                            ]
+                        },
+                        {
+                            model: Dashboards,
+                            attributes: ['title'],
+                        }
+                    
+                
+            ]
+        });
+
+        res.render('users-permissions', { usersWithPermissions });
+    } catch (error) {
+        console.error('Erro ao buscar dados dos usuários:', error);
+        res.status(500).send('Erro ao buscar dados dos usuários.');
+    }
+});

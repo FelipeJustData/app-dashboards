@@ -10,113 +10,70 @@ const { error } = require('console')
 
 // Página inicial de projetos
 // List All Projects
-router.get('/', eUser, (req, res) => {
-    if (req.user.typ_user == "Administrador") {
-        Project.findAll().then((projects) => {
-            res.render('projects/projects', { projects: projects })
-        }).catch((error) => {
-            req.flash("error_msg", "Erro ao listar projetos " + error)
-            res.redirect("/")
-        })
+router.get('/', eUser, async (req, res) => {
+    try {
+        if (req.user.typ_user === "Administrador") {
+            const projects = await Project.findAll();
+            return res.render('projects/projects', { projects });
+        }
+
+        const userPermissions = await User_Permissions.findAll({ where: { id_user: req.user.id_user } });
+        const projectIds = userPermissions.map(permission => permission.id_project);
+
+        if (projectIds.length === 0) {
+            req.flash("error_msg", "Você não tem permissão para acessar projetos.");
+            return res.redirect("/");
+        }
+
+        const projects = await Project.findAll({ where: { id_project: projectIds } });
+        if (projects.length === 0) {
+            req.flash("error_msg", "Nenhum projeto encontrado com base nas suas permissões.");
+            return res.redirect("/");
+        }
+
+        res.render("projects/projects", { user: req.user, projects });
+    } catch (error) {
+        console.error("Erro ao listar projetos:", error);
+        req.flash("error_msg", "Erro ao listar projetos.");
+        res.redirect("/");
     }
-    else {
-        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
-                // Coleta os IDs dos projetos permitidos
-                const projectIds = userPermissions.map(permission => permission.id_project);
+});
 
-                // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds } })
-                    .then((projects) => {
-                        res.render("projects/projects", { user: req.user, projects: projects });
-                    })
-                    .catch((error) => {
-                        req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
-                    });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
-            });
-
-        /*
-        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
-                // Coleta os IDs dos projetos permitidos
-                const projectIds = userPermissions.map(permission => permission.id_project);
-
-                // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds } })
-                    .then((projects) => {
-                        Customer.findAll({where: {id_customer: projects.id_customer}})
-                        .then((customers) => {
-                            res.render("projects/projects", { user: req.user, customers: customers });
-                        })
-                        .catch((error) => {
-                            req.flash("error_msg", "Erro ao listar clientes - "+ error)
-                        })
-                        
-                    })
-                    .catch((error) => {
-                        req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
-                    });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
-            });*/
-    }
-})
 
 // List All Projects
-router.get('/view/:id', eUser, (req, res) => {
-    if (req.user.typ_user == "Administrador") {
-        Project.findByPk(req.params.id).then((project) => {
-            Dashboard.findAll({ where: { id_project: project.id_project } }).then((dashboards) => {
-                res.render('projects/view', { project: project, dashboards: dashboards })
-            })
-                .catch((error) => {
-                    eq.flash("error_msg", "Erro ao listar dashborads " + error)
-                    res.redirect("/")
-                })
+router.get('/view/:id', eUser, async (req, res) => {
+    try {
+        if (req.user.typ_user === "Administrador") {
+            const project = await Project.findByPk(req.params.id);
+            const dashboards = await Dashboard.findAll({ where: { id_project: project.id_project } });
 
-        }).catch((error) => {
-            req.flash("error_msg", "Erro ao listar projetos " + error)
-            res.redirect("/")
-        })
+            res.render('projects/view', { project, dashboards });
+        } else {
+            const userPermissions = await User_Permissions.findAll({ where: { id_user: req.user.id_user } });
+            const dashboardIds = userPermissions.map(permission => permission.id_dashboard);
+
+            if (dashboardIds.length == 0) {
+                req.flash("error_msg", "Você não tem permissão para acessar os dashboards deste projeto.");
+                return res.redirect("/projects");
+            }
+
+            const project = await Project.findByPk(req.params.id);
+            const dashboards = await Dashboard.findAll({ where: { id_dashboard: dashboardIds, id_project: project.id_project } });
+
+            if (dashboards.length == 0) {
+                req.flash("error_msg", "Nenhum dashboard encontrado com base nas suas permissões para este projeto.");
+                return res.redirect("/projects");
+            }
+
+            res.render("projects/view", { user: req.user, project, dashboards });
+        }
+    } catch (error) {
+        console.error("Erro ao listar projetos e dashboards:", error);
+        req.flash("error_msg", "Erro ao listar projetos e dashboards.");
+        res.redirect("/");
     }
-    else {
-        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
-                // Coleta os IDs dos projetos permitidos
-                const dashboardId = userPermissions.map(permission => permission.id_dashboard);
+});
 
-                // Busca os projetos correspondentes aos IDs coletados
-                Project.findByPk(req.params.id)
-                    .then((project) => {
-                        Dashboard.findAll({ where: { id_dashboard: dashboardId } })
-                            .then((dashboards) => {
-                                res.render("projects/view", { user: req.user, project: project, dashboards: dashboards });
-                            })
-                            .catch((error) => {
-                                req.flash("error_msg", "Erro ao listar dashboards - " + error);
-                                res.redirect("/");
-                            })
-
-                    })
-                    .catch((error) => {
-                        req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
-                    });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
-            });
-    }
-})
 
 
 // List All Projects by customer
@@ -236,6 +193,23 @@ router.get('/get-projects/:id_customer', (req, res) => {
     }).catch((error) => {
         res.status(500).json({ error: "Error ao buscar dashboards" })
     })
+});
+
+
+// Delete Project
+router.post("/project/delete", eAdmin, (req, res) => {
+    const projectId = req.body.id;
+
+    // Passo 1: Encontre e exclua todas as permissões associadas ao usuário
+    Project.destroy({ where: { id_project: projectId } })
+        .then(() => {
+            req.flash("success_msg", "Projeto deletado com sucesso");
+            res.redirect("/projects");
+        })        
+        .catch((error) => {
+            req.flash("error_msg", "Erro ao deletar o projeto - " + error);
+            res.redirect("/projects");
+        });
 });
 
 

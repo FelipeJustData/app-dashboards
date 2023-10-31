@@ -17,6 +17,7 @@ const ifAdmin = require("./helpers/ifAdmin")
 const { eUser } = require("./helpers/eUser")
 
 const Project = require("./models/Projects")
+const Customer = require("./models/Customer")
 const User_Permissions = require("./models/User_Permissions")
 const { error } = require('console')
 
@@ -80,9 +81,17 @@ hbs.handlebars.registerHelper('includes', function (arr, value, options) {
 hbs.handlebars.registerHelper('lt', function (a, b, options) {
     if (a < b) {
         return true;
-      } else {
+    } else {
         return false;
-      }
+    }
+})
+
+hbs.handlebars.registerHelper('gte', function (a, b, options) {
+    if (a >= b) {
+        return true;
+    } else {
+        return false;
+    }
 })
 
 
@@ -92,17 +101,33 @@ app.use(express.static(path.join(__dirname, "public")))
 
 // Routes
 
-app.get('/home', eUser, (req, res) => {
+app.get('/home', eUser, async (req, res) => {
     if (req.user.typ_user == "Administrador") {
-        // Busca os projetos correspondentes aos IDs coletados
-        Project.findAll()
-            .then((projects) => {
-                res.render("home", { user: req.user, projects: projects });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro ao listar projetos - " + error);
-                res.redirect("/");
+
+        try {
+            // Recupere os projetos que você deseja exibir no carousel
+            const projects = await Project.findAll({
+                
             });
+    
+            // Carregue os clientes com base nos projetos
+            const customers = await Customer.findAll({
+                where: { id_customer: projects.map(project => project.id_customer) }
+            });
+    
+            // Associe os clientes aos projetos com base no id_customer
+            projects.forEach(project => {
+                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                project.customer = customer;
+            });
+
+            res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
+        } catch (error) {
+            req.flash("error_msg", "Erro ao listar projetos - " + error);
+            res.redirect("/");
+        }
+
+
     }
     else {
         User_Permissions.findAll({ where: { id_user: req.user.id_user } })
@@ -113,7 +138,7 @@ app.get('/home', eUser, (req, res) => {
                 // Busca os projetos correspondentes aos IDs coletados
                 Project.findAll({ where: { id_project: projectIds } })
                     .then((projects) => {
-                        res.render("home", { user: req.user, projects: projects });
+                        res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
@@ -130,37 +155,11 @@ app.get('/home', eUser, (req, res) => {
 
 
 app.get('/', eUser, (req, res) => {
-    if (req.user.typ_user == "Administrador") {
-        // Busca os projetos correspondentes aos IDs coletados
-        Project.findAll()
-            .then((projects) => {
-                res.render("home", { user: req.user, projects: projects });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro ao listar projetos - " + error);
-                res.redirect("/");
-            });
-    }
-    else {
-        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
-                // Coleta os IDs dos projetos permitidos
-                const projectIds = userPermissions.map(permission => permission.id_project);
-
-                // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds } })
-                    .then((projects) => {
-                        res.render("home", { user: req.user, projects: projects });
-                    })
-                    .catch((error) => {
-                        req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
-                    });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
-            });
+    try {
+        res.redirect("/home");
+    } catch (error) {
+        req.flash("error_msg", "Não foi possível acessar a homepage - " + error);
+        res.redirect("/");
     }
 
 })

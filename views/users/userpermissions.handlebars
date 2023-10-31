@@ -1,0 +1,47 @@
+<h1>Lista de Usuários e Permissões</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Usuário</th>
+                <th>Projeto</th>
+                <th>Acesso ao Projeto</th>
+                <th>Dashboard</th>
+                <th>Acesso ao Dashboard</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each usersWithPermissions}}
+            <tr>
+                <td>{{name_user}}</td>
+                <td>
+                    {{#each user_permissions.projects}}
+                    {{this.nam_project}}
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each user_permissions.projects}}
+                    {{#if this.User_Permissions.des_project_access}}
+                    Acesso concedido
+                    {{else}}
+                    Sem acesso
+                    {{/if}}
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each user_permissions.dashboards}}
+                    {{this.title}}
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each user_permissions.dashboards}}
+                    {{#if this.User_Permissions.des_dashboard_access}}
+                    Acesso concedido
+                    {{else}}
+                    Sem acesso
+                    {{/if}}
+                    {{/each}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>

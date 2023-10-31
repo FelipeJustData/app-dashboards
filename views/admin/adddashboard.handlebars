@@ -24,7 +24,7 @@
                     <!-- Selecione o cliente -->
                     <label for="customer">Cliente:</label>
                     <select class="form-control" id="customer" name="customer" required>
-                        <option value="0">Selecione um cliente</option>
+                        <option >Selecione um cliente</option>
                         {{#each customers}}
                         <option value="{{id_customer}}">{{name_customer}}</option>
                         {{/each}}
@@ -33,7 +33,7 @@
                     <!-- Selecione o projeto -->
                     <label for="project">Projeto:</label>
                     <select class="form-control" id="project" name="project" required>
-                        <option value="0">Selecione um projeto</option>
+                        <option>Selecione um projeto</option>
                     </select>
 
                     <!-- Campos para URLs do dashboard -->
@@ -89,18 +89,29 @@
             fetch(`/projects/get-projects/${selectedCustomer}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('data: ' + data)
+                    
                     // Atualize o campo "dashboard_permissions" com as opções de dashboards disponíveis
                     const projectsSelect = document.getElementById('project');
                     projectsSelect.innerHTML = '';
 
-                    data.forEach(project => {
+                    if(data.length > 0){
+                        console.log("ENTROU NO IFFFFFFFF")
+                        data.forEach(project => {
                         const option = document.createElement('option');
                         option.value = project.id_project;
                         option.textContent = project.nam_project; // Altere para o campo apropriado do seu dashboard
 
                         projectsSelect.appendChild(option);
-                    });
+                    })
+                    }else{
+                        console.log("NENHUM PROJETO CADASTRADO")
+                        const option = document.createElement('option');
+                        option.value = ""
+                        option.textContent = "Nenhum projeto cadastrado"
+
+                        projectsSelect.appendChild(option);
+                    }
+                    
                 })
                 .catch(error => {
                     console.error('Erro ao buscar dashboards:', error);
