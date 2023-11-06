@@ -3,7 +3,142 @@
 {{else}}
 
 {{/each}}
-<h2>Editar Projeto</h2>
+
+<div class="alert alert-danger">PRECISA AJUSTAR SALVAR IMAGENS</div>
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="title-page">
+            <span style="color: var(--just-colors-006, #0DFFBA);">-</span> Editar Projetos
+        </h2>
+        <p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Cliente / Nome do Projeto / Editar Projeto</p>
+    </div>
+    <div class="col-6 text-end">
+        <div style="float: right !important;">
+              <button type="submit" class="btn btn-confirm-form" id="btn-save-edit">Salvar alterações</button>
+        </div>
+    </div>
+</div>
+
+<div class="container container-addproject">
+    <form action="/projects/update/{{project.id_project}}" method="POST" enctype="multipart/form-data"    >
+        <div class="row">
+
+            <div class="col-4">
+                <div class="custom-file" id="select-image-desktop">
+                    <span>Thumb Desktop</span>
+                    <div class="image-preview-desktop" id="image-preview-desktop">
+                        <img src="{{#if project.des_project_image_desktop}} /uploads/projects/{{project.des_project_image_desktop}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-desk" width="100%">
+                    </div>
+                    
+                    <input type="hidden" id="des_project_image_desktop" name="des_project_image_desktop" accept="image/*">
+                </div>
+
+                <div class="custom-file mt-4" id="select-image-mobile">
+                    <span>Thumb Mobile</span>
+                    <div class="image-preview-mobile" id="image-preview-mobile">
+                        <img src="{{#if project.des_project_image_mobile}} /uploads/projects/{{project.des_project_image_mobile}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-mobile" width="100%">
+                    </div>
+                    <input type="file" id="des_project_image_mobile" name="des_project_image_mobile" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="custom-file mt-4" id="select-image-logo">
+                    <span>Logotipo personalizado para header</span>
+                    <div class="image-preview-logo" id="image-preview-logo" >
+                        <img src="{{#if project.des_project_image_logo}} /uploads/projects/{{project.des_project_image_logo}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-logo" width="100%"> 
+                    </div>
+                    
+                    <input type="file" id="des_project_image_logo" name="des_project_image_logo" accept="image/*" style="display: none;">
+
+                </div>
+            </div>
+            <br>
+            <div class="col-4">
+                <label for="name">Nome do projeto*:</label>
+                <input type="text" id="nam_project" name="nam_project" class="form-control" value="{{project.nam_project}}" required>
+                <label for="owner" class="mt-4">Owner:</label>
+                <select class="form-select" aria-label="Owner" id="owner" name="owner" class="form-control"  required>
+                    <option selected>Autocomplete</option>
+                </select>
+                <label for="objective" class="mt-4">Objetivo do projeto:</label>
+                <textarea rows="4" cols="50" id="objective" name="objective_project" class="form-control" required>{{project.objective_project}}</textarea>
+                <label for="customer" class="mt-4">Selecionar cliente*:</label>
+                    <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
+                        class="form-control" required>
+                        <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
+                        {{#each customers}}
+                        <option value={{id_customer}}>{{name_customer}}</option>
+                        {{else}}
+
+                        {{/each}}
+                    </select>
+
+            </div>
+            <br>
+            <div class="col-4">
+                <label for="dat_expiration">Data expiração:</label>
+                <input type="date" name="dat_expiration" id="dat_expiration" class="form-control" value="{{project.dat_expiration}}">
+                <label for="status" class="mt-4">Status:</label>
+                <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control" required>
+                    <option value="{{project.des_status}}" selected>{{project.des_status}}</option>
+                    <option value="desenvolvimento">Em desenvolvimento</option>
+                    <option value="homolog interna">Homologação interna</option>
+                    <option value="homolog externa">Homologação externa</option>
+                    <option value="publicado">Publicado</option>
+                    <option value="desabilitado">Desabilitado</option>
+                    <option value="expirado">Expirado</option>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                </select>
+                <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
+                <select class="form-select" aria-label="des_autoplay_timing" id="des_autoplay_timing" name="des_autoplay_timing" class="form-control" required>
+                    <option value="{{project.des_autoplay_timing}}" selected>{{project.des_autoplay_timing}} Segundos</option>
+                    <option value="10">10 Segundos</option>
+                    <option value="20">20 Segundos</option>
+                    <option value="30">30 Segundos</option>
+                    <option value="40">40 Segundos</option>
+                    <option value="50">50 Segundos</option>
+                    <option value="60">60 Segundos</option>
+                </select>
+                                <label for="" class="mt-4">Personalização cores do cliente</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="custom_color_y" name="project_custom_colors" value="true" {{#if project.des_custom_color_customer}}checked {{else}} {{/if}}>
+                    <label class="form-check-label" for="custom_color_y">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="custom_color_n" name="project_custom_colors" value="false" {{#if project.des_custom_color_customer}} {{else}} checked {{/if}}>
+                    <label class="form-check-label" for="custom_color_n">Não</label>
+                </div>
+                <br>
+
+                <label for="des_title_color" class="mt-4">Cor personalizada para o título:</label>
+                <input type="text" name="des_title_color" id="des_title_color" class="form-control" value="{{project.des_title_color}}">
+                <label for="des_bg_title_color" class="mt-4">Cor personalizada para o fundo do título:</label>
+                <input type="text" name="des_bg_title_color" id="des_bg_title_color" class="form-control" value="{{project.des_bg_title_color}}">
+                <div class="row mt-4">
+                    <div class="col text-end">
+                        <button type="submit" class="btn btn-confirm-form" style="display: none !important;" id="btn-submit-edit">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    const btnSaveEdit = document.getElementById('btn-save-edit')
+    const btnSubmitEdit = document.getElementById('btn-submit-edit')
+
+
+    btnSaveEdit.addEventListener('click', () => {
+        btnSubmitEdit.click();
+    })
+</script>
+
+<!--
+    
+<h2 class="title-page"> Editar Projeto</h2>
+<p>Home / Cliente / Nome do Projeto / Editar Projeto</p>
 <div class="row">
     <div class="col-8">
         <div class="card">
@@ -35,25 +170,6 @@
                                 placeholder="Autoplay timing" value="{{project.des_autoplay_timing}}">
                         </div>
                     </div>
-                    <!--
-                    <div class="row">
-                        <div class="col">
-                            <div class="custom-file">
-                                <label for="project_image_desktop" class="mt-4 custom-file-label">Imagem
-                                    desktop:</label>
-                                <input type="file" name="project_image_desktop" id="project_image_desktop"
-                                    class="btn custom-file-input" accept="image/png, image/jpeg">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="custom-file">
-                                <label for="project_image_mobile" class="mt-4 custom-file-label">Imagem mobile:</label>
-                                <input type="file" name="project_image_mobile" id="project_image_mobile"
-                                    class="btn custom-file-input" accept="image/png, image/jpeg">
-                            </div>
-
-                        </div>
-                    </div> -->
 
                     <label for="dat_expiration" class="mt-4">Data expiração:</label>
                     <input type="date" name="dat_expiration" id="dat_expiration" class="form-control" value="{{project.dat_expiration}}">
@@ -85,3 +201,5 @@
         </div>
     </div>
 </div>
+
+--> 

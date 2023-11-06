@@ -14,6 +14,7 @@ const customers = require('./routes/customer')
 const { eAdmin } = require("./helpers/eAdmin")
 const ifAdmin = require("./helpers/ifAdmin")
 
+
 const { eUser } = require("./helpers/eUser")
 
 const Project = require("./models/Projects")
@@ -94,6 +95,23 @@ hbs.handlebars.registerHelper('gte', function (a, b, options) {
     }
 })
 
+hbs.handlebars.registerHelper('and', function (a, b, options) {
+    if (a && b) {
+        return true;
+    } else {
+        return false;
+    }
+})
+
+hbs.handlebars.registerHelper('add', function (a, b, options) {
+    return a + b;
+})
+
+hbs.handlebars.registerHelper('mod', function (value, modulus, options) {
+    return value % modulus
+
+})
+
 
 // Public
 app.use(express.static(path.join(__dirname, "public")))
@@ -107,14 +125,14 @@ app.get('/home', eUser, async (req, res) => {
         try {
             // Recupere os projetos que você deseja exibir no carousel
             const projects = await Project.findAll({
-                
+
             });
-    
+
             // Carregue os clientes com base nos projetos
             const customers = await Customer.findAll({
                 where: { id_customer: projects.map(project => project.id_customer) }
             });
-    
+
             // Associe os clientes aos projetos com base no id_customer
             projects.forEach(project => {
                 const customer = customers.find(customer => customer.id_customer == project.id_customer);
@@ -137,7 +155,19 @@ app.get('/home', eUser, async (req, res) => {
 
                 // Busca os projetos correspondentes aos IDs coletados
                 Project.findAll({ where: { id_project: projectIds } })
-                    .then((projects) => {
+                    .then(async (projects) => {
+
+                        // Carregue os clientes com base nos projetos
+                        const customers = await Customer.findAll({
+                            where: { id_customer: projects.map(project => project.id_customer) }
+                        });
+
+                        // Associe os clientes aos projetos com base no id_customer
+                        projects.forEach(project => {
+                            const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                            project.customer = customer;
+                        });
+
                         res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
                     })
                     .catch((error) => {

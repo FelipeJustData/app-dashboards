@@ -1,5 +1,53 @@
 {{#if success_msg}}
-    <div class="alert alert-success">{{success_msg}}</div>
+<style>
+    .modal-upload {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    text-align: center;
+}
+</style>
+    <!-- <div class="alert alert-success">{{success_msg}}</div> -->
+    <div id="modal-ok" class="modal modal-upload">
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div><svg xmlns="http://www.w3.org/2000/svg" width="84" height="60" viewBox="0 0 84 60" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M81.7745 2.29587C82.9462 3.46791 83.6044 5.05734 83.6044 6.71462C83.6044 8.37189 82.9462 9.96132 81.7745 11.1334L34.9286 57.9792C34.3095 58.5984 33.5746 59.0896 32.7656 59.4247C31.9567 59.7599 31.0896 59.9324 30.214 59.9324C29.3384 59.9324 28.4714 59.7599 27.6625 59.4247C26.8535 59.0896 26.1185 58.5984 25.4995 57.9792L2.22446 34.7084C1.62752 34.1318 1.15138 33.4422 0.823824 32.6796C0.496268 31.9171 0.323854 31.097 0.316642 30.2671C0.309431 29.4373 0.467567 28.6143 0.781823 27.8462C1.09608 27.078 1.56016 26.3802 2.14699 25.7934C2.73382 25.2066 3.43164 24.7425 4.19974 24.4282C4.96785 24.114 5.79084 23.9558 6.62072 23.963C7.45059 23.9703 8.27071 24.1427 9.03324 24.4702C9.79576 24.7978 10.4854 25.2739 11.062 25.8709L30.212 45.0209L72.9328 2.29587C73.5132 1.71508 74.2024 1.25435 74.9609 0.940003C75.7195 0.625661 76.5325 0.463867 77.3536 0.463867C78.1747 0.463867 78.9878 0.625661 79.7463 0.940003C80.5049 1.25435 81.194 1.71508 81.7745 2.29587Z"
+                            fill="#97CCBD" />
+                    </svg></div>
+                <h2>Tudo Certo!</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <p>{{success_msg}}</p>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-confirm-modal" id="button-ok" >Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const buttonOk = document.getElementById('button-ok')
+    const modalOk = document.getElementById('modal-ok')
+
+    modalOk.style.display = 'block'
+
+    buttonOk.addEventListener('click', () => {
+        modalOk.style.display = 'none'
+    })
+});    
+</script>
 {{/if}}
 
 {{#if error_msg}}

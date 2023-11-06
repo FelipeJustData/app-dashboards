@@ -12,31 +12,34 @@ const Project = db.sequelize.define('projects', {
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    des_autoplay:{
+    objective_project:{
+        type: db.Sequelize.STRING
+    },
+    des_status:{
         type: db.Sequelize.STRING
     },
     des_autoplay_timing:{
         type: db.Sequelize.STRING
     },
     des_project_image_desktop: {
-        type: db.Sequelize.BLOB('medium')        
+        type: db.Sequelize.STRING      
     },
     des_project_image_mobile: {
-        type: db.Sequelize.BLOB('medium')        
+        type: db.Sequelize.STRING       
+    },
+    des_project_logo_header: {
+        type: db.Sequelize.STRING       
     },
     dat_expiration: {
         type: db.Sequelize.STRING
     },
-    des_principal_color: {
+    des_custom_color_customer: {
         type: db.Sequelize.STRING
     },
-    des_secundary_color: {
+    des_custom_color_title: {
         type: db.Sequelize.STRING
     },
-    des_menu_color: {
-        type: db.Sequelize.STRING
-    },
-    des_options_colors: {
+    des_custom_color_bg_title: {
         type: db.Sequelize.STRING
     }
 })
