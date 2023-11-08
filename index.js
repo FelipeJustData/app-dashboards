@@ -11,6 +11,7 @@ require("./config/auth")(passport)
 const admin = require('./routes/admin')
 const projects = require('./routes/project')
 const customers = require('./routes/customer')
+const dashboards = require('./routes/dashboard')
 const { eAdmin } = require("./helpers/eAdmin")
 const ifAdmin = require("./helpers/ifAdmin")
 
@@ -198,6 +199,7 @@ app.use('/users', users)
 app.use('/admin', admin)
 app.use('/projects', projects)
 app.use('/customers', customers)
+app.use('/dashboards', dashboards)
 
 
 

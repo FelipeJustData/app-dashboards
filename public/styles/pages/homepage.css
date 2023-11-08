@@ -80,6 +80,7 @@ h3 {
   border-radius: 0 !important;
   border: 0;
   background: var(--just-colors-010, #FBFAF7);
+  height: 100%;
 
 }
 

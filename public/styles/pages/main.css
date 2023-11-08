@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css2?family=Anton&family=K2D:wght@500&display=swap);
 
+#main-container {
+  padding-right: 50px;
+}
+
 /* Estilos personalizados para o menu lateral */
 .sidebar {
   height: 100%;
@@ -63,7 +67,10 @@
 body {
   overflow-x: hidden;
   font-family: K2D;
-  
+  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .nav-link-logout {
@@ -188,32 +195,61 @@ a.txt-btn-navbar {
 }
 
 .footer-social {
-    padding-top: 10%;
+  padding-top: 10%;
 }
 
 footer {
-    padding-top: 10px;
-    padding-right: 4%;
-    width: 100%;
-    z-index: -1;
+  margin-top: auto;
+  padding-top: 10px;
+  padding-right: 4%;
+  width: 100%;
+  z-index: -1;
+ 
 }
 
 footer p {
-    color: var(--just-colors-008, #1C1B1D);
-    font-family: K2D;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 36px;
-    /* 18.2px */
+  color: var(--just-colors-008, #1C1B1D);
+  font-family: K2D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  /* 18.2px */
 }
 
 footer .col-3,
 footer .col-2 {
-    padding: 0;
+  padding: 0;
 }
 
-.item-menu-ativo{
+.item-menu-ativo {
   border-radius: 4px;
   background: var(--just-colors-005, #84FFDE);
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  width: 41%;
+  min-height: 50%;
+  height: auto;
+  margin: 100px auto;
+  padding: 5%;
+}
+
+.modal{
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.btn-confirm-modal:hover {
+  background: var(--just-colors-003, #9fd6c7);
+}
+
+.btn-confirm-modal {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-003, #97CCBD);
+    width: 160px;
+    height: 48px;
+    flex-shrink: 0;
 }

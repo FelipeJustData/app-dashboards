@@ -23,7 +23,6 @@ form {
 }
 
 .title-page {
-
     font-family: Anton;
     font-size: 36px;
     font-style: normal;
@@ -170,3 +169,28 @@ form {
     height: 48px;
     flex-shrink: 0;
 }
+
+.title-tooltip-info{
+    color: var(--just-colors-008, #1C1B1D);
+font-family: K2D;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 171.429% */
+letter-spacing: 0.07px;
+}
+
+.tooltip-objective{
+    color: var(--just-colors-008, #1C1B1D);
+text-align: center;
+font-family: K2D;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 16px; /* 133.333% */
+}
+
+.project-info-tooltip{
+    --bs-tooltip-bg: #FFF;
+}
+

@@ -34,6 +34,7 @@ body {
     background: #EAE9E8;
     align-items: center;
     border: none;
+    z-index: 10;
 }
 
 label {
@@ -143,4 +144,8 @@ input {
 .footer-row-login .col-3,
 .footer-row-login .col-2 {
     padding: 0;
+}
+
+footer{
+    z-index: 1 !important;
 }

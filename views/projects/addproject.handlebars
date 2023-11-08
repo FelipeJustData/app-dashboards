@@ -7,9 +7,9 @@
 <div class="alert alert-danger">PRECISA AJUSTAR SALVAR IMAGENS</div>
 
 <h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Add Projeto</h2>
-
+<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Novo projeto</p>
 <div class="container container-addproject">
-    <form action="/projects/new" method="POST" enctype="multipart/form-data"    >
+    <form action="/projects/new" method="POST" enctype="multipart/form-data" >
         <div class="row">
 
             <div class="col-4">
@@ -82,12 +82,6 @@
                 <label for="status" class="mt-4">Status:</label>
                 <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control" required>
                     <option selected>Selecionar</option>
-                    <option value="desenvolvimento">Em desenvolvimento</option>
-                    <option value="homolog interna">Homologação interna</option>
-                    <option value="homolog externa">Homologação externa</option>
-                    <option value="publicado">Publicado</option>
-                    <option value="desabilitado">Desabilitado</option>
-                    <option value="expirado">Expirado</option>
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
                 </select>
@@ -351,7 +345,8 @@
 
 
 <script>
-    const modalUploadDesktop = document.getElementById('modal-upload-desktop');
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalUploadDesktop = document.getElementById('modal-upload-desktop');
     const modalUploadMobile = document.getElementById('modal-upload-mobile');
     const modalUploadLogo = document.getElementById('modal-upload-logo');
 
@@ -634,5 +629,6 @@
     document.getElementById('cancel-button-desktop').addEventListener('click', closeModalUploadDesktop);
     document.getElementById('cancel-button-mobile').addEventListener('click', closeModalUploadMobile);
     document.getElementById('cancel-button-logo').addEventListener('click', closeModalUploadLogo);
+    });   
 
 </script>

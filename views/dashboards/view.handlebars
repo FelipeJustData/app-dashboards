@@ -1,0 +1,129 @@
+<h2 class="title-page"><span style="color: var(--just-colors-006, #0DFFBA);">-</span> {{dashboard.title}} &nbsp;
+    <span>
+        <a href="/dashboards/edit/{{dashboard.id_dashboard}}" style="text-decoration: none !important;">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M1.5 19.5H22.5V21H1.5V19.5ZM19.05 6.75C19.65 6.15 19.65 5.25 19.05 4.65L16.35 1.95C15.75 1.35 14.85 1.35 14.25 1.95L3 13.2V18H7.8L19.05 6.75ZM15.3 3L18 5.7L15.75 7.95L13.05 5.25L15.3 3ZM4.5 16.5V13.8L12 6.3L14.7 9L7.2 16.5H4.5Z"
+                        fill="#808080" />
+                </svg>
+            </span>
+        </a>
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                id="svg-delete-dashboard" style="cursor: pointer;">
+                <path
+                    d="M20.5078 6H3.50781M18.8408 8.5L18.3808 15.4C18.2038 18.054 18.1158 19.381 17.2508 20.19C16.3858 21 15.0548 21 12.3948 21H11.6208C8.96081 21 7.62981 21 6.76481 20.19C5.89981 19.381 5.81081 18.054 5.63481 15.4L5.17481 8.5M9.50781 11L10.0078 16M14.5078 11L14.0078 16"
+                    stroke="#808080" stroke-width="1.5" stroke-linecap="round" />
+                <path
+                    d="M6.50781 6H6.61781C7.02026 5.98972 7.41023 5.85822 7.73674 5.62271C8.06324 5.3872 8.31107 5.05864 8.44781 4.68L8.48181 4.577L8.57881 4.286C8.66181 4.037 8.70381 3.913 8.75881 3.807C8.86702 3.59939 9.02232 3.41999 9.21229 3.28316C9.40226 3.14633 9.62162 3.05586 9.85281 3.019C9.96981 3 10.1008 3 10.3628 3H13.6528C13.9148 3 14.0458 3 14.1628 3.019C14.394 3.05586 14.6134 3.14633 14.8033 3.28316C14.9933 3.41999 15.1486 3.59939 15.2568 3.807C15.3118 3.913 15.3538 4.037 15.4368 4.286L15.5338 4.577C15.6605 4.99827 15.9226 5.36601 16.2795 5.62326C16.6364 5.88051 17.0681 6.01293 17.5078 6"
+                    stroke="#808080" stroke-width="1.5" />
+            </svg>
+            <form action="/dashboards/delete/" method="POST" style="display: none !important;">
+                <input type="hidden" name="id" value="{{dashboard.id_dashboard}}">
+                <button type="submit" id="btn-delete-dashboard">
+                </button>
+            </form>
+        </span>
+    </span>
+</h2>
+
+<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Dashboards / {{dashboard.title}}</p>
+
+{{>_navbardashboards}}
+
+<!--
+<div class="row mt-2">
+    <div class="col-8">
+        <a href="/admin/dashboards"><span> Voltar</span></a>
+        <h2>{{dashboard.title}}</h2>
+        <p>{{dashboard.description}}</p>
+    </div>
+    <div class="col-4">
+        <div class="row">
+            <div class="col-6">
+                <a href="/admin/dashboards/edit/{{dashboard.id_dashboard}}">
+                    <div class="btn btn-success">Editar dashboard</div>
+                </a>
+            </div>
+            <div class="col-6">
+                <form action="/admin/dashboards/delete" method="POST">
+                    <input type="hidden" name="id" value="{{dashboard.id_dashboard}}">
+                    <button type="submit" class="btn btn-danger">Deletar Dashboard</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+-->
+
+<div class="row">
+    {{#if urlsDashboard}}
+    <div class="col-12" id="content">
+        <iframe name="dashboard-iframe" title="dashboards" src="{{urlsDashboard.[0].url_dashboard}}" frameborder="0"
+            allowFullScreen="true" frameborder="0" style="height:100vh; width: 100%"></iframe><br>
+        <small>Data Criação: {{urlsDashboard.[0].createdAt}}</small>
+        {{else }}
+        <div>
+            <p>Nenhum detalhe de dashboard cadastrado</p>
+        </div>
+    </div>
+    {{/if}}
+
+</div>
+
+<div id="modal-delete" class="modal">
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84" fill="none">
+                        <path
+                            d="M62.8359 17.0002H83.6693V25.3335H75.3359V79.5002C75.3359 80.6052 74.897 81.665 74.1156 82.4464C73.3342 83.2279 72.2743 83.6668 71.1693 83.6668H12.8359C11.7309 83.6668 10.6711 83.2279 9.88966 82.4464C9.10826 81.665 8.66927 80.6052 8.66927 79.5002V25.3335H0.335938V17.0002H21.1693V4.50016C21.1693 3.39509 21.6083 2.33529 22.3897 1.55388C23.1711 0.772483 24.2309 0.333496 25.3359 0.333496H58.6693C59.7743 0.333496 60.8342 0.772483 61.6156 1.55388C62.397 2.33529 62.8359 3.39509 62.8359 4.50016V17.0002ZM67.0026 25.3335H17.0026V75.3335H67.0026V25.3335ZM47.8943 50.3335L55.2609 57.7002L49.3693 63.5918L42.0026 56.2252L34.6359 63.5918L28.7443 57.7002L36.1109 50.3335L28.7443 42.9668L34.6359 37.0752L42.0026 44.4418L49.3693 37.0752L55.2609 42.9668L47.8943 50.3335ZM29.5026 8.66683V17.0002H54.5026V8.66683H29.5026Z"
+                            fill="#FF2F53" />
+                    </svg>
+                </div>
+                <h2>Confirme a exclusão</h2>
+
+                <p>Tem certeza que deseja excluir a dashboard {{dashboard.title}}? <br>Atenção, essa opção não poderá
+                    ser desfeita.</p>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-back-modal" id="cancel-button-delete">Voltar</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-confirm-modal" id="confirm-button-delete">Excluir</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnDelete = document.getElementById('btn-delete-dashboard')
+        const svgDelete = document.getElementById('svg-delete-dashboard')
+        const modalDelete = document.getElementById('modal-delete')
+
+        const cancelButtonDelete = document.getElementById('cancel-button-delete')
+        const confirmButtonDelete = document.getElementById('confirm-button-delete')
+
+        cancelButtonDelete.addEventListener('click', () => {
+            modalDelete.style.display = 'none'
+        })
+
+        confirmButtonDelete.addEventListener('click', () => {
+            btnDelete.click()
+            modalDelete.style.display = 'none'
+        })
+
+        svgDelete.addEventListener('click', () => {
+            modalDelete.style.display = 'block'
+        })
+    });
+</script>

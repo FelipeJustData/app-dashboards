@@ -1,0 +1,126 @@
+
+
+<h2 class="title-page"><span><svg width="5" height="17" viewBox="0 0 5 17" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect y="16.5" width="16" height="5" transform="rotate(-90 0 16.5)" fill="#F90196" />
+        </svg></span> Dashboards </h2>
+<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Dashboards</p>
+
+<div class="container container-dashboards">
+    <div class="row">
+        <!-- listagem de dashboards -->
+        <div id="dashboardCarousel2" class="carousel slide mt-4" data-ride="carousel">
+            <div class="carousel-inner">
+                {{#each dashboards}}
+                {{#if (eq @index 0)}}
+                <div class="carousel-item active">
+                    <div class="row align-items-center">
+                        {{/if}}
+                        {{#if (and (eq (mod @index 20) 0) (gte @index 1))}}
+                        <div class="carousel-item">
+                            <div class="row align-items-center">
+                                {{/if}}
+                                <div class="col-3 mt-5 item-{{@index}} align-self-center">
+                                    <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none !important;color: inherit !important">
+                                        <div class="row align-items-center">
+                                            <!--
+                                            <div class="col-4">
+                                                <img src="{{#if des_dashboard_image_desktop}} /uploads/dashboards/{{des_dashboard_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}" width="100%">
+                                            </div>
+                                            -->
+                                            <div class="col-9">
+                                                <h4 class="title-dash-list">{{title}}</h4>
+                                                <p class="project-dash-list">{{project.customer.name_customer}} / {{project.nam_project}}</p>                                            
+                                                <span class="status-dash mt-1">{{des_status}}</span>
+                                            </div>
+                                            <div class="col-2 text-start">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                    viewBox="0 0 40 40" fill="none">
+                                                    <path d="M21 14L31 24L21 34" stroke="#C6C6C6" stroke-width="4"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {{#if (and (eq (mod (add @index 1) 20) 0) (gte @index 1))}}
+                            </div>
+                        </div>
+                        {{/if}}
+                        
+                    {{/each}}
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-6 col-btn-carousel-dashboards-prev">
+                <!-- Controles do carousel abaixo -->
+                <button class="carousel-control-prev btn-carousel-dashboards-prev" type="button"
+                    data-bs-target="#dashboardCarousel2" data-bs-slide="prev">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="41" height="48" viewBox="0 0 41 48" fill="none">
+                            <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+            </div>
+            <div class="col-6">
+                <button class="carousel-control-next btn-carousel-dashboards-next" type="button"
+                    data-bs-target="#dashboardCarousel2" data-bs-slide="next">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="48" viewBox="0 0 42 48" fill="none">
+                            <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+{{>_navbardashboards}}
+<hr>
+<p>Selecione um dashboard acima para visualizar</p>
+{{#ifAdmin user.typ_user}}
+<div class="container mt-4">
+    <div class="row">
+        {{#each dashboards}}
+        <div class="col-4" style="margin-bottom: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <h4>{{title}}</h4>
+                    <p>{{description}}</p> 
+                    <p>{{project.nam_project}}</p>                   
+                    <div class="row mt-2">                        
+                        <div class="col-4">
+                            <form action="/admin/dashboard/delete/" method="POST">
+                                <input type="hidden" name="id" value="{{id_dashboard}}">
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Tem certeza que deseja excluir esse dasboard?');">Deletar
+                                    </button>
+                            </form>
+                        </div>
+                        <div class="col-4"><a href="/admin/dashboard/edit/{{id_dashboard}}"><button class="btn btn-warning">Editar
+                            </button></a></div>
+                        <div class="col-4"><a href="/admin/dashboard/view/{{id_dashboard}}"><button class="btn btn-info">Acessar
+                            </button></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <p>Nenhum dashboard postado</p>
+        {{/each}}
+    </div>
+</div>
+{{/ifAdmin}}
+
+-->

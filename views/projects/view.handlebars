@@ -65,19 +65,19 @@
         <div class="col-4">
             <label for="objective" class="mt-4">Objetivo do projeto:</label>
             <textarea rows="5" cols="50" id="objective" name="objective_project"
-                class="form-control">{{objective_project}}</textarea>
+                class="form-control">{{project.objective_project}}</textarea>
         </div>
         <div class="col-4">
             <label for="dat_expiration" class="mt-4">Data expiração:</label>
             <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
-                value="{{dat_expiration}}">
+                value="{{project.dat_expiration}}">
             <label for="status" class="mt-4">Status:</label>
-            <input type="text" name="status" id="status" class="form-control" value="{{des_status}}">
+            <input type="text" name="status" id="status" class="form-control" value="{{project.des_status}}">
         </div>
         <div class="col-4">
             <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
             <input type="text" name="des_autoplay_timing" id="des_autoplay_timing" class="form-control"
-                value="{{des_autoplay_timing}}">
+                value="{{project.des_autoplay_timing}}">
         </div>
     </div>
 
@@ -93,19 +93,19 @@
                     <div class="carousel-item">
                         <div class="row">
                             {{/if}}
-                            <div class="col-4 mt-2 ITEM-{{@index}}">
+                            <div class="col-4 mt-4 item-{{@index}} align-self-center">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <img
-                                            src="{{#if des_dashboard_image_desktop}} /uploads/dashboards/{{des_dashboard_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}">
+                                            src="{{#if des_dashboard_image_desktop}} /uploads/dashboards/{{des_dashboard_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}" width="100%">
                                     </div>
-                                    <div class="col-6">
-                                        <h4>{{title}}</h4>
-                                        <p>{{id_project}}</p>
+                                    <div class="col-7">
+                                        <h4>{{title}}</h4>                                        
+                                        <p>{{project.customer.name_customer}} / {{project.nam_project}}</p>
                                         <span class="status-dash">{{des_status}}</span>
                                     </div>
                                     <div class="col-2 text-start">
-                                        <a href="/dashboard/view/{{id_dashboard}}">
+                                        <a href="/dashboards/view/{{id_dashboard}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
                                                 viewBox="0 0 48 48" fill="none">
                                                 <path d="M21 14L31 24L21 34" stroke="#C6C6C6" stroke-width="4"
