@@ -194,3 +194,7 @@ line-height: 16px; /* 133.333% */
     --bs-tooltip-bg: #FFF;
 }
 
+.preview-thumb{
+    height: 150px;
+    margin: 0 auto;
+}

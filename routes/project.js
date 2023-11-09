@@ -156,35 +156,41 @@ router.get("/add", eUser, (req, res) => {
 router.post("/new", upload.fields([
     { name: 'des_project_image_desktop', maxCount: 1 },
     { name: 'des_project_image_mobile', maxCount: 1 },
-    { name: 'des_project_logo', maxCount: 1 }
-]), (req, res) => {
-    const teste = req.files['des_project_image_desktop'][0]
+    { name: 'des_project_image_logo', maxCount: 1 } // Corrigi o nome do campo aqui
+]), (req, res) => {   
 
-    const newProject = {
-        des_project_image_desktop: req.files['des_project_image_desktop'][0].filename,
-        des_project_image_mobile: req.files['des_project_image_mobile'][0].filename,
-        des_project_logo: req.files['des_project_logo'][0].filename,
-        nam_project: req.body.nam_project,
-        //owner_project: req.body.owner_project,        
-        objective_project: req.body.objective_project,
-        id_customer: req.body.customer,
-        dat_expiration: req.body.dat_expiration,
-        des_status: req.body.des_status,
-        des_autoplay_timing: req.body.des_autoplay_timing,
-        des_title_color: req.body.des_title_color,
-        des_bg_title_color: req.body.des_bg_title_color
+    try {
+        const newProject = {
+            des_project_image_desktop: req.files['des_project_image_desktop'] ? req.files['des_project_image_desktop'][0].filename : null,
+            des_project_image_mobile: req.files['des_project_image_mobile'] ? req.files['des_project_image_mobile'][0].filename : null,
+            des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null, 
+            nam_project: req.body.nam_project,
+            objective_project: req.body.objective_project,
+            id_customer: req.body.customer,
+            dat_expiration: req.body.dat_expiration,
+            des_status: req.body.des_status,
+            des_autoplay_timing: req.body.des_autoplay_timing,
+            des_title_color: req.body.des_title_color,
+            des_bg_title_color: req.body.des_bg_title_color
+        }
+    
+        Project.create(newProject).then(() => {
+            req.flash("success_msg", "Projeto cadastrado com sucesso")
+            res.redirect("/projects/")
+        }).catch((error) => {
+            req.flash("error_msg", "Erro ao cadastrar projeto -" + error)
+            res.redirect("/projects/add")
+        })
 
+    } catch (error) {
+        console.error("Erro no upload:", error);
+        req.flash("error_msg", "Erro no upload da imagem -" + error.message);
+        res.redirect("/projects/add");
     }
 
-    Project.create(newProject).then(() => {
-        //console.log("Usuário cadastrado com sucesso")
-        req.flash("success_msg", "Projeto cadastrado com sucesso")
-        res.redirect("/projects/")
-    }).catch((error) => {
-        req.flash("error_msg", "Erro ao cadastrar projeto -" + error)
-        res.redirect("/projects/add")
-    })
+    
 })
+
 
 router.get('/get-dashboards/:projectIds', (req, res) => {
     const projectIds = req.params.projectIds.split(','); // Obtenha os IDs dos projetos selecionados

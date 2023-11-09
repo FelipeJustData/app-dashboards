@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 module.exports = {
   storage: (type) => {
@@ -20,22 +21,40 @@ module.exports = {
         break;
     }
 
+    try {
+      // Verifica se o diretório de upload existe, senão, cria-o
+      fs.mkdirSync(path.resolve(uploadDir), { recursive: true });
+    } catch (err) {
+      console.error("Erro ao criar o diretório de upload:", err.message);
+    }
+
     return multer.diskStorage({
       destination: (req, file, cb) => {
-        cb(null, path.resolve(uploadDir));
+        try {
+          
+          cb(null, path.resolve(uploadDir));
+        } catch (error) {
+          console.log("Erro ao fazer upload: "+error)
+        }
+        
       },
       filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const extension = path.extname(file.originalname);
+        try {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+          const extension = path.extname(file.originalname);
 
-        // Verifique se a extensão do arquivo é válida (por exemplo, .jpg, .png, .gif)
-        const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
-        if (!allowedExtensions.includes(extension.toLowerCase())) {
-          return cb(new Error("Extensão de arquivo não permitida"), null);
+          // Verifique se a extensão do arquivo é válida (por exemplo, .jpg, .png, .gif)
+          const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+          if (!allowedExtensions.includes(extension.toLowerCase())) {
+            throw new Error("Extensão de arquivo não permitida");
+          }
+
+          const prefix = type; // Use o tipo de upload como prefixo do nome do arquivo
+          cb(null, `${prefix}-${uniqueSuffix}${extension}`);
+        } catch (err) {
+          console.error("Erro ao gerar o nome do arquivo:", err.message);
+          cb(err, null);
         }
-
-        const prefix = type; // Use o tipo de upload como prefixo do nome do arquivo
-        cb(null, `${prefix}-${uniqueSuffix}${extension}`);
       },
     });
   },
