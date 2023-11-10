@@ -13,6 +13,9 @@ module.exports = {
       case "dashboard":
         uploadDir = "public/uploads/dashboards"; // Diretório para salvar imagens de dashboards
         break;
+      case "usuario":
+        uploadDir = "public/uploads/users"; // Diretório para salvar imagens de usuários
+        break;
       case "logo":
         uploadDir = "public/uploads/logos"; // Diretório para salvar imagens de logotipos
         break;
@@ -31,7 +34,7 @@ module.exports = {
     return multer.diskStorage({
       destination: (req, file, cb) => {
         try {
-          
+          console.log(">>>>>>>>>>>>>>>> SALVANDO IMAGEM EM : " +uploadDir)
           cb(null, path.resolve(uploadDir));
         } catch (error) {
           console.log("Erro ao fazer upload: "+error)

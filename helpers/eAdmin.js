@@ -7,6 +7,6 @@ module.exports = {
             return next()
         }        
         req.flash("error_msg", "Você não tem permissão para acessar aqui") 
-        res.redirect("/")      
+        res.redirect("/home")      
     }
 }

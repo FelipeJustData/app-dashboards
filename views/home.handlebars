@@ -25,6 +25,7 @@
                     <div class="col-7">
                         <h4>{{nam_project}}</h4>
                         <p>{{customer.name_customer}}</p>
+                        <span class="status-dash mt-1">{{des_status}}</span>
                     </div>
                     <div class="col-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
@@ -70,6 +71,7 @@
                             <div class="col-6">
                                 <h4>{{nam_project}}</h4>
                                 <p>{{customer.name_customer}}</p>
+                                <span class="status-dash mt-1">{{des_status}}</span>
                             </div>
                             <div class="col-2 text-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
@@ -110,7 +112,7 @@
                                     {{#if (and (eq (mod @index 3) 0) (gte @index 1))}}
                                     <div class="carousel-item">
                                         <div class="row">
-                                    {{/if}}
+                                            {{/if}}
                                             <div class="col-4 mt-4">
 
                                                 <div class="card" style="height: 100%;">
@@ -126,6 +128,7 @@
                                                                     width="26" height="26" viewBox="0 0 26 26"
                                                                     fill="none" data-bs-toggle="tooltip"
                                                                     data-bs-html="true"
+                                                                    data-placement="bottom"
                                                                     data-bs-custom-class="project-info-tooltip"
                                                                     data-bs-title="<div class='title-tooltip-info mt-2'><span><img src='/img/info.svg' width='16px'> Lorem Ipsum Dolor</span></div><p class='tooltip-objective mt-2'>{{#if objective_project}} {{objective_project}} {{else}} Nenhum objetivo do projeto inserido {{/if}}</p>">
                                                                     <path
@@ -158,16 +161,16 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
-                                    {{#if (and (eq (mod (add @index 1) 3) 0) (gte @index 1))}}
+                                            {{#if (and (eq (mod (add @index 1) 3) 0) (gte @index 1))}}
                                         </div>
                                     </div>
-                                    {{/if}}                                
-                            {{/each}}
+                                    {{/if}}
+                                    {{/each}}
+                                </div>
                             </div>
                         </div>
+                        <!-- buttons carousel -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel"
                             data-bs-slide="prev">
                             <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="41" height="48"
@@ -187,18 +190,15 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        });
 
-</script>
+    </script>

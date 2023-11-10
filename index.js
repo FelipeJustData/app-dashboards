@@ -6,69 +6,56 @@ const path = require("path")
 const flash = require('connect-flash')
 const passport = require("passport")
 const session = require('express-session')
-const users = require("./routes/user")
+const users = require("./routes/users")
 require("./config/auth")(passport)
 const admin = require('./routes/admin')
-const projects = require('./routes/project')
-const customers = require('./routes/customer')
-const dashboards = require('./routes/dashboard')
+const projects = require('./routes/projects')
+const customers = require('./routes/customers')
+const dashboards = require('./routes/dashboards')
 const { eAdmin } = require("./helpers/eAdmin")
 const ifAdmin = require("./helpers/ifAdmin")
-
-
 const { eUser } = require("./helpers/eUser")
-
 const Project = require("./models/Projects")
 const Customer = require("./models/Customer")
 const User_Permissions = require("./models/User_Permissions")
 const { error } = require('console')
 
-try {
-    const User_Module = require("./models/User_Module")
-} catch (err) {
-    console.log("Erro ao gerar module - " + err)
-}
-
-// conseguir ler as variaveis de ambiente
-require("dotenv").config({
-    path: 'variables.env'
-})
 
 
+// Configuração para leitura de variáveis de ambiente
+require("dotenv").config({ path: 'variables.env' });
 
-// Settings
-//session
+// Configuração de sessão e autenticação com Passport
 app.use(session({
     secret: 'site de dashboards',
     resave: true,
     saveUninitialized: true
-}))
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(flash())
-
-//middleware
+// Middleware para mensagens flash e usuário global
 app.use((req, res, next) => {
-    res.locals.success_msg = req.flash("success_msg")
-    res.locals.error_msg = req.flash("error_msg")
-    res.locals.error = req.flash("error")
-    res.locals.user = req.user || null
-    next()
-})
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    res.locals.user = req.user || null;
+    next();
+});
 
+// Body parser para tratar dados de formulário
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// body parser
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
-// Template Engine
+// Configuração do template engine Handlebars
 app.engine('handlebars', handlebars.engine({
     defaultLayout: 'main',
     helpers: ifAdmin
-}))
-app.set('view engine', 'handlebars')
+}));
+app.set('view engine', 'handlebars');
 
+// Registro de helpers adicionais para Handlebars
 var hbs = handlebars.create({});
 
 hbs.handlebars.registerHelper('eq', function (a, b) {
@@ -113,14 +100,20 @@ hbs.handlebars.registerHelper('mod', function (value, modulus, options) {
 
 })
 
-
-// Public
+// Servir arquivos estáticos na pasta "public"
 app.use(express.static(path.join(__dirname, "public")))
 
-
 // Routes
+app.use('/users', users)
+app.use('/admin', admin)
+app.use('/projects', projects)
+app.use('/customers', customers)
+app.use('/dashboards', dashboards)
 
+// Rota principal
 app.get('/home', eUser, async (req, res) => {
+
+    console.log(">>>>>>>>>>>>>>>>>> IMAGEM : " +req.user.photo_user)
     if (req.user.typ_user == "Administrador") {
 
         try {
@@ -143,7 +136,7 @@ app.get('/home', eUser, async (req, res) => {
             res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
-            res.redirect("/");
+            res.redirect("/users/login");
         }
 
 
@@ -183,8 +176,6 @@ app.get('/home', eUser, async (req, res) => {
     }
 });
 
-
-
 app.get('/', eUser, (req, res) => {
     try {
         res.redirect("/home");
@@ -195,14 +186,7 @@ app.get('/', eUser, (req, res) => {
 
 })
 
-app.use('/users', users)
-app.use('/admin', admin)
-app.use('/projects', projects)
-app.use('/customers', customers)
-app.use('/dashboards', dashboards)
-
-
-
+// Configuração do servidor
 const PORT = process.env.PORT || 8081
 app.listen(PORT, function () {
     console.log(`Servidor rodando na porta: ${PORT}`)

@@ -32,46 +32,18 @@
 
 {{>_navbardashboards}}
 
-<!--
-<div class="row mt-2">
-    <div class="col-8">
-        <a href="/admin/dashboards"><span> Voltar</span></a>
-        <h2>{{dashboard.title}}</h2>
-        <p>{{dashboard.description}}</p>
-    </div>
-    <div class="col-4">
-        <div class="row">
-            <div class="col-6">
-                <a href="/admin/dashboards/edit/{{dashboard.id_dashboard}}">
-                    <div class="btn btn-success">Editar dashboard</div>
-                </a>
-            </div>
-            <div class="col-6">
-                <form action="/admin/dashboards/delete" method="POST">
-                    <input type="hidden" name="id" value="{{dashboard.id_dashboard}}">
-                    <button type="submit" class="btn btn-danger">Deletar Dashboard</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <hr>
-</div>
--->
 
-<div class="row">
     {{#if urlsDashboard}}
-    <div class="col-12" id="content">
         <iframe name="dashboard-iframe" title="dashboards" src="{{urlsDashboard.[0].url_dashboard}}" frameborder="0"
-            allowFullScreen="true" frameborder="0" style="height:100vh; width: 100%"></iframe><br>
+            allowFullScreen="true" frameborder="0" style="height:100vh; width: 100%;padding:0"></iframe><br>
         <small>Data Criação: {{urlsDashboard.[0].createdAt}}</small>
         {{else }}
         <div>
             <p>Nenhum detalhe de dashboard cadastrado</p>
         </div>
-    </div>
     {{/if}}
 
-</div>
+
 
 <div id="modal-delete" class="modal">
     <div class="modal-content text-center">

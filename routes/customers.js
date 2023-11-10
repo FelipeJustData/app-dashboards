@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Customer = require("../models/Customer")
-const { route } = require('./user')
+const { route } = require('./users')
 const {eAdmin} = require("../helpers/eAdmin")
 const { eUser} = require("../helpers/eUser")
 

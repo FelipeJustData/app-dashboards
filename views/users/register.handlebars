@@ -8,13 +8,17 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <form action="/users/users/new" method="POST">
+                <form action="/users/users/new" method="POST" enctype="multipart/form-data">
                     <label for="name">Nome:</label>
                     <input type="text" id="name" name="name" placeholder="Nome do usuário" class="form-control"
                         required>
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Email do usuário" class="form-control"
                         required>
+                    <label for="photo_user">Imagem</label>
+                    <input type="file" id="photo_user" name="photo_user"  class="form-control" accept="image/png, image/jpeg" 
+                        required>
+                        
                     <label for="password">Senha</label>
                     <input type="password" id="password" name="password" placeholder="Senha" class="form-control"
                         required>

@@ -34,7 +34,7 @@ router.get('/', eUser, async (req, res) => {
             res.render("projects/projects", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
-            res.redirect("/");
+            res.redirect("/home");
         }
 
     }
@@ -61,12 +61,12 @@ router.get('/', eUser, async (req, res) => {
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
+                        res.redirect("/home");
                     });
             })
             .catch((error) => {
                 req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
+                res.redirect("/home");
             });
     }
 });
@@ -120,7 +120,7 @@ router.get('/view/:id', eUser, async (req, res) => {
     } catch (error) {
         console.error("Erro ao listar projetos e dashboards:", error);
         req.flash("error_msg", "Erro ao listar projetos e dashboards.");
-        res.redirect("/");
+        res.redirect("/home");
     }
 });
 
@@ -133,11 +133,11 @@ router.get('/customer/:id', (req, res) => {
             res.render('projects/view', { projects: projects, customer: customer, styles: [{ src: "/styles/pages/projects.css" }] })
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar projetos " + error)
-            res.redirect("/")
+            res.redirect("/home")
         })
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar Cliente " + error)
-        res.redirect("/")
+        res.redirect("/home")
     })
 
 })
@@ -148,7 +148,7 @@ router.get("/add", eUser, (req, res) => {
         res.render("projects/addproject", { customers: customers, styles: [{ src: "/styles/pages/projects.css" }] })
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar clientes " + error)
-        res.redirect("/")
+        res.redirect("/home")
     })
 
 })
@@ -204,22 +204,22 @@ router.get('/get-dashboards/:projectIds', (req, res) => {
 
 
 // Edit Project
-router.get("/project/edit/:id", (req, res) => {
+router.get("/project/edit/:id",eAdmin, (req, res) => {
     Project.findByPk(req.params.id).then((project) => {
         Customer.findByPk(project.id_customer).then((customerProject) => {
             Customer.findAll().then((customers) => {
                 res.render("projects/editproject", { project: project, customerProject: customerProject, customers: customers, styles: [{ src: "/styles/pages/projects.css" }] })
             }).catch((error) => {
                 req.flash("error_msg", "Erro ao listar clientes " + error)
-                res.redirect("/")
+                res.redirect("/home")
             })
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar cliente do projeto " + error)
-            res.redirect("/")
+            res.redirect("/home")
         })
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar projeto " + error)
-        res.redirect("/")
+        res.redirect("/home")
     })
 
 })
@@ -269,7 +269,7 @@ router.post("/update/:id", (req, res) => {
         } catch (error) {
             console.error("Erro ao listar projetos e dashboards:", error);
             req.flash("error_msg", "Erro ao listar projetos e dashboards.");
-            res.redirect("/");
+            res.redirect("/home");
         }
     }).catch((error) => {
         req.flash("error_msg", "Erro ao cadastrar projeto -" + error)

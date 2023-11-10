@@ -3,18 +3,23 @@
 {{else}}    
 
 {{/each}}
-
-<h2>Editar usuário</h2>
-<form action="/users/users/edit/{{user.id_user}}" method="POST">
+<h2 class="title-page">Editar usuário</h2>
+<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Editar Perfil</p>
+<div class="container container-users">
+    <form action="/users/users/edit/{{userEdit.id_user}}" method="POST" enctype="multipart/form-data">
     <label for="name">Nome:</label>
     <input type="text" id="name" name="name" placeholder="Nome do usuário" class="form-control" value="{{userEdit.name_user}}" required>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" placeholder="Email do usuário" class="form-control" value="{{userEdit.email_user}}" required>
+    <label for="photo_user">Imagem</label>
+    <input type="file" id="photo_user" name="photo_user"  class="form-control" accept="image/png, image/jpeg">
+    
     <label for="user_type">Tipo de Usuário:</label>
     <select class="form-select" id="user_type" name="user_type" class="form-control" required>
-        <option value="Leitor" {{#if (eq userEdit.typ_user "Leitor")}} selected {{/if}}>Leitor</option>
-        <option value="Editor" {{#if (eq userEdit.typ_user "Editor")}} selected {{/if}}>Editor</option>
-        <option value="Administrador" {{#if (eq userEdit.typ_user "Administrador")}} selected {{/if}}>Administrador</option>
+        <option value="{{userEdit.typ_user}}" selected>{{userEdit.typ_user}}</option>
+        <option value="Leitor">Leitor</option>
+        <option value="Editor">Editor</option>
+        <option value="Administrador">Administrador</option>
     </select>
 
     <label for="project_permissions">Permissões de projeto:</label>
@@ -33,6 +38,9 @@
 
     <button type="submit" class="btn btn-primary">Atualizar Usuário</button>
 </form>
+</div>
+
+
 
 <!--
   

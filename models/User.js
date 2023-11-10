@@ -27,6 +27,9 @@ const User = db.sequelize.define('users', {
     is_just: {
         type: db.Sequelize.BOOLEAN,
         defaultValue: false
+    },
+    photo_user: {
+        type: db.Sequelize.STRING
     }
 })
 

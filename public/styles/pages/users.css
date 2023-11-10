@@ -1,0 +1,136 @@
+.title-page {
+    color: #000;
+    font-family: Anton;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.container-users {
+    background: #F2F1EF;
+    margin: 0px 20px;
+    padding: 0px 30px 30px;
+}
+
+#edit-photo-user {
+    border-radius: 20px;    
+    width: 100%;
+}
+
+.text-image-user {
+    color: #FFF;
+    font-family: K2D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+    position: relative;
+    padding-right: 6px;
+}
+
+#edit-photo-user {
+    margin-top: -30px;
+}
+
+.btn-confirm-form {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-003, #97CCBD);
+    width: 160px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.btn-confirm-form:hover {
+    background: #a0d8c8;
+    border: inherit;
+}
+
+.modal-upload {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    text-align: center;
+}
+
+.modal-container {
+    height: 100vh;
+    /* Define a altura igual à altura da janela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centraliza verticalmente */
+    align-items: center;
+    /* Centraliza horizontalmente */
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 41%;
+    min-height: 50%;
+    height: auto;
+    margin: 100px auto;
+    padding: 5%;
+}
+
+#confirm-modal {
+    display: none;
+}
+
+.btn-confirm-form,
+.btn-confirm-modal {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-003, #97CCBD);
+    width: 160px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.btn-confirm-modal:hover {
+    background: var(--just-colors-003, #9fd6c7);
+}
+
+.btn-back-modal {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-010, #FBFAF7);
+    width: 160px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.upload-area {
+    border-radius: 4px;
+    border: 1px dashed #808080;
+    background: rgba(198, 198, 198, 0.20);
+    padding: 12%;
+    cursor: pointer;
+}
+
+.upload-area span {
+    color: #808080;
+    font-family: K2D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.info-photo {
+    color: #808080;
+    text-align: center;
+    font-family: K2D;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

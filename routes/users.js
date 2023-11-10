@@ -10,6 +10,9 @@ const Projects = require('../models/Projects')
 const Dashboards = require('../models/Dashboards')
 const User_Permissions = require('../models/User_Permissions')
 const { Op } = require('sequelize');
+const multer = require("multer");
+const { storage } = require('../config/multerConfig');
+const upload = multer({ storage: storage('usuario') });
 
 // List All Users
 router.get('/users', eAdmin, (req, res) => {
@@ -23,7 +26,7 @@ router.get('/users', eAdmin, (req, res) => {
 })
 
 
-router.get("/register", (req, res) => {
+router.get("/register", eAdmin, (req, res) => {
     Projects.findAll().then((projects) => {
         res.render("users/register", { projects: projects })
     }).catch((error) => {
@@ -36,7 +39,7 @@ router.get("/register", (req, res) => {
 
 
 // Add new User
-router.post('/users/new', (req, res) => {
+router.post('/users/new', eAdmin, (req, res) => {
     var errors = []
 
     if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
@@ -71,6 +74,7 @@ router.post('/users/new', (req, res) => {
             } else {
                 const is_just = Boolean(req.body.CheckJust)
 
+
                 const newUser = {
                     name_user: req.body.name,
                     email_user: req.body.email,
@@ -83,7 +87,7 @@ router.post('/users/new', (req, res) => {
                     bcrypt.hash(newUser.password_user, salt, (error, hash) => {
                         if (error) {
                             req.flash("error_msg", "Erro ao criptografar senha - " + error)
-                            res.redirect("/")
+                            res.redirect("/home")
                         }
                         else {
                             newUser.password_user = hash
@@ -191,6 +195,7 @@ router.get('/users/edit/:id', eAdmin, async (req, res) => {
             userPermissions,
             projects,
             dashboards,
+            styles: [{ src: "/styles/pages/users.css" }]
         });
     } catch (error) {
         req.flash("error_msg", "Erro ao carregar dados de usuário - " + error);
@@ -198,10 +203,117 @@ router.get('/users/edit/:id', eAdmin, async (req, res) => {
     }
 });
 
-// Rota para processar a edição do usuário e permissões 
-router.post('/users/edit/:id', eAdmin, async (req, res) => {
+
+// Rota para exibir o formulário de edição de perfil usuário
+router.get('/users/perfil/:id', eUser, async (req, res) => {
     try {
         const userId = req.params.id;
+        const userEdit = await User.findByPk(userId);
+
+        if (!userEdit) {
+            req.flash("error_msg", "Usuário não encontrado");
+            return res.redirect("/users/users");
+        }
+
+        res.render("users/editperfil", {
+            userEdit,
+            styles: [{ src: "/styles/pages/users.css" }]
+        });
+    } catch (error) {
+        req.flash("error_msg", "Erro ao carregar dados de usuário - " + error);
+        res.redirect("/users/users");
+    }
+});
+
+
+// Rota para processar a edição do usuário e permissões 
+router.post('/users/perfil/:id', eAdmin, upload.single('photo_user'), async (req, res) => {
+
+    try {
+
+        
+            const userId = req.params.id;
+            const photoUser = req.file.filename
+            const password = req.body.password
+
+            if (password) {
+
+                var errors = []
+
+        if (!req.body.password || typeof req.body.password == undefined || req.body.password == null) {
+            errors.push({ texto: "Senha inválido" })
+        }
+
+        if (req.body.password.length < 4) {
+            errors.push({ texto: "Senha muito curta" })
+        }
+
+        if (req.body.password != req.body.password2) {
+            errors.push({ texto: "Senhas diferentes, tente novamente" })
+        }
+
+        if (errors.length > 0) {
+            res.render("users/editperfil/", { errors: errors, userEdit: req.user,
+                styles: [{ src: "/styles/pages/users.css" }] })
+        }
+        else {
+
+                const updateUser = {
+                    password_user: req.body.password,
+                    photo_user: photoUser
+                }
+    
+                bcrypt.genSalt(10, (error, salt) => {
+                    bcrypt.hash(updateUser.password_user, salt, async (error, hash) => {
+                        if (error) {
+                            req.flash("error_msg", "Erro ao criptografar senha - " + error)
+                            res.redirect("/users/users/perfil/" + req.params.id)
+                        }
+                        else {
+                            updateUser.password_user = hash
+                            // Atualizar os dados do usuário (nome, email, senha, etc.)
+                            await User.update(
+                                updateUser,
+                                {
+                                    where: { id_user: userId },
+                                }
+                            );
+                        }
+                    })
+                })
+            }
+                
+            }else{
+                User.update(
+                    {photo_user: photoUser},
+                    {
+                        where: { id_user: userId },
+                    }
+                );
+            }
+            req.flash("success_msg", "Usuário atualizado com sucesso");
+            res.render("users/editperfil", {
+                userEdit: req.user,
+                styles: [{ src: "/styles/pages/users.css" }]
+            });            
+        
+    } catch (error) {
+        req.flash("error_msg", "Erro ao atualizar usuário - " + error);
+        res.redirect(`/users/users/perfil/${req.params.id}`);
+    }
+});
+
+
+
+
+// Rota para processar a edição do usuário e permissões 
+router.post('/users/edit/:id', eAdmin, upload.single('photo_user'), async (req, res) => {
+
+    try {
+        const userId = req.params.id;
+        const photoUser = req.file.filename
+
+        console.log("AAAAAAAAAAAAAAAAAAK : ")
 
         // Atualizar os dados do usuário (nome, email, senha, etc.)
         await User.update(
@@ -209,6 +321,7 @@ router.post('/users/edit/:id', eAdmin, async (req, res) => {
                 name_user: req.body.name,
                 email_user: req.body.email,
                 typ_user: req.body.user_type,
+                photo_user: photoUser
             },
             {
                 where: { id_user: userId },
@@ -246,7 +359,7 @@ router.post('/users/edit/:id', eAdmin, async (req, res) => {
         res.redirect("/users/users");
     } catch (error) {
         req.flash("error_msg", "Erro ao atualizar usuário - " + error);
-        res.redirect(`/users/edit/${userId}`);
+        res.redirect(`/users/edit/${req.params.id}`);
     }
 });
 
@@ -254,6 +367,16 @@ router.post('/users/edit/:id', eAdmin, async (req, res) => {
 router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
     const userId = req.params.id;
     try {
+
+        // Atualizar os dados do usuário (nome, email, senha, etc.)
+        await User.update(
+            {
+                typ_user: req.body.user_type,
+            },
+            {
+                where: { id_user: userId },
+            }
+        );
 
 
         // Remover todas as permissões existentes para o usuário
@@ -446,25 +569,25 @@ router.get('/users-permissions', async (req, res) => {
     try {
         const usersWithPermissions = await User.findAll({
             include: [
-                
-                    
-                    
+
+
+
+                {
+                    model: Projects,
+                    attributes: ['nam_project'],
+                    include: [
                         {
-                            model: Projects,
-                            attributes: ['nam_project'],
-                            include: [
-                                {
-                                    model: User_Permissions,
-                                    attributes: ['des_project_access']
-                                }
-                            ]
-                        },
-                        {
-                            model: Dashboards,
-                            attributes: ['title'],
+                            model: User_Permissions,
+                            attributes: ['des_project_access']
                         }
-                    
-                
+                    ]
+                },
+                {
+                    model: Dashboards,
+                    attributes: ['title'],
+                }
+
+
             ]
         });
 

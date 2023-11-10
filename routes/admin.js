@@ -46,7 +46,7 @@ router.post('/customers/new',eAdmin, upload.single('logo'), (req, res) => {
         const newCustomer = {
             name_customer: name,
             des_mode: des_mode,
-            logotipo_customer: logoFile // Armazena os dados binários do arquivo
+            logotipo_customer: logoFile 
         };
 
 

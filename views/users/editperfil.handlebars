@@ -1,0 +1,228 @@
+{{#each errors}}
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
+
+{{/each}}
+<h2 class="title-page">Meu perfil</h2>
+<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Editar Perfil</p>
+<div class="container container-users">
+    <form action="/users/users/perfil/{{user.id_user}}" method="POST" enctype="multipart/form-data">
+        <div class="row mt-5 px-3">
+            <div class="col-3 text-end  mt-2">
+                <span class="text-image-user" id="btn-edit-image-user">Editar <svg width="22" height="20"
+                        viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0.5 18.5H21.5V20H0.5V18.5ZM18.05 5.75C18.65 5.15 18.65 4.25 18.05 3.65L15.35 0.95C14.75 0.35 13.85 0.35 13.25 0.95L2 12.2V17H6.8L18.05 5.75ZM14.3 2L17 4.7L14.75 6.95L12.05 4.25L14.3 2ZM3.5 15.5V12.8L11 5.3L13.7 8L6.2 15.5H3.5Z"
+                            fill="white" />
+                    </svg>
+                </span>
+                <img id="edit-photo-user"
+                    src="{{#if user.photo_user}}/uploads/users/{{user.photo_user}} {{else}} /img/img-square-default.jpg {{/if}}">
+                <input type="file" id="photo_user" name="photo_user" class="form-control" accept="image/png, image/jpeg"
+                    hidden>
+            </div>
+            <div class="col-4">
+                <label for="name">Nome completo</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{user.name_user}}" required
+                    disabled>
+                <label class="mt-4" for="email">Login</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{user.email_user}}" required
+                    disabled>
+                <label class="mt-4" for="password">Nova senha</label>
+                <input type="password" id="password" name="password" placeholder="*********" class="form-control">
+                <label class="mt-4" for="password2">Confirmar nova senha</label>
+                <input type="password" id="password2" name="password2" placeholder="*********" class="form-control">
+
+                <button type="submit" class="btn btn-confirm-form mt-4" id="save-edit-perfil">Salvar alterações</button>
+            </div>
+            <div class="col-4"></div>
+        </div>
+
+
+    </form>
+</div>
+
+
+<!-- modais -->
+<!-- Modal upload da foto -->
+<div id="modal-upload-photo-user" class="modal modal-upload">
+    <!-- Conteúdo do modal para upload de imagem para foto do usuário -->
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109" fill="none">
+                        <g clip-path="url(#clip0_4503_12274)">
+                            <path
+                                d="M87.8812 45.5984C86.3557 37.8672 82.1933 30.9055 76.105 25.9023C70.0167 20.8992 62.3803 18.165 54.5 18.1667C41.3746 18.1667 29.975 25.6151 24.2979 36.5151C17.6227 37.2364 11.4496 40.3992 6.96459 45.3955C2.47962 50.3918 -0.000779812 56.8694 1.83905e-07 63.5834C1.83905e-07 78.6163 12.2171 90.8334 27.25 90.8334H86.2917C98.8267 90.8334 109 80.6601 109 68.1251C109 56.1351 99.6896 46.4159 87.8812 45.5984ZM63.5833 59.0417V77.2084H45.4167V59.0417H31.7917L54.5 36.3334L77.2083 59.0417H63.5833Z"
+                                fill="#97CCBD" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4503_12274">
+                                <rect width="109" height="109" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2>Envio de imagens</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <div id="drop-area-photo-user" class="upload-area">
+                    <p>Arraste aqui para carregar ou <span style="color:#0478FF;cursor:pointer"><u>selecione os
+                                arquivos</u></span></p>
+                    <p class="info-photo">Imagens com tamanho máximo de 100kb, formatos aceitos JPEG ou PNG</p>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-back-modal" id="cancel-button-photo-user">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-confirm-modal" id="upload-button-photo-user">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal revisar envio da foto -->
+
+<div id="confirm-modal-photo-user" class="modal modal-upload">
+    <!-- Conteúdo do modal de confirmação para Desktop -->
+    <div class="modal-content text-center modal-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="92" viewBox="0 0 100 92" fill="none">
+                <path
+                    d="M76.9231 80.5C76.9231 79.4618 76.5425 78.5634 75.7812 77.8047C75.02 77.046 74.1186 76.6667 73.0769 76.6667C72.0353 76.6667 71.1338 77.046 70.3726 77.8047C69.6114 78.5634 69.2308 79.4618 69.2308 80.5C69.2308 81.5382 69.6114 82.4366 70.3726 83.1953C71.1338 83.954 72.0353 84.3333 73.0769 84.3333C74.1186 84.3333 75.02 83.954 75.7812 83.1953C76.5425 82.4366 76.9231 81.5382 76.9231 80.5ZM92.3077 80.5C92.3077 79.4618 91.9271 78.5634 91.1659 77.8047C90.4046 77.046 89.5032 76.6667 88.4615 76.6667C87.4199 76.6667 86.5184 77.046 85.7572 77.8047C84.996 78.5634 84.6154 79.4618 84.6154 80.5C84.6154 81.5382 84.996 82.4366 85.7572 83.1953C86.5184 83.954 87.4199 84.3333 88.4615 84.3333C89.5032 84.3333 90.4046 83.954 91.1659 83.1953C91.9271 82.4366 92.3077 81.5382 92.3077 80.5ZM100 67.0833V86.25C100 87.8472 99.4391 89.2049 98.3173 90.3229C97.1955 91.441 95.8333 92 94.2308 92H5.76923C4.16667 92 2.80449 91.441 1.68269 90.3229C0.560897 89.2049 0 87.8472 0 86.25V67.0833C0 65.4861 0.560897 64.1285 1.68269 63.0104C2.80449 61.8924 4.16667 61.3333 5.76923 61.3333H33.7139L41.8269 69.4792C44.1506 71.7153 46.875 72.8333 50 72.8333C53.125 72.8333 55.8494 71.7153 58.1731 69.4792L66.3462 61.3333H94.2308C95.8333 61.3333 97.1955 61.8924 98.3173 63.0104C99.4391 64.1285 100 65.4861 100 67.0833ZM80.4688 33.0026C81.1498 34.6398 80.8694 36.0373 79.6274 37.1953L52.7043 64.0286C51.9832 64.7873 51.0817 65.1667 50 65.1667C48.9183 65.1667 48.0168 64.7873 47.2957 64.0286L20.3726 37.1953C19.1306 36.0373 18.8502 34.6398 19.5312 33.0026C20.2123 31.4453 21.3942 30.6667 23.0769 30.6667H38.4615V3.83333C38.4615 2.79514 38.8421 1.8967 39.6034 1.13802C40.3646 0.37934 41.266 0 42.3077 0H57.6923C58.734 0 59.6354 0.37934 60.3966 1.13802C61.1579 1.8967 61.5385 2.79514 61.5385 3.83333V30.6667H76.9231C78.6058 30.6667 79.7877 31.4453 80.4688 33.0026Z"
+                    fill="#97CCBD" />
+            </svg>
+        </div>
+        <div>
+            <h2>Confirmar Envio</h2>
+            <input id="uploaded-image-photo-user" alt="Imagem carregada" disabled>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-back-modal" id="cancel-upload-photo-user">Cancelar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-confirm-modal" id="confirm-upload-photo-user">Enviar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal confirmar envio da foto -->
+<div id="modal-ok" class="modal modal-upload">
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div><svg xmlns="http://www.w3.org/2000/svg" width="84" height="60" viewBox="0 0 84 60" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M81.7745 2.29587C82.9462 3.46791 83.6044 5.05734 83.6044 6.71462C83.6044 8.37189 82.9462 9.96132 81.7745 11.1334L34.9286 57.9792C34.3095 58.5984 33.5746 59.0896 32.7656 59.4247C31.9567 59.7599 31.0896 59.9324 30.214 59.9324C29.3384 59.9324 28.4714 59.7599 27.6625 59.4247C26.8535 59.0896 26.1185 58.5984 25.4995 57.9792L2.22446 34.7084C1.62752 34.1318 1.15138 33.4422 0.823824 32.6796C0.496268 31.9171 0.323854 31.097 0.316642 30.2671C0.309431 29.4373 0.467567 28.6143 0.781823 27.8462C1.09608 27.078 1.56016 26.3802 2.14699 25.7934C2.73382 25.2066 3.43164 24.7425 4.19974 24.4282C4.96785 24.114 5.79084 23.9558 6.62072 23.963C7.45059 23.9703 8.27071 24.1427 9.03324 24.4702C9.79576 24.7978 10.4854 25.2739 11.062 25.8709L30.212 45.0209L72.9328 2.29587C73.5132 1.71508 74.2024 1.25435 74.9609 0.940003C75.7195 0.625661 76.5325 0.463867 77.3536 0.463867C78.1747 0.463867 78.9878 0.625661 79.7463 0.940003C80.5049 1.25435 81.194 1.71508 81.7745 2.29587Z"
+                            fill="#97CCBD" />
+                    </svg></div>
+                <h2>Tudo Certo!</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <p>Sua imagem foi adicionada ao projetos</p>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-confirm-modal" id="button-ok">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnEditImageUser = document.getElementById('btn-edit-image-user')
+        const inputPhotoUser = document.getElementById('photo_user')
+
+        const uploadPhotoUser = document.getElementById('modal-upload-photo-user')
+        const cancelUploadPhotoUser = document.getElementById('cancel-button-photo-user')
+
+        const dropAreaPhotouser = document.getElementById('drop-area-photo-user')
+
+        const confirmModal = document.getElementById('confirm-modal-photo-user')
+
+        const uploadedImageUser = document.getElementById('uploaded-image-photo-user')
+
+        const btnSendImageUser = document.getElementById('confirm-upload-photo-user')
+
+        const imageUser = document.getElementById('edit-photo-user')
+
+        const modalOk = document.getElementById('modal-ok')
+
+        const btnOk = document.getElementById('button-ok')
+
+        const cancelUploadConfirm = document.getElementById('cancel-upload-photo-user')
+
+        
+
+        btnOk.addEventListener('click', () => {
+            modalOk.style.display = 'none'
+        })
+
+        cancelUploadConfirm.addEventListener('click', () => {
+            confirmModal.style.display = 'none'
+            uploadPhotoUser.style.display = 'block'
+        })
+
+
+        
+        
+
+        
+
+        dropAreaPhotouser.addEventListener('click', () => {
+            inputPhotoUser.click()
+        })
+
+        inputPhotoUser.addEventListener('change', () => {
+            const file = inputPhotoUser.files[0];
+            if(file){
+                confirmModal.style.display = 'block'
+                uploadedImageUser.value = file.name
+                uploadPhotoUser.style.display = 'none'
+            }
+            
+
+        })
+
+        btnSendImageUser.addEventListener('click', () => {
+            const file = inputPhotoUser.files[0]
+
+            if (file) {
+                confirmModal.style.display = 'none'                               
+                showImage(file, imageUser);
+                modalOk.style.display = 'block'
+            }
+
+        })
+
+        // Função para exibir imagem após o carregamento
+        const showImage = (file, previewElement) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {                
+                previewElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+        };
+       
+        btnEditImageUser.addEventListener('click', () => {
+            uploadPhotoUser.style.display = 'block'
+        })
+
+         cancelUploadPhotoUser.addEventListener('click', () => {
+            uploadPhotoUser.style.display = 'none'
+        })
+
+    })
+</script>

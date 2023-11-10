@@ -2,3 +2,6 @@ node_modules
 nada.txt
 appOLD.js
 .gitignore
+public/uploads/dashboards/
+public/uploads/logos/
+public/uploads/projects/

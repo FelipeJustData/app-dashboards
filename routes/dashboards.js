@@ -45,7 +45,7 @@ router.get("/", eUser, async (req,res) => {
 
         } catch (error) {
             req.flash("error_msg", "Erro ao listar dashboards - " + error);
-            res.redirect("/");
+            res.redirect("/home");
         }
     }
     else {
@@ -80,12 +80,12 @@ router.get("/", eUser, async (req,res) => {
                 } catch (error) {
                     
                     req.flash("error_msg", "Erro ao listar dashboards - " + error);
-                    res.redirect("/");
+                    res.redirect("/home");
                 }
             })
             .catch((error) => {
                 req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
+                res.redirect("/home");
             });        
     }           
 })
@@ -107,7 +107,7 @@ router.get("/view/:id", eUser, async (req, res) => {
 
         } catch (error) {
             req.flash("error_msg", "Erro ao listar dashboards - " + error);
-            res.redirect("/");
+            res.redirect("/home");
         }
     }
     else {
@@ -127,13 +127,13 @@ router.get("/view/:id", eUser, async (req, res) => {
         
                 } catch (error) {
                     req.flash("error_msg", "Erro ao listar dashboards - " + error);
-                    res.redirect("/");
+                    res.redirect("/home");
                 }
             }            
         })
         .catch((error) => {
             req.flash("error_msg", "Erro em permissões do usuário - " + error);
-            res.redirect("/");
+            res.redirect("/home");
         });
     }        
 
@@ -144,11 +144,11 @@ router.get("/view/:id", eUser, async (req, res) => {
                 res.render("dashboards/view", {dashboard: dashboard, url_dashboard: url_dashboard})
             }).catch((error) => {
                 req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
-                res.redirect("/")
+                res.redirect("/home")
             })    
         }).catch((error) => {
             req.flash("error_msg","Dashboard não existe - "+ error)
-            res.redirect("/")
+            res.redirect("/home")
         })
     }
     else {
@@ -164,18 +164,18 @@ router.get("/view/:id", eUser, async (req, res) => {
                             res.render("dashboards/view", {dashboards: dashboards, url_dashboard: url_dashboard})
                         }).catch((error) => {
                             req.flash("error_msg","Dashboard sem detalhes cadastrados - "+ error)
-                            res.redirect("/")
+                            res.redirect("/home")
                         })
                         
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/");
+                        res.redirect("/home");
                     });
             })
             .catch((error) => {
                 req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/");
+                res.redirect("/home");
             });
     }    */   
 })
@@ -262,10 +262,10 @@ router.post("/dashboard/new", (req,res) => {
 
         Dashboard.create(newDashboard).then(() => {
             req.flash("success_msg", "Dashboard criada com sucesso! Agora insira os detalhes dela")
-            res.redirect("/")
+            res.redirect("/home")
         }).catch((error) => {
             req.flash("error_msg", "Houve erro ao cadastrar dashboard - "+error)
-            res.redirect("/")
+            res.redirect("/home")
         })
     }
 })
@@ -291,10 +291,10 @@ router.post("/dashboardurl/new", (req,res) => {
 
     Url_Dashboard.create(newDashboardUrl).then(() => {
         req.flash("success_msg", "Dashboard atualizada")
-        res.redirect("/")
+        res.redirect("/home")
     }).catch((error) => {
         req.flash("error_msg", "Houve erro ao atualizar dashboard - "+error)
-        res.redirect("/")
+        res.redirect("/home")
     })
 })
 */
@@ -416,7 +416,7 @@ router.post("/edit", (req, res) => {
                             Url_Dashboard.update(updateDashboardUrl,{where:{id_dashboard: idDashboard}});                            
                         } catch (error) {
                             req.flash("error_msg", "Houve erro ao atualizar url da dashboard - " + error);
-                            res.redirect("/");
+                            res.redirect("/home");
                         }
                         
                     });
@@ -424,11 +424,11 @@ router.post("/edit", (req, res) => {
                     Url_Dashboard.destroy({where: {id_dashboard:idDashboard}})
                 }
 
-                res.redirect("/");
+                res.redirect("/home");
             })
             .catch((error) => {
                 req.flash("error_msg", "Houve erro ao cadastrar dashboard - " + error);
-                res.redirect("/");
+                res.redirect("/home");
             });
     
 });

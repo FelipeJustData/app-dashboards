@@ -253,3 +253,10 @@ footer .col-2 {
     height: 48px;
     flex-shrink: 0;
 }
+
+#photo-user{
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+}
+
