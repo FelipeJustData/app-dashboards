@@ -39,7 +39,7 @@ router.get("/register", eAdmin, (req, res) => {
 
 
 // Add new User
-router.post('/users/new', eAdmin, (req, res) => {
+router.post('/users/new', eAdmin, upload.single('photo_user'), async (req, res) => {
     var errors = []
 
     if (!req.body.name || typeof req.body.name == undefined || req.body.name == null) {
@@ -73,6 +73,7 @@ router.post('/users/new', eAdmin, (req, res) => {
                 res.redirect("/users/register")
             } else {
                 const is_just = Boolean(req.body.CheckJust)
+                const photoUser = req.file.filename
 
 
                 const newUser = {
@@ -80,7 +81,8 @@ router.post('/users/new', eAdmin, (req, res) => {
                     email_user: req.body.email,
                     password_user: req.body.password,
                     typ_user: req.body.user_type,
-                    is_just: is_just
+                    is_just: is_just,
+                    photo_user: photoUser
                 }
 
                 bcrypt.genSalt(10, (error, salt) => {
@@ -227,7 +229,7 @@ router.get('/users/perfil/:id', eUser, async (req, res) => {
 
 
 // Rota para processar a edição do usuário e permissões 
-router.post('/users/perfil/:id', eAdmin, upload.single('photo_user'), async (req, res) => {
+router.post('/users/perfil/:id', eUser, upload.single('photo_user'), async (req, res) => {
 
     try {
 
@@ -292,10 +294,7 @@ router.post('/users/perfil/:id', eAdmin, upload.single('photo_user'), async (req
                 );
             }
             req.flash("success_msg", "Usuário atualizado com sucesso");
-            res.render("users/editperfil", {
-                userEdit: req.user,
-                styles: [{ src: "/styles/pages/users.css" }]
-            });            
+            res.redirect(`/users/users/perfil/${req.params.id}`);                      
         
     } catch (error) {
         req.flash("error_msg", "Erro ao atualizar usuário - " + error);

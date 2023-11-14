@@ -103,17 +103,19 @@
   
   <div class="col-4" style="text-align: right;">        
     <img id="photo-user" src="{{#if user.photo_user}}/uploads/users/{{user.photo_user}} {{else}} /img/img-square-default.jpg {{/if}}">
-    <span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="60" viewBox="0 0 48 60" fill="none" data-bs-toggle="tooltip"
-                                                                    data-bs-html="true"
-                                                                    data-bs-custom-class="project-info-tooltip"
-                                                                    data-bs-title="<div class='menu-options-user' id='menu-options-user'></svg><ul class='list-group'>
-  <li class='list-group-item'><a href='/users/users/perfil/{{user.id_user}}' style='text-decoration: none;color:inherit;'>Editar meus dados</a></li>
-  <li class='list-group-item'><a href='/users/logout' style='text-decoration: none;color:inherit;'>Sair</a></li>  
-</ul></div>">
-  <path d="M34 27L24 37L14 27" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</svg></span>    
-  </div>
+   
+      <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="14" viewBox="0 0 24 14" fill="none">
+  <path d="M22 2L12 12L2 2" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+      <ul class="dropdown-menu" style="">
+        <li><a class="dropdown-item" href="/users/users/perfil/{{user.id_user}}">Configurações do usuário</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="/users/logout">Sair</a></li>
+      </ul>
+    
 </div>
+</div>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

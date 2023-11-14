@@ -11,75 +11,87 @@
         <h2 class="title-page">
             <span style="color: var(--just-colors-006, #0DFFBA);">-</span> Editar Projetos
         </h2>
-        <p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / {{customerProject.name_customer}} / {{project.nam_project}} / Editar Projeto</p>
+        <p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> /
+            {{customerProject.name_customer}} / {{project.nam_project}} / Editar Projeto</p>
     </div>
     <div class="col-6 text-end">
         <div style="float: right !important;">
-              <button type="submit" class="btn btn-confirm-form" id="btn-save-edit">Salvar alterações</button>
+            <button type="submit" class="btn btn-confirm-form" id="btn-save-edit">Salvar alterações</button>
         </div>
     </div>
 </div>
 
 <div class="container container-addproject">
-    <form action="/projects/update/{{project.id_project}}" method="POST" enctype="multipart/form-data"    >
+    <form action="/projects/update/{{project.id_project}}" method="POST" enctype="multipart/form-data">
         <div class="row">
 
             <div class="col-4">
                 <div class="custom-file" id="select-image-desktop">
                     <span>Thumb Desktop</span>
                     <div class="image-preview-desktop" id="image-preview-desktop">
-                        <img src="{{#if project.des_project_image_desktop}} /uploads/projects/{{project.des_project_image_desktop}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-desk" width="100%">
+                        <img src="{{#if project.des_project_image_desktop}} /uploads/projects/{{project.des_project_image_desktop}} {{else}} /img/img-default.jpg {{/if}}"
+                            id="preview-thumb-desk" width="100%" style="cursor: pointer;">
                     </div>
+
+                    <input type="file" id="des_project_image_desktop" name="des_project_image_desktop"
+                        accept="image/*" hidden>
                     
-                    <input type="hidden" id="des_project_image_desktop" name="des_project_image_desktop" accept="image/*">
                 </div>
 
                 <div class="custom-file mt-4" id="select-image-mobile">
                     <span>Thumb Mobile</span>
                     <div class="image-preview-mobile" id="image-preview-mobile">
-                        <img src="{{#if project.des_project_image_mobile}} /uploads/projects/{{project.des_project_image_mobile}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-mobile" width="100%">
+                        <img src="{{#if project.des_project_image_mobile}} /uploads/projects/{{project.des_project_image_mobile}} {{else}} /img/img-default.jpg {{/if}}"
+                            id="preview-thumb-mobile" width="100%" style="cursor: pointer;">
                     </div>
-                    <input type="file" id="des_project_image_mobile" name="des_project_image_mobile" accept="image/*" style="display: none;">
+                    <input type="file" id="des_project_image_mobile" name="des_project_image_mobile" accept="image/*"
+                        hidden>
                 </div>
 
                 <div class="custom-file mt-4" id="select-image-logo">
                     <span>Logotipo personalizado para header</span>
-                    <div class="image-preview-logo" id="image-preview-logo" >
-                        <img src="{{#if project.des_project_image_logo}} /uploads/projects/{{project.des_project_image_logo}} {{else}} /img/img-default.jpg {{/if}}" id="preview-thumb-logo" width="100%"> 
+                    <div class="image-preview-logo" id="image-preview-logo">
+                        <img src="{{#if project.des_project_image_logo}} /uploads/projects/{{project.des_project_image_logo}} {{else}} /img/img-default.jpg {{/if}}"
+                            id="preview-thumb-logo" width="100%" style="cursor: pointer;">
                     </div>
-                    
-                    <input type="file" id="des_project_image_logo" name="des_project_image_logo" accept="image/*" style="display: none;">
+
+                    <input type="file" id="des_project_image_logo" name="des_project_image_logo" accept="image/*"
+                        hidden>
 
                 </div>
             </div>
             <br>
             <div class="col-4">
                 <label for="name">Nome do projeto*:</label>
-                <input type="text" id="nam_project" name="nam_project" class="form-control" value="{{project.nam_project}}" required>
+                <input type="text" id="nam_project" name="nam_project" class="form-control"
+                    value="{{project.nam_project}}" required>
                 <label for="owner" class="mt-4">Owner:</label>
-                <select class="form-select" aria-label="Owner" id="owner" name="owner" class="form-control"  required>
+                <select class="form-select" aria-label="Owner" id="owner" name="owner" class="form-control" required>
                     <option selected>Autocomplete</option>
                 </select>
                 <label for="objective" class="mt-4">Objetivo do projeto:</label>
-                <textarea rows="4" cols="50" id="objective" name="objective_project" class="form-control" required>{{project.objective_project}}</textarea>
+                <textarea rows="4" cols="50" id="objective" name="objective_project" class="form-control"
+                    required>{{project.objective_project}}</textarea>
                 <label for="customer" class="mt-4">Selecionar cliente*:</label>
-                    <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
-                        class="form-control" required>
-                        <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
-                        {{#each customers}}
-                        <option value={{id_customer}}>{{name_customer}}</option>
-                        {{else}}
+                <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
+                    class="form-control" required>
+                    <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
+                    {{#each customers}}
+                    <option value={{id_customer}}>{{name_customer}}</option>
+                    {{else}}
 
-                        {{/each}}
-                    </select>
+                    {{/each}}
+                </select>
 
             </div>
             <br>
             <div class="col-4">
                 <label for="dat_expiration">Data expiração:</label>
-                <input type="date" name="dat_expiration" id="dat_expiration" class="form-control" value="{{project.dat_expiration}}">
+                <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
+                    value="{{project.dat_expiration}}">
                 <label for="status" class="mt-4">Status:</label>
-                <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control" required>
+                <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control"
+                    required>
                     <option value="{{project.des_status}}" selected>{{project.des_status}}</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
                     <option value="homolog interna">Homologação interna</option>
@@ -91,8 +103,10 @@
                     <option value="inativo">Inativo</option>
                 </select>
                 <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
-                <select class="form-select" aria-label="des_autoplay_timing" id="des_autoplay_timing" name="des_autoplay_timing" class="form-control" required>
-                    <option value="{{project.des_autoplay_timing}}" selected>{{project.des_autoplay_timing}} Segundos</option>
+                <select class="form-select" aria-label="des_autoplay_timing" id="des_autoplay_timing"
+                    name="des_autoplay_timing" class="form-control" required>
+                    <option value="{{project.des_autoplay_timing}}" selected>{{project.des_autoplay_timing}} Segundos
+                    </option>
                     <option value="10">10 Segundos</option>
                     <option value="20">20 Segundos</option>
                     <option value="30">30 Segundos</option>
@@ -100,24 +114,29 @@
                     <option value="50">50 Segundos</option>
                     <option value="60">60 Segundos</option>
                 </select>
-                                <label for="" class="mt-4">Personalização cores do cliente</label><br>
+                <label for="" class="mt-4">Personalização cores do cliente</label><br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="custom_color_y" name="project_custom_colors" value="true" {{#if project.des_custom_color_customer}}checked {{else}} {{/if}}>
+                    <input class="form-check-input" type="radio" id="custom_color_y" name="project_custom_colors"
+                        value="true" {{#if project.des_custom_color_customer}}checked {{else}} {{/if}}>
                     <label class="form-check-label" for="custom_color_y">Sim</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="custom_color_n" name="project_custom_colors" value="false" {{#if project.des_custom_color_customer}} {{else}} checked {{/if}}>
+                    <input class="form-check-input" type="radio" id="custom_color_n" name="project_custom_colors"
+                        value="false" {{#if project.des_custom_color_customer}} {{else}} checked {{/if}}>
                     <label class="form-check-label" for="custom_color_n">Não</label>
                 </div>
                 <br>
 
                 <label for="des_title_color" class="mt-4">Cor personalizada para o título:</label>
-                <input type="text" name="des_title_color" id="des_title_color" class="form-control" value="{{project.des_title_color}}">
+                <input type="text" name="des_title_color" id="des_title_color" class="form-control"
+                    value="{{project.des_title_color}}">
                 <label for="des_bg_title_color" class="mt-4">Cor personalizada para o fundo do título:</label>
-                <input type="text" name="des_bg_title_color" id="des_bg_title_color" class="form-control" value="{{project.des_bg_title_color}}">
+                <input type="text" name="des_bg_title_color" id="des_bg_title_color" class="form-control"
+                    value="{{project.des_bg_title_color}}">
                 <div class="row mt-4">
                     <div class="col text-end">
-                        <button type="submit" class="btn btn-confirm-form" style="display: none !important;" id="btn-submit-edit">Enviar</button>
+                        <button type="submit" class="btn btn-confirm-form" style="display: none !important;"
+                            id="btn-submit-edit">Enviar</button>
                     </div>
                 </div>
             </div>
@@ -125,81 +144,517 @@
     </form>
 </div>
 
-<script>
-    const btnSaveEdit = document.getElementById('btn-save-edit')
-    const btnSubmitEdit = document.getElementById('btn-submit-edit')
-
-
-    btnSaveEdit.addEventListener('click', () => {
-        btnSubmitEdit.click();
-    })
-</script>
-
-<!--
-    
-<h2 class="title-page"> Editar Projeto</h2>
-<p>Home / Cliente / Nome do Projeto / Editar Projeto</p>
-<div class="row">
-    <div class="col-8">
-        <div class="card">
-            <div class="card-body">
-                <form action="/projects/update/{{project.id_project}}" method="POST">
-                    <label for="name">Nome do projeto*:</label>
-                    <input type="text" id="nam_project" name="nam_project" placeholder="Nome do projeto"
-                        class="form-control" value="{{project.nam_project}}" required>
-                    <label for="customer" class="mt-4">Selecionar cliente*:</label>
-                    <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
-                        class="form-control" required>
-                        <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
-                        {{#each customers}}
-                        <option value={{id_customer}}>{{name_customer}}</option>
-                        {{else}}
-
-                        {{/each}}
-                    </select>
-
-                    <div class="row">
-                        <div class="col">
-                            <label for="des_autoplay" class="mt-4">Autoplay:</label>
-                            <input type="text" name="des_autoplay" id="des_autoplay" class="form-control"
-                                placeholder="Autoplay" value="{{project.des_autoplay}}">
-                        </div>
-                        <div class="col">
-                            <label for="des_autoplay_timing" class="mt-4">Autoplay Timing:</label>
-                            <input type="text" name="des_autoplay_timing" id="des_autoplay_timing" class="form-control"
-                                placeholder="Autoplay timing" value="{{project.des_autoplay_timing}}">
-                        </div>
+<!-- modais -->
+<div id="modal-upload-desktop" class="modal modal-upload">
+    <!-- Conteúdo do modal para upload de imagem para Desktop -->
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109" fill="none">
+                        <g clip-path="url(#clip0_4503_12274)">
+                            <path
+                                d="M87.8812 45.5984C86.3557 37.8672 82.1933 30.9055 76.105 25.9023C70.0167 20.8992 62.3803 18.165 54.5 18.1667C41.3746 18.1667 29.975 25.6151 24.2979 36.5151C17.6227 37.2364 11.4496 40.3992 6.96459 45.3955C2.47962 50.3918 -0.000779812 56.8694 1.83905e-07 63.5834C1.83905e-07 78.6163 12.2171 90.8334 27.25 90.8334H86.2917C98.8267 90.8334 109 80.6601 109 68.1251C109 56.1351 99.6896 46.4159 87.8812 45.5984ZM63.5833 59.0417V77.2084H45.4167V59.0417H31.7917L54.5 36.3334L77.2083 59.0417H63.5833Z"
+                                fill="#97CCBD" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4503_12274">
+                                <rect width="109" height="109" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2>Envio de imagens</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <div id="drop-area-desktop" class="upload-area">
+                    <p>Arraste aqui para carregar ou <span style="color:#0478FF;cursor:pointer"><u>selecione os
+                                arquivos</u></span></p>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-back-modal" id="cancel-button-desktop">Cancelar</button>
                     </div>
-
-                    <label for="dat_expiration" class="mt-4">Data expiração:</label>
-                    <input type="date" name="dat_expiration" id="dat_expiration" class="form-control" value="{{project.dat_expiration}}">
-
-                    <div class="row">
-                        <div class="col">
-                            <label for="principal_color" class="mt-4">Cor principal:</label>
-                            <input type="text" name="principal_color" id="principal_color" class="form-control"
-                                placeholder="Cor principal" value="{{project.des_principal_color}}">
-                        </div>
-                        <div class="col">
-                            <label for="secundary_color" class="mt-4">Cor secundária:</label>
-                            <input type="text" name="secundary_color" id="secundary_color" class="form-control"
-                                placeholder="Cor secundária" value="{{project.des_secundary_color}}">
-                        </div>
-                        <div class="col">
-                            <label for="enu_color" class="mt-4">Cor do menu:</label>
-                            <input type="text" name="enu_color" id="enu_color" class="form-control"
-                                placeholder="Cor do menu" value="{{project.des_menu_color}}">
-                        </div>
+                    <div class="col-6">
+                        <button class="btn btn-confirm-modal" id="upload-button-desktop">Enviar</button>
                     </div>
-                    <label for="options_colors" class="mt-4">Opções de cores:</label>
-                    <input type="text" name="options_colors" id="options_colors" class="form-control"
-                        placeholder="Opções de cores" value="{{project.des_options_colors}}">
-
-                    <button type="submit" class="btn btn-success mt-4">Salvar projeto</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
---> 
+<div id="modal-upload-mobile" class="modal modal-upload">
+    <!-- Conteúdo do modal para upload de imagem para Mobile -->
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109" fill="none">
+                        <g clip-path="url(#clip0_4503_12274)">
+                            <path
+                                d="M87.8812 45.5984C86.3557 37.8672 82.1933 30.9055 76.105 25.9023C70.0167 20.8992 62.3803 18.165 54.5 18.1667C41.3746 18.1667 29.975 25.6151 24.2979 36.5151C17.6227 37.2364 11.4496 40.3992 6.96459 45.3955C2.47962 50.3918 -0.000779812 56.8694 1.83905e-07 63.5834C1.83905e-07 78.6163 12.2171 90.8334 27.25 90.8334H86.2917C98.8267 90.8334 109 80.6601 109 68.1251C109 56.1351 99.6896 46.4159 87.8812 45.5984ZM63.5833 59.0417V77.2084H45.4167V59.0417H31.7917L54.5 36.3334L77.2083 59.0417H63.5833Z"
+                                fill="#97CCBD" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4503_12274">
+                                <rect width="109" height="109" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2>Envio de imagens</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <div id="drop-area-mobile" class="upload-area">
+                    <p>Arraste aqui para carregar ou <span style="color:#0478FF;cursor:pointer"><u>selecione os
+                                arquivos</u></span></p>
+                </div>
+                <div id="image-preview" style="display: none;">
+                    <h3>Imagem Carregada:</h3>
+                    <img id="preview" width="300">
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-back-modal" id="cancel-button-mobile">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-confirm-modal" id="upload-button-mobile">Enviar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-upload-logo" class="modal modal-upload">
+    <!-- Conteúdo do modal para upload de imagem para Mobile -->
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div><svg xmlns="http://www.w3.org/2000/svg" width="109" height="109" viewBox="0 0 109 109" fill="none">
+                        <g clip-path="url(#clip0_4503_12274)">
+                            <path
+                                d="M87.8812 45.5984C86.3557 37.8672 82.1933 30.9055 76.105 25.9023C70.0167 20.8992 62.3803 18.165 54.5 18.1667C41.3746 18.1667 29.975 25.6151 24.2979 36.5151C17.6227 37.2364 11.4496 40.3992 6.96459 45.3955C2.47962 50.3918 -0.000779812 56.8694 1.83905e-07 63.5834C1.83905e-07 78.6163 12.2171 90.8334 27.25 90.8334H86.2917C98.8267 90.8334 109 80.6601 109 68.1251C109 56.1351 99.6896 46.4159 87.8812 45.5984ZM63.5833 59.0417V77.2084H45.4167V59.0417H31.7917L54.5 36.3334L77.2083 59.0417H63.5833Z"
+                                fill="#97CCBD" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_4503_12274">
+                                <rect width="109" height="109" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg></div>
+                <h2>Envio de imagens</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <div id="drop-area-logo" class="upload-area">
+                    <p>Arraste aqui para carregar ou <span style="color:#0478FF;cursor:pointer"><u>selecione os
+                                arquivos</u></span></p>
+                </div>
+                <div id="image-preview" style="display: none;">
+                    <h3>Imagem Carregada:</h3>
+                    <img id="preview" width="300">
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-back-modal" id="cancel-button-logo">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-confirm-modal" id="upload-button-logo">Enviar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirm-modal-desktop" class="modal modal-upload">
+    <!-- Conteúdo do modal de confirmação para Desktop -->
+    <div class="modal-content text-center modal-container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="92" viewBox="0 0 100 92" fill="none">
+                <path
+                    d="M76.9231 80.5C76.9231 79.4618 76.5425 78.5634 75.7812 77.8047C75.02 77.046 74.1186 76.6667 73.0769 76.6667C72.0353 76.6667 71.1338 77.046 70.3726 77.8047C69.6114 78.5634 69.2308 79.4618 69.2308 80.5C69.2308 81.5382 69.6114 82.4366 70.3726 83.1953C71.1338 83.954 72.0353 84.3333 73.0769 84.3333C74.1186 84.3333 75.02 83.954 75.7812 83.1953C76.5425 82.4366 76.9231 81.5382 76.9231 80.5ZM92.3077 80.5C92.3077 79.4618 91.9271 78.5634 91.1659 77.8047C90.4046 77.046 89.5032 76.6667 88.4615 76.6667C87.4199 76.6667 86.5184 77.046 85.7572 77.8047C84.996 78.5634 84.6154 79.4618 84.6154 80.5C84.6154 81.5382 84.996 82.4366 85.7572 83.1953C86.5184 83.954 87.4199 84.3333 88.4615 84.3333C89.5032 84.3333 90.4046 83.954 91.1659 83.1953C91.9271 82.4366 92.3077 81.5382 92.3077 80.5ZM100 67.0833V86.25C100 87.8472 99.4391 89.2049 98.3173 90.3229C97.1955 91.441 95.8333 92 94.2308 92H5.76923C4.16667 92 2.80449 91.441 1.68269 90.3229C0.560897 89.2049 0 87.8472 0 86.25V67.0833C0 65.4861 0.560897 64.1285 1.68269 63.0104C2.80449 61.8924 4.16667 61.3333 5.76923 61.3333H33.7139L41.8269 69.4792C44.1506 71.7153 46.875 72.8333 50 72.8333C53.125 72.8333 55.8494 71.7153 58.1731 69.4792L66.3462 61.3333H94.2308C95.8333 61.3333 97.1955 61.8924 98.3173 63.0104C99.4391 64.1285 100 65.4861 100 67.0833ZM80.4688 33.0026C81.1498 34.6398 80.8694 36.0373 79.6274 37.1953L52.7043 64.0286C51.9832 64.7873 51.0817 65.1667 50 65.1667C48.9183 65.1667 48.0168 64.7873 47.2957 64.0286L20.3726 37.1953C19.1306 36.0373 18.8502 34.6398 19.5312 33.0026C20.2123 31.4453 21.3942 30.6667 23.0769 30.6667H38.4615V3.83333C38.4615 2.79514 38.8421 1.8967 39.6034 1.13802C40.3646 0.37934 41.266 0 42.3077 0H57.6923C58.734 0 59.6354 0.37934 60.3966 1.13802C61.1579 1.8967 61.5385 2.79514 61.5385 3.83333V30.6667H76.9231C78.6058 30.6667 79.7877 31.4453 80.4688 33.0026Z"
+                    fill="#97CCBD" />
+            </svg>
+        </div>
+        <div>
+            <h2>Confirmar Envio</h2>
+            <input id="uploaded-image-desktop" alt="Imagem carregada" disabled>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-back-modal" id="cancel-upload-desktop">Cancelar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-confirm-modal" id="confirm-upload-desktop">Enviar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="confirm-modal-mobile" class="modal modal-upload">
+    <!-- Conteúdo do modal de confirmação para Mobile -->
+    <div class="modal-content text-center modal-container">
+
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="92" viewBox="0 0 100 92" fill="none">
+                <path
+                    d="M76.9231 80.5C76.9231 79.4618 76.5425 78.5634 75.7812 77.8047C75.02 77.046 74.1186 76.6667 73.0769 76.6667C72.0353 76.6667 71.1338 77.046 70.3726 77.8047C69.6114 78.5634 69.2308 79.4618 69.2308 80.5C69.2308 81.5382 69.6114 82.4366 70.3726 83.1953C71.1338 83.954 72.0353 84.3333 73.0769 84.3333C74.1186 84.3333 75.02 83.954 75.7812 83.1953C76.5425 82.4366 76.9231 81.5382 76.9231 80.5ZM92.3077 80.5C92.3077 79.4618 91.9271 78.5634 91.1659 77.8047C90.4046 77.046 89.5032 76.6667 88.4615 76.6667C87.4199 76.6667 86.5184 77.046 85.7572 77.8047C84.996 78.5634 84.6154 79.4618 84.6154 80.5C84.6154 81.5382 84.996 82.4366 85.7572 83.1953C86.5184 83.954 87.4199 84.3333 88.4615 84.3333C89.5032 84.3333 90.4046 83.954 91.1659 83.1953C91.9271 82.4366 92.3077 81.5382 92.3077 80.5ZM100 67.0833V86.25C100 87.8472 99.4391 89.2049 98.3173 90.3229C97.1955 91.441 95.8333 92 94.2308 92H5.76923C4.16667 92 2.80449 91.441 1.68269 90.3229C0.560897 89.2049 0 87.8472 0 86.25V67.0833C0 65.4861 0.560897 64.1285 1.68269 63.0104C2.80449 61.8924 4.16667 61.3333 5.76923 61.3333H33.7139L41.8269 69.4792C44.1506 71.7153 46.875 72.8333 50 72.8333C53.125 72.8333 55.8494 71.7153 58.1731 69.4792L66.3462 61.3333H94.2308C95.8333 61.3333 97.1955 61.8924 98.3173 63.0104C99.4391 64.1285 100 65.4861 100 67.0833ZM80.4688 33.0026C81.1498 34.6398 80.8694 36.0373 79.6274 37.1953L52.7043 64.0286C51.9832 64.7873 51.0817 65.1667 50 65.1667C48.9183 65.1667 48.0168 64.7873 47.2957 64.0286L20.3726 37.1953C19.1306 36.0373 18.8502 34.6398 19.5312 33.0026C20.2123 31.4453 21.3942 30.6667 23.0769 30.6667H38.4615V3.83333C38.4615 2.79514 38.8421 1.8967 39.6034 1.13802C40.3646 0.37934 41.266 0 42.3077 0H57.6923C58.734 0 59.6354 0.37934 60.3966 1.13802C61.1579 1.8967 61.5385 2.79514 61.5385 3.83333V30.6667H76.9231C78.6058 30.6667 79.7877 31.4453 80.4688 33.0026Z"
+                    fill="#97CCBD" />
+            </svg>
+        </div>
+        <div>
+            <h2>Confirmar Envio</h2>
+            <input id="uploaded-image-mobile" alt="Imagem carregada" disabled>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-back-modal" id="cancel-upload-mobile">Cancelar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-confirm-modal" id="confirm-upload-mobile">Enviar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="confirm-modal-logo" class="modal modal-upload">
+    <!-- Conteúdo do modal de confirmação para Logo -->
+    <div class="modal-content text-center modal-container">
+
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="92" viewBox="0 0 100 92" fill="none">
+                <path
+                    d="M76.9231 80.5C76.9231 79.4618 76.5425 78.5634 75.7812 77.8047C75.02 77.046 74.1186 76.6667 73.0769 76.6667C72.0353 76.6667 71.1338 77.046 70.3726 77.8047C69.6114 78.5634 69.2308 79.4618 69.2308 80.5C69.2308 81.5382 69.6114 82.4366 70.3726 83.1953C71.1338 83.954 72.0353 84.3333 73.0769 84.3333C74.1186 84.3333 75.02 83.954 75.7812 83.1953C76.5425 82.4366 76.9231 81.5382 76.9231 80.5ZM92.3077 80.5C92.3077 79.4618 91.9271 78.5634 91.1659 77.8047C90.4046 77.046 89.5032 76.6667 88.4615 76.6667C87.4199 76.6667 86.5184 77.046 85.7572 77.8047C84.996 78.5634 84.6154 79.4618 84.6154 80.5C84.6154 81.5382 84.996 82.4366 85.7572 83.1953C86.5184 83.954 87.4199 84.3333 88.4615 84.3333C89.5032 84.3333 90.4046 83.954 91.1659 83.1953C91.9271 82.4366 92.3077 81.5382 92.3077 80.5ZM100 67.0833V86.25C100 87.8472 99.4391 89.2049 98.3173 90.3229C97.1955 91.441 95.8333 92 94.2308 92H5.76923C4.16667 92 2.80449 91.441 1.68269 90.3229C0.560897 89.2049 0 87.8472 0 86.25V67.0833C0 65.4861 0.560897 64.1285 1.68269 63.0104C2.80449 61.8924 4.16667 61.3333 5.76923 61.3333H33.7139L41.8269 69.4792C44.1506 71.7153 46.875 72.8333 50 72.8333C53.125 72.8333 55.8494 71.7153 58.1731 69.4792L66.3462 61.3333H94.2308C95.8333 61.3333 97.1955 61.8924 98.3173 63.0104C99.4391 64.1285 100 65.4861 100 67.0833ZM80.4688 33.0026C81.1498 34.6398 80.8694 36.0373 79.6274 37.1953L52.7043 64.0286C51.9832 64.7873 51.0817 65.1667 50 65.1667C48.9183 65.1667 48.0168 64.7873 47.2957 64.0286L20.3726 37.1953C19.1306 36.0373 18.8502 34.6398 19.5312 33.0026C20.2123 31.4453 21.3942 30.6667 23.0769 30.6667H38.4615V3.83333C38.4615 2.79514 38.8421 1.8967 39.6034 1.13802C40.3646 0.37934 41.266 0 42.3077 0H57.6923C58.734 0 59.6354 0.37934 60.3966 1.13802C61.1579 1.8967 61.5385 2.79514 61.5385 3.83333V30.6667H76.9231C78.6058 30.6667 79.7877 31.4453 80.4688 33.0026Z"
+                    fill="#97CCBD" />
+            </svg>
+        </div>
+        <div>
+            <h2>Confirmar Envio</h2>
+            <input id="uploaded-image-logo" alt="Imagem carregada" disabled>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-back-modal" id="cancel-upload-logo">Cancelar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-confirm-modal" id="confirm-upload-logo">Enviar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-ok" class="modal modal-upload">
+    <div class="modal-content text-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <div><svg xmlns="http://www.w3.org/2000/svg" width="84" height="60" viewBox="0 0 84 60" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M81.7745 2.29587C82.9462 3.46791 83.6044 5.05734 83.6044 6.71462C83.6044 8.37189 82.9462 9.96132 81.7745 11.1334L34.9286 57.9792C34.3095 58.5984 33.5746 59.0896 32.7656 59.4247C31.9567 59.7599 31.0896 59.9324 30.214 59.9324C29.3384 59.9324 28.4714 59.7599 27.6625 59.4247C26.8535 59.0896 26.1185 58.5984 25.4995 57.9792L2.22446 34.7084C1.62752 34.1318 1.15138 33.4422 0.823824 32.6796C0.496268 31.9171 0.323854 31.097 0.316642 30.2671C0.309431 29.4373 0.467567 28.6143 0.781823 27.8462C1.09608 27.078 1.56016 26.3802 2.14699 25.7934C2.73382 25.2066 3.43164 24.7425 4.19974 24.4282C4.96785 24.114 5.79084 23.9558 6.62072 23.963C7.45059 23.9703 8.27071 24.1427 9.03324 24.4702C9.79576 24.7978 10.4854 25.2739 11.062 25.8709L30.212 45.0209L72.9328 2.29587C73.5132 1.71508 74.2024 1.25435 74.9609 0.940003C75.7195 0.625661 76.5325 0.463867 77.3536 0.463867C78.1747 0.463867 78.9878 0.625661 79.7463 0.940003C80.5049 1.25435 81.194 1.71508 81.7745 2.29587Z"
+                            fill="#97CCBD" />
+                    </svg></div>
+                <h2>Tudo Certo!</h2>
+                <!-- Área de envio de imagens com suporte a arrastar e soltar -->
+                <p>Sua imagem foi adicionada ao projetos</p>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-confirm-modal" id="button-ok">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalUploadDesktop = document.getElementById('modal-upload-desktop');
+        const modalUploadMobile = document.getElementById('modal-upload-mobile');
+        const modalUploadLogo = document.getElementById('modal-upload-logo');
+
+        const confirmModalDesktop = document.getElementById('confirm-modal-desktop');
+        const confirmModalMobile = document.getElementById('confirm-modal-mobile');
+        const confirmModalLogo = document.getElementById('confirm-modal-logo');
+
+        const sendInputDesktop = document.getElementById('des_project_image_desktop');
+        const sendInputMobile = document.getElementById('des_project_image_mobile');
+        const sendInputLogo = document.getElementById('des_project_image_logo');
+
+        const fileInputDesktop = document.getElementById('fileInputDesktop');
+        const fileInputMobile = document.getElementById('fileInputMobile');
+        const fileInputLogo = document.getElementById('fileInputLogo');
+
+        const dropAreaDesktop = document.getElementById('drop-area-desktop');
+        const dropAreaMobile = document.getElementById('drop-area-mobile');
+        const dropAreaLogo = document.getElementById('drop-area-logo');
+
+        const uploadedImageDesktop = document.getElementById('uploaded-image-desktop')
+        const uploadedImageMobile = document.getElementById('uploaded-image-mobile')
+        const uploadedImageLogo = document.getElementById('uploaded-image-logo')
+
+        const btnSendImageDesktop = document.getElementById('confirm-upload-desktop')
+        const btnSendImageMobile = document.getElementById('confirm-upload-mobile')
+        const btnSendImageLogo = document.getElementById('confirm-upload-logo')
+
+        const imagePreviewDesktop = document.getElementById('image-preview-desktop');
+        const imagePreviewMobile = document.getElementById('image-preview-mobile');
+        const imagePreviewLogo = document.getElementById('image-preview-logo');
+
+        const previewImageDesktop = document.getElementById('preview-thumb-desk');
+        const previewImageMobile = document.getElementById('preview-thumb-mobile');
+        const previewImageLogo = document.getElementById('preview-thumb-logo');
+
+
+        const modalOk = document.getElementById('modal-ok');
+        const buttonOk = document.getElementById('button-ok');
+
+
+        const btnSaveEdit = document.getElementById('btn-save-edit')
+        const btnSubmitEdit = document.getElementById('btn-submit-edit')
+
+        btnSaveEdit.addEventListener('click', () => {
+            btnSubmitEdit.click();
+        })
+
+        // Eventos de arrastar e soltar
+        dropAreaDesktop.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropAreaDesktop.style.backgroundColor = '#f2f2f2';
+        });
+
+        dropAreaDesktop.addEventListener('dragleave', () => {
+            dropAreaDesktop.style.backgroundColor = 'white';
+        });
+
+        dropAreaDesktop.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                
+                openConfirmModalDesktop();
+                uploadedImageDesktop.value = file.name
+                sendInputDesktop.files = file
+                closeModalUploadDesktop();
+            }
+            dropAreaDesktop.style.backgroundColor = 'white';
+        });
+
+        dropAreaDesktop.addEventListener('click', () => {
+            sendInputDesktop.click();
+        })
+
+        dropAreaMobile.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropAreaMobile.style.backgroundColor = '#f2f2f2';
+        });
+
+        dropAreaMobile.addEventListener('dragleave', () => {
+            dropAreaMobile.style.backgroundColor = 'white';
+        });
+
+        dropAreaMobile.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                openConfirmModalMobile();
+            }
+            dropAreaMobile.style.backgroundColor = 'white';
+        });
+
+        dropAreaMobile.addEventListener('click', () => {
+            sendInputMobile.click();
+        })
+
+        dropAreaLogo.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropAreaLogo.style.backgroundColor = '#f2f2f2';
+        });
+
+        dropAreaLogo.addEventListener('dragleave', () => {
+            dropAreaLogo.style.backgroundColor = 'white';
+        });
+
+        dropAreaLogo.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                openConfirmModalLogo();
+            }
+            dropAreaLogo.style.backgroundColor = 'white';
+        });
+
+        dropAreaLogo.addEventListener('click', () => {
+            sendInputLogo.click();
+        })
+
+        buttonOk.addEventListener('click', () => {
+            modalOk.style.display = 'none'
+        })
+
+        // Função para abrir o modal de upload para Thumb Desktop
+        const openModalUploadDesktop = () => {
+            modalUploadDesktop.style.display = 'block';
+        };
+
+        // Função para abrir o modal de upload para Thumb Mobile
+        const openModalUploadMobile = () => {
+            modalUploadMobile.style.display = 'block';
+        };
+
+        // Função para abrir o modal de upload para Logo
+        const openModalUploadLogo = () => {
+            modalUploadLogo.style.display = 'block';
+        };
+
+        // Função para abrir o modal de confirmação para Thumb Desktop
+        const openConfirmModalDesktop = () => {
+            confirmModalDesktop.style.display = 'block';
+        };
+
+        // Função para abrir o modal de confirmação para Thumb Mobile
+        const openConfirmModalMobile = () => {
+            confirmModalMobile.style.display = 'block';
+        };
+
+        // Função para abrir o modal de confirmação para Logo
+        const openConfirmModalLogo = () => {
+            confirmModalLogo.style.display = 'block';
+        };
+
+        const openModalOk = () => {
+            modalOk.style.display = 'block'
+        }
+
+
+
+        // Eventos de clique para abrir os modais de upload e confirmação
+        imagePreviewDesktop.addEventListener('click', openModalUploadDesktop);
+        imagePreviewMobile.addEventListener('click', openModalUploadMobile);
+        imagePreviewLogo.addEventListener('click', openModalUploadLogo);
+
+        btnSendImageDesktop.addEventListener('click', () => {
+            const file = sendInputDesktop.files[0]
+
+            if (file) {
+                closeModalConfirmDesktop();                
+                imagePreviewDesktop.style.display = 'block';
+                showImage(file, previewImageDesktop);
+                openModalOk();
+            }
+
+        })
+
+        btnSendImageMobile.addEventListener('click', () => {
+            const file = sendInputMobile.files[0]
+            if (file) {
+                closeModalConfirmMobile();
+                imagePreviewMobile.style.display = 'block';
+                showImage(file, previewImageMobile);
+                openModalOk();
+            }
+        })
+
+
+        btnSendImageLogo.addEventListener('click', () => {
+            const file = sendInputLogo.files[0]
+            if (file) {
+
+                closeModalConfirmLogo();
+                imagePreviewLogo.style.display = 'block';
+                showImage(file, previewImageLogo);
+                openModalOk();
+            }
+        })
+
+        // Eventos de seleção de arquivo para atualizar a imagem no modal de upload
+        sendInputDesktop.addEventListener('change', () => {
+            const file = sendInputDesktop.files[0];
+            if (file) {
+                //showImage(file, imagePreviewDesktop);
+                openConfirmModalDesktop();
+                uploadedImageDesktop.value = file.name
+                closeModalUploadDesktop();
+            }
+        });
+
+        sendInputMobile.addEventListener('change', () => {
+            const file = sendInputMobile.files[0];
+            if (file) {
+                openConfirmModalMobile();
+                uploadedImageMobile.value = file.name
+                closeModalUploadMobile();
+            }
+        });
+
+        sendInputLogo.addEventListener('change', () => {
+            const file = sendInputLogo.files[0];
+            if (file) {
+                openConfirmModalLogo();
+                uploadedImageLogo.value = file.name
+                closeModalUploadLogo();
+            }
+        });
+
+
+
+        // Função para exibir imagem após o carregamento
+        const showImage = (file, previewElement) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewElement.style.display = 'block';
+                previewElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+        };
+
+        // Funções para fechar os modais
+        const closeModalUploadDesktop = () => {
+            modalUploadDesktop.style.display = 'none';
+        };
+
+        const closeModalUploadMobile = () => {
+            modalUploadMobile.style.display = 'none';
+        };
+
+        const closeModalUploadLogo = () => {
+            modalUploadLogo.style.display = 'none';
+        };
+
+        const closeModalConfirmDesktop = () => {
+            confirmModalDesktop.style.display = 'none';
+        };
+
+        const closeModalConfirmMobile = () => {
+            confirmModalMobile.style.display = 'none';
+        };
+
+        const closeModalConfirmLogo = () => {
+            confirmModalLogo.style.display = 'none';
+        };
+
+        // Eventos de clique para fechar os modais
+        document.getElementById('cancel-upload-desktop').addEventListener('click', closeModalConfirmDesktop);
+        document.getElementById('cancel-upload-mobile').addEventListener('click', closeModalConfirmMobile);
+        document.getElementById('cancel-upload-logo').addEventListener('click', closeModalConfirmLogo);
+        document.getElementById('cancel-button-desktop').addEventListener('click', closeModalUploadDesktop);
+        document.getElementById('cancel-button-mobile').addEventListener('click', closeModalUploadMobile);
+        document.getElementById('cancel-button-logo').addEventListener('click', closeModalUploadLogo);
+    });
+
+
+</script>

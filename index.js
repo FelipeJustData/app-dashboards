@@ -111,9 +111,7 @@ app.use('/customers', customers)
 app.use('/dashboards', dashboards)
 
 // Rota principal
-app.get('/home', eUser, async (req, res) => {
-
-    console.log(">>>>>>>>>>>>>>>>>> IMAGEM : " +req.user.photo_user)
+app.get('/home', eUser, async (req, res) => {    
     if (req.user.typ_user == "Administrador") {
 
         try {

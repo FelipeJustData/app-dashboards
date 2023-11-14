@@ -1,37 +1,40 @@
 <div class="container-fluid" id="bg-login">
     <div class="row">
-        <div class="col-3">
-            <div class="col text-center">
+        <div class="col-xl-3">
+            <div class="col-3 col-xl-12 text-center">
                 <img src="/img/compact-negative-signature.svg" alt="Logo Just" id="logo-just">
             </div>
-            <div class="col text-center">
+            <div class="col-3 col-xl-12 text-center col-login-ola">
                 <p class="p-login">Olá!</p>
             </div>
-            <div class="col text-center col-workspae-login">
-                <p class="p-login">Acesse sua área de trabalho</p>
+            <div class="col-10 col-xl-12 text-center col-workspace-login">
+                <p class="p-login p-login-ola" style="display: none;">Olá!</p>
+                <p class="p-login p-login-acess">Acesse sua área de trabalho</p>
             </div>
         </div>
-        <div class="col-4 col-form-login">
+        <div class="col-12 col-form-login">
             <div class="card p-2" id="card-login">
                 <div class="card-body">
                     <form action="/users/login" method="POST">
                         <div class="form-group">
-                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                            <input type="email" class="form-control input-login" name="email" placeholder="Email"
+                                required>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" placeholder="Senha" required>
+                            <input type="password" class="form-control input-login" name="password" placeholder="Senha"
+                                required>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-check">
-                                    <input class="form-check-input form-group" type="checkbox" value=""
-                                        id="rememberMe" name="rememberMe">
+                                    <input class="form-check-input form-group" type="checkbox" value="" id="rememberMe"
+                                        name="rememberMe">
                                     <label class="form-check-label" for="rememberMe">
                                         Lembrar acesso
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-6 form-check-label text-end">
+                            <div class="col-6 form-check-label text-end align-self-center">
                                 Precisa de ajuda?
                             </div>
                         </div>
@@ -43,97 +46,128 @@
                 </div>
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-12">
             <div class="col text-center">
 
             </div>
         </div>
     </div>
+</div>
 
-    <footer>
-        <div class="row footer-social">
-            <div class="col-10">
-            </div>
-            <div class="col-2">
-                <div class="row">
-                    <div class="col-3 text-center">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
-                                    fill="none">
-                                    <path
-                                        d="M22.05 20C22.05 24.97 18.01 29 13.024 29C11.8405 29.0016 10.6683 28.77 9.57434 28.3186C8.48035 27.8672 7.48599 27.2047 6.64804 26.3689C5.81008 25.5332 5.14494 24.5406 4.69059 23.4478C4.23624 22.3551 4.00157 21.1835 4 20C4 15.028 8.04 11 13.024 11C14.2076 10.9982 15.3801 11.2295 16.4743 11.6808C17.5685 12.1322 18.5631 12.7946 19.4013 13.6304C20.2394 14.4661 20.9047 15.4588 21.3592 16.5517C21.8137 17.6446 22.0484 18.8164 22.05 20ZM31.95 20C31.95 24.68 29.93 28.472 27.438 28.472C24.946 28.472 22.926 24.678 22.926 20C22.926 15.32 24.946 11.528 27.438 11.528C29.93 11.528 31.95 15.322 31.95 20ZM36 20C36 24.192 35.29 27.59 34.412 27.59C33.536 27.59 32.826 24.19 32.826 20C32.826 15.808 33.536 12.41 34.414 12.41C35.29 12.41 36 15.808 36 20Z"
-                                        fill="#1C1B1D" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="https://www.instagram.com/justalittledata/" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
-                                    fill="none">
-                                    <path
-                                        d="M20.3372 3C10.7799 3 3.00391 10.776 3.00391 20.3333C3.00391 29.8907 10.7799 37.6667 20.3372 37.6667C29.8946 37.6667 37.6706 29.8907 37.6706 20.3333C37.6706 10.776 29.8946 3 20.3372 3ZM15.8919 8.33333H24.7799C28.9466 8.33333 32.3372 11.7227 32.3372 15.888V24.776C32.3372 28.9427 28.9479 32.3333 24.7826 32.3333H15.8945C11.7279 32.3333 8.33724 28.944 8.33724 24.7786V15.8906C8.33724 11.724 11.7266 8.33333 15.8919 8.33333ZM15.8919 11C13.1973 11 11.0039 13.1946 11.0039 15.8906V24.7786C11.0039 27.4733 13.1985 29.6667 15.8945 29.6667H24.7826C27.4772 29.6667 29.6706 27.472 29.6706 24.776V15.888C29.6706 13.1934 27.4759 11 24.7799 11H15.8919ZM26.5612 13.2214C27.0519 13.2214 27.4492 13.6187 27.4492 14.1094C27.4492 14.6 27.0519 15 26.5612 15C26.0705 15 25.6706 14.6 25.6706 14.1094C25.6706 13.6187 26.0705 13.2214 26.5612 13.2214ZM20.3372 13.6667C24.0132 13.6667 27.0039 16.6573 27.0039 20.3333C27.0039 24.0093 24.0132 27 20.3372 27C16.6612 27 13.6706 24.0093 13.6706 20.3333C13.6706 16.6573 16.6612 13.6667 20.3372 13.6667ZM20.3372 16.3333C19.2764 16.3333 18.259 16.7548 17.5088 17.5049C16.7587 18.2551 16.3372 19.2725 16.3372 20.3333C16.3372 21.3942 16.7587 22.4116 17.5088 23.1618C18.259 23.9119 19.2764 24.3333 20.3372 24.3333C21.3981 24.3333 22.4155 23.9119 23.1657 23.1618C23.9158 22.4116 24.3372 21.3942 24.3372 20.3333C24.3372 19.2725 23.9158 18.2551 23.1657 17.5049C22.4155 16.7548 21.3981 16.3333 20.3372 16.3333Z"
-                                        fill="#1C1B1D" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="https://www.linkedin.com/company/just-a-little-data/" target="_blank"
-                            rel="noopener noreferrer">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
-                                    fill="none">
-                                    <path
-                                        d="M19.1699 1C8.95253 1 0.669922 9.2826 0.669922 19.5C0.669922 29.7174 8.95253 38 19.1699 38C29.3873 38 37.6699 29.7174 37.6699 19.5C37.6699 9.2826 29.3873 1 19.1699 1ZM14.6413 27.1679H10.895V15.112H14.6413V27.1679ZM12.745 13.632C11.5618 13.632 10.7967 12.7937 10.7967 11.757C10.7967 10.699 11.5849 9.88578 12.7932 9.88578C14.0015 9.88578 14.7415 10.699 14.7646 11.757C14.7646 12.7937 14.0015 13.632 12.745 13.632ZM28.3236 27.1679H24.5773V20.4867C24.5773 18.9315 24.0339 17.8755 22.6791 17.8755C21.6443 17.8755 21.0296 18.5904 20.7578 19.2784C20.6576 19.5231 20.6326 19.87 20.6326 20.2149V27.1659H16.8844V18.9566C16.8844 17.4515 16.8362 16.1931 16.7861 15.1101H20.041L20.2125 16.7847H20.2876C20.781 15.9985 21.9892 14.8384 24.0108 14.8384C26.4755 14.8384 28.3236 16.4899 28.3236 20.0396V27.1679Z"
-                                        fill="#1C1B1D" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
-                                    fill="none">
-                                    <path
-                                        d="M28.3233 7H32.7339L23.0979 18.0133L34.4339 33H25.5566L18.6046 23.9107L10.6499 33H6.23659L16.5433 21.22L5.66992 7H14.7699L21.0539 15.308L28.3206 7H28.3233ZM26.7753 30.36H29.2193L13.4433 9.50133H10.8206L26.7753 30.36Z"
-                                        fill="#1C1B1D" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
+
+<footer>
+
+    <div class="row footer-social">
+        <div class="col-xl-10">
+        </div>
+        <div class="col-xl-2">
+            <div class="row">
+                <div class="col-3 text-center">
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
+                                fill="none">
+                                <path
+                                    d="M22.05 20C22.05 24.97 18.01 29 13.024 29C11.8405 29.0016 10.6683 28.77 9.57434 28.3186C8.48035 27.8672 7.48599 27.2047 6.64804 26.3689C5.81008 25.5332 5.14494 24.5406 4.69059 23.4478C4.23624 22.3551 4.00157 21.1835 4 20C4 15.028 8.04 11 13.024 11C14.2076 10.9982 15.3801 11.2295 16.4743 11.6808C17.5685 12.1322 18.5631 12.7946 19.4013 13.6304C20.2394 14.4661 20.9047 15.4588 21.3592 16.5517C21.8137 17.6446 22.0484 18.8164 22.05 20ZM31.95 20C31.95 24.68 29.93 28.472 27.438 28.472C24.946 28.472 22.926 24.678 22.926 20C22.926 15.32 24.946 11.528 27.438 11.528C29.93 11.528 31.95 15.322 31.95 20ZM36 20C36 24.192 35.29 27.59 34.412 27.59C33.536 27.59 32.826 24.19 32.826 20C32.826 15.808 33.536 12.41 34.414 12.41C35.29 12.41 36 15.808 36 20Z"
+                                    fill="#1C1B1D" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="https://www.instagram.com/justalittledata/" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
+                                fill="none">
+                                <path
+                                    d="M20.3372 3C10.7799 3 3.00391 10.776 3.00391 20.3333C3.00391 29.8907 10.7799 37.6667 20.3372 37.6667C29.8946 37.6667 37.6706 29.8907 37.6706 20.3333C37.6706 10.776 29.8946 3 20.3372 3ZM15.8919 8.33333H24.7799C28.9466 8.33333 32.3372 11.7227 32.3372 15.888V24.776C32.3372 28.9427 28.9479 32.3333 24.7826 32.3333H15.8945C11.7279 32.3333 8.33724 28.944 8.33724 24.7786V15.8906C8.33724 11.724 11.7266 8.33333 15.8919 8.33333ZM15.8919 11C13.1973 11 11.0039 13.1946 11.0039 15.8906V24.7786C11.0039 27.4733 13.1985 29.6667 15.8945 29.6667H24.7826C27.4772 29.6667 29.6706 27.472 29.6706 24.776V15.888C29.6706 13.1934 27.4759 11 24.7799 11H15.8919ZM26.5612 13.2214C27.0519 13.2214 27.4492 13.6187 27.4492 14.1094C27.4492 14.6 27.0519 15 26.5612 15C26.0705 15 25.6706 14.6 25.6706 14.1094C25.6706 13.6187 26.0705 13.2214 26.5612 13.2214ZM20.3372 13.6667C24.0132 13.6667 27.0039 16.6573 27.0039 20.3333C27.0039 24.0093 24.0132 27 20.3372 27C16.6612 27 13.6706 24.0093 13.6706 20.3333C13.6706 16.6573 16.6612 13.6667 20.3372 13.6667ZM20.3372 16.3333C19.2764 16.3333 18.259 16.7548 17.5088 17.5049C16.7587 18.2551 16.3372 19.2725 16.3372 20.3333C16.3372 21.3942 16.7587 22.4116 17.5088 23.1618C18.259 23.9119 19.2764 24.3333 20.3372 24.3333C21.3981 24.3333 22.4155 23.9119 23.1657 23.1618C23.9158 22.4116 24.3372 21.3942 24.3372 20.3333C24.3372 19.2725 23.9158 18.2551 23.1657 17.5049C22.4155 16.7548 21.3981 16.3333 20.3372 16.3333Z"
+                                    fill="#1C1B1D" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="https://www.linkedin.com/company/just-a-little-data/" target="_blank"
+                        rel="noopener noreferrer">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
+                                fill="none">
+                                <path
+                                    d="M19.1699 1C8.95253 1 0.669922 9.2826 0.669922 19.5C0.669922 29.7174 8.95253 38 19.1699 38C29.3873 38 37.6699 29.7174 37.6699 19.5C37.6699 9.2826 29.3873 1 19.1699 1ZM14.6413 27.1679H10.895V15.112H14.6413V27.1679ZM12.745 13.632C11.5618 13.632 10.7967 12.7937 10.7967 11.757C10.7967 10.699 11.5849 9.88578 12.7932 9.88578C14.0015 9.88578 14.7415 10.699 14.7646 11.757C14.7646 12.7937 14.0015 13.632 12.745 13.632ZM28.3236 27.1679H24.5773V20.4867C24.5773 18.9315 24.0339 17.8755 22.6791 17.8755C21.6443 17.8755 21.0296 18.5904 20.7578 19.2784C20.6576 19.5231 20.6326 19.87 20.6326 20.2149V27.1659H16.8844V18.9566C16.8844 17.4515 16.8362 16.1931 16.7861 15.1101H20.041L20.2125 16.7847H20.2876C20.781 15.9985 21.9892 14.8384 24.0108 14.8384C26.4755 14.8384 28.3236 16.4899 28.3236 20.0396V27.1679Z"
+                                    fill="#1C1B1D" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-3 text-center">
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"
+                                fill="none">
+                                <path
+                                    d="M28.3233 7H32.7339L23.0979 18.0133L34.4339 33H25.5566L18.6046 23.9107L10.6499 33H6.23659L16.5433 21.22L5.66992 7H14.7699L21.0539 15.308L28.3206 7H28.3233ZM26.7753 30.36H29.2193L13.4433 9.50133H10.8206L26.7753 30.36Z"
+                                    fill="#1C1B1D" />
+                            </svg>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 text-end">
-                <p>© Célula DataViz, <a style="color: inherit;"
-                        href="https://just.bi/?utm_source=datahub&utm_medium=footer" target="_blank"
-                        rel="noopener noreferrer">Just a Little Data</a> 2023. <svg xmlns="http://www.w3.org/2000/svg"
-                        width="25" height="33" viewBox="0 0 25 33" fill="none">
-                        <path d="M1.21905 31.9032L23.7116 1.00011" stroke="url(#paint0_linear_4198_105)"
-                            stroke-miterlimit="10" stroke-linecap="round" />
-                        <defs>
-                            <linearGradient id="paint0_linear_4198_105" x1="28.0165" y1="12.286" x2="-3.08567"
-                                y2="20.6198" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#EF1183" />
-                                <stop offset="0.3353" stop-color="#ED1182" />
-                                <stop offset="0.4739" stop-color="#E6107E" />
-                                <stop offset="0.5763" stop-color="#DA0F77" />
-                                <stop offset="0.6609" stop-color="#C80E6E" />
-                                <stop offset="0.7344" stop-color="#B10D61" />
-                                <stop offset="0.8002" stop-color="#950B52" />
-                                <stop offset="0.8604" stop-color="#73083F" />
-                                <stop offset="0.9161" stop-color="#4C052A" />
-                                <stop offset="0.9662" stop-color="#210212" />
-                                <stop offset="1" />
-                            </linearGradient>
-                        </defs>
-                    </svg> Todos os direitos reservados.</p>
-            </div>
+    </div>
+    <div class="row row-footer-desktop">
+        <div class="col-xl-12 text-end">
+            <p>© Célula DataViz, <a style="color: inherit;" href="https://just.bi/?utm_source=datahub&utm_medium=footer"
+                    target="_blank" rel="noopener noreferrer">Just a Little Data</a> 2023. <svg
+                    xmlns="http://www.w3.org/2000/svg" width="25" height="33" viewBox="0 0 25 33" fill="none">
+                    <path d="M1.21905 31.9032L23.7116 1.00011" stroke="url(#paint0_linear_4198_105)"
+                        stroke-miterlimit="10" stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="paint0_linear_4198_105" x1="28.0165" y1="12.286" x2="-3.08567" y2="20.6198"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#EF1183" />
+                            <stop offset="0.3353" stop-color="#ED1182" />
+                            <stop offset="0.4739" stop-color="#E6107E" />
+                            <stop offset="0.5763" stop-color="#DA0F77" />
+                            <stop offset="0.6609" stop-color="#C80E6E" />
+                            <stop offset="0.7344" stop-color="#B10D61" />
+                            <stop offset="0.8002" stop-color="#950B52" />
+                            <stop offset="0.8604" stop-color="#73083F" />
+                            <stop offset="0.9161" stop-color="#4C052A" />
+                            <stop offset="0.9662" stop-color="#210212" />
+                            <stop offset="1" />
+                        </linearGradient>
+                    </defs>
+                </svg> Todos os direitos reservados.</p>
         </div>
-    </footer>
-</div>
+    </div>
+    <div class="row mt-4 row-footer-mobile">
+        <div class="col-1 text-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="37" viewBox="0 0 18 37" fill="none">
+                <path d="M1.41641 35.8545L17.3893 0.999763" stroke="url(#paint0_linear_4217_379)" stroke-miterlimit="10"
+                    stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="paint0_linear_4217_379" x1="20.4464" y1="13.7288" x2="-2.57119" y2="17.6121"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#EF1183" />
+                        <stop offset="0.3353" stop-color="#ED1182" />
+                        <stop offset="0.4739" stop-color="#E6107E" />
+                        <stop offset="0.5763" stop-color="#DA0F77" />
+                        <stop offset="0.6609" stop-color="#C80E6E" />
+                        <stop offset="0.7344" stop-color="#B10D61" />
+                        <stop offset="0.8002" stop-color="#950B52" />
+                        <stop offset="0.8604" stop-color="#73083F" />
+                        <stop offset="0.9161" stop-color="#4C052A" />
+                        <stop offset="0.9662" stop-color="#210212" />
+                        <stop offset="1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        <div class="col-11">
+            <span class="p-footer-copy">© Célula DataViz, <a style="color: inherit;"
+                    href="https://just.bi/?utm_source=datahub&utm_medium=footer" target="_blank"
+                    rel="noopener noreferrer">Just a Little Data</a> 2023. <br>Todos os direitos reservados.
+            </span>
+        </div>
+    </div>
+</footer>

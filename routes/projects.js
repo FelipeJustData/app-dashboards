@@ -153,10 +153,10 @@ router.get("/add", eUser, (req, res) => {
 
 })
 
-router.post("/new", upload.fields([
+router.post("/new", eAdmin, upload.fields([
     { name: 'des_project_image_desktop', maxCount: 1 },
     { name: 'des_project_image_mobile', maxCount: 1 },
-    { name: 'des_project_image_logo', maxCount: 1 } // Corrigi o nome do campo aqui
+    { name: 'des_project_image_logo', maxCount: 1 } 
 ]), (req, res) => {   
 
     try {
@@ -225,19 +225,25 @@ router.get("/project/edit/:id",eAdmin, (req, res) => {
 })
 
 //save update
-router.post("/update/:id", (req, res) => {
+router.post("/update/:id", eAdmin, upload.fields([
+    { name: 'des_project_image_desktop', maxCount: 1 },
+    { name: 'des_project_image_mobile', maxCount: 1 },
+    { name: 'des_project_image_logo', maxCount: 1 } 
+]),(req, res) => {
     const projectID = req.params.id
 
     const updateProject = {
-        nam_project: req.body.nam_project,
-        des_autoplay: req.body.des_autoplay,
-        des_autoplay_timing: req.body.des_autoplay_timing,
-        dat_expiration: req.body.dat_expiration,
-        des_principal_color: req.body.des_principal_color,
-        des_secundary_color: req.body.des_secundary_color,
-        des_menu_color: req.body.des_menu_color,
-        des_options_colors: req.body.des_options_colors,
-        id_customer: req.body.customer
+        des_project_image_desktop: req.files['des_project_image_desktop'] ? req.files['des_project_image_desktop'][0].filename : null,
+            des_project_image_mobile: req.files['des_project_image_mobile'] ? req.files['des_project_image_mobile'][0].filename : null,
+            des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null, 
+            nam_project: req.body.nam_project,
+            objective_project: req.body.objective_project,
+            id_customer: req.body.customer,
+            dat_expiration: req.body.dat_expiration,
+            des_status: req.body.des_status,
+            des_autoplay_timing: req.body.des_autoplay_timing,
+            des_title_color: req.body.des_title_color,
+            des_bg_title_color: req.body.des_bg_title_color
     }
 
     Project.update(updateProject, { where: { id_project: projectID } }).then(async () => {

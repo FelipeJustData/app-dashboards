@@ -33,8 +33,7 @@ module.exports = {
 
     return multer.diskStorage({
       destination: (req, file, cb) => {
-        try {
-          console.log(">>>>>>>>>>>>>>>> SALVANDO IMAGEM EM : " +uploadDir)
+        try {          
           cb(null, path.resolve(uploadDir));
         } catch (error) {
           console.log("Erro ao fazer upload: "+error)

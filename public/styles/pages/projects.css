@@ -198,3 +198,9 @@ line-height: 16px; /* 133.333% */
     height: 150px;
     margin: 0 auto;
 }
+
+#preview-thumb-desk:hover,
+#preview-thumb-mobile:hover,
+#preview-thumb-logo:hover{
+    box-shadow: 0px 0px 12px 2px #7B7D80;
+}

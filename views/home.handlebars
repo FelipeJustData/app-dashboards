@@ -18,14 +18,14 @@
             {{#if (lt @index 5)}}
             <a href="/projects/view/{{id_project}}" style="text-decoration: none !important;color:inherit !important">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-3 align-self-center">
                         <img src="{{#if des_project_image_desktop}} /uploads/projects/{{des_project_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}"
                             width="100%">
                     </div>
                     <div class="col-7">
-                        <h4>{{nam_project}}</h4>
-                        <p>{{customer.name_customer}}</p>
-                        <span class="status-dash mt-1">{{des_status}}</span>
+                        <h4 class="name-project">{{nam_project}}</h4>
+                        <p class="name-customer">{{customer.name_customer}}</p>
+                        <span class="status-project mt-1">{{des_status}}</span>
                     </div>
                     <div class="col-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
@@ -63,15 +63,15 @@
                     <a href="/projects/view/{{id_project}}"
                         style="text-decoration: none !important;color:inherit !important">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-4 align-self-center">
                                 <img src="{{#if des_project_image_desktop}} /uploads/projects/{{des_project_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}"
                                     width="100%">
 
                             </div>
                             <div class="col-6">
-                                <h4>{{nam_project}}</h4>
-                                <p>{{customer.name_customer}}</p>
-                                <span class="status-dash mt-1">{{des_status}}</span>
+                                <h4 class="name-project">{{nam_project}}</h4>
+                                <p class="name-customer">{{customer.name_customer}}</p>
+                                <span class="status-project mt-1">{{des_status}}</span>
                             </div>
                             <div class="col-2 text-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
@@ -127,8 +127,7 @@
                                                             <div class="col-3"><svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="26" height="26" viewBox="0 0 26 26"
                                                                     fill="none" data-bs-toggle="tooltip"
-                                                                    data-bs-html="true"
-                                                                    data-placement="bottom"
+                                                                    data-bs-html="true" data-placement="bottom"
                                                                     data-bs-custom-class="project-info-tooltip"
                                                                     data-bs-title="<div class='title-tooltip-info mt-2'><span><img src='/img/info.svg' width='16px'> Lorem Ipsum Dolor</span></div><p class='tooltip-objective mt-2'>{{#if objective_project}} {{objective_project}} {{else}} Nenhum objetivo do projeto inserido {{/if}}</p>">
                                                                     <path
@@ -168,27 +167,29 @@
                                     {{/if}}
                                     {{/each}}
                                 </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel"
+                                    data-bs-slide="prev">
+                                    <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="41"
+                                            height="48" viewBox="0 0 41 48" fill="none">
+                                            <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel"
+                                    data-bs-slide="next">
+                                    <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="42"
+                                            height="48" viewBox="0 0 42 48" fill="none">
+                                            <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
+                            <!-- buttons carousel -->
                         </div>
-                        <!-- buttons carousel -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel"
-                            data-bs-slide="prev">
-                            <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="41" height="48"
-                                    viewBox="0 0 41 48" fill="none">
-                                    <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel"
-                            data-bs-slide="next">
-                            <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="42" height="48"
-                                    viewBox="0 0 42 48" fill="none">
-                                    <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+
+
                     </div>
                 </div>
             </div>

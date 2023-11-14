@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css2?family=Anton&family=K2D:wght@500&display=swap);
 
+.row-footer-mobile {
+    display: none;
+}
+
 html,
 body {
     overflow: hidden;
@@ -60,7 +64,7 @@ input {
     width: 270px;
 }
 
-.col-workspae-login {
+.col-workspace-login {
     padding: 50px 0px 20px;
     background: linear-gradient(180deg, #07C38D 0%, #0DFFBA 100%);
 }
@@ -119,7 +123,7 @@ input {
 }
 
 .footer-social {
-    padding-top: 10%;
+    padding-top: 2%;
 }
 
 .footer-row-login {
@@ -146,6 +150,183 @@ input {
     padding: 0;
 }
 
-footer{
+footer {
     z-index: 1 !important;
+}
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+
+    /* CSS */
+
+}
+
+/* 
+    ##Device = Laptops, Desktops
+    ##Screen = B/w 1025px to 1280px
+  */
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+
+}
+
+/* 
+    ##Device = Tablets, Ipads (portrait)
+    ##Screen = B/w 768px to 1024px
+  */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* CSS */
+
+}
+
+/* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+
+}
+
+/* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* CSS */
+
+}
+
+/* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    #bg-login {
+        background-image: url('/img/bg-login-mobile.jpg');
+        background-repeat: no-repeat;
+        background-position: right;
+        background-size: 60%;
+        padding: 30px 20px 0px;
+        background-position-y: 22%;
+    }
+
+    #logo-just {
+        width: 185px;
+        padding-bottom: 80px;
+    }
+
+    .p-login {
+        color: var(--just-colors-008, #1C1B1D);
+        font-family: Anton;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.2em;
+        margin-left: 0px;
+
+    }
+
+    .col-workspace-login {
+        background: linear-gradient(180deg, #07C38D 0%, #0DFFBA 100%);
+        background-position: left;
+        background-size: 50%;
+        background-repeat: no-repeat;
+        padding-left: 20px;
+        padding-top: 50px;
+
+    }
+
+
+    .col-login-ola {
+        display: none;
+    }
+
+    .p-login-ola {
+        display: block !important;
+    }
+
+    .p-login-acess {
+        margin-bottom: -50px;
+    }
+
+    #card-login {
+        margin-top: 20px;
+        border-radius: 0px;
+        position: relative;
+        width: 100%;
+        height: auto;
+        left: auto;
+        top: auto;
+        flex-shrink: 0;
+        background: transparent;
+        align-items: center;
+        border: none;
+        z-index: 10;
+    }
+
+    .footer-social {
+        padding-top: 0;
+    }
+
+    .col-form-login {
+        padding-top: 20px;
+    }
+
+    .row-footer-desktop {
+        display: none;
+    }
+
+    #row-footer-mobile {
+        display: block !important;
+    }
+
+    .card-body {
+        width: 100%;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    .input-login {
+        width: 100% !important;
+    }
+
+    #btn-login {
+        width: 100% !important;
+    }
+
+    footer {
+        padding: 0px 30px;
+    }
+
+    .p-footer-copy {
+        color: var(--just-colors-008, #1C1B1D);
+        text-align: center;
+        font-family: K2D;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 130%;
+        /* 18.2px */
+    }
+
+    .row-footer-mobile {
+        display: flex;
+    }
 }
