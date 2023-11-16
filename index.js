@@ -18,9 +18,8 @@ const { eUser } = require("./helpers/eUser")
 const Project = require("./models/Projects")
 const Customer = require("./models/Customer")
 const User_Permissions = require("./models/User_Permissions")
+const Favorite = require("./models/Favorite")
 const { error } = require('console')
-
-
 
 // Configuração para leitura de variáveis de ambiente
 require("dotenv").config({ path: 'variables.env' });
@@ -29,7 +28,8 @@ require("dotenv").config({ path: 'variables.env' });
 app.use(session({
     secret: 'site de dashboards',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -111,6 +111,60 @@ app.use('/customers', customers)
 app.use('/dashboards', dashboards)
 
 // Rota principal
+/*
+app.get('/home', eUser, async (req, res) => {
+    try {
+        if (req.user.typ_user === "Administrador") {
+            // Se for um administrador, pode listar todos os projetos
+            const projects = await Project.findAll();
+
+            // Carregue os clientes com base nos projetos
+            const customers = await Customer.findAll({
+                where: { id_customer: projects.map(project => project.id_customer) }
+            });
+
+            // Associe os clientes aos projetos com base no id_customer
+            projects.forEach(project => {
+                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                project.customer = customer;
+            });
+
+            res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
+        } else {
+            // Se for um usuário regular, obter projetos favoritados pelo usuário
+            const userFavorites = await Favorite.findAll({
+                where: { id_user: req.user.id_user },
+                include: [{ model: Project }]
+            });
+
+            // Extrair projetos dos favoritos
+            const projects = userFavorites.map(favorite => favorite.Project);
+
+            // Carregar clientes com base nos projetos
+            const customers = await Customer.findAll({
+                where: { id_customer: projects.map(project => project.id_customer) }
+            });
+
+            // Associar clientes aos projetos com base no id_customer
+            projects.forEach(project => {
+                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                project.customer = customer;
+            });
+
+            // Agora, também obter as permissões do usuário
+            const userPermissions = await User_Permissions.findAll({
+                where: { id_user: req.user.id_user }
+            });
+
+            res.render("home", { user: req.user, projects, userPermissions, styles: [{ src: "/styles/pages/homepage.css" }] });
+        }
+    } catch (error) {
+        req.flash("error_msg", "Erro ao listar projetos - " + error);
+        res.redirect("/users/login");
+    }
+});
+*/
+
 app.get('/home', eUser, async (req, res) => {    
     if (req.user.typ_user == "Administrador") {
 
@@ -136,8 +190,6 @@ app.get('/home', eUser, async (req, res) => {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
             res.redirect("/users/login");
         }
-
-
     }
     else {
         User_Permissions.findAll({ where: { id_user: req.user.id_user } })
@@ -173,6 +225,10 @@ app.get('/home', eUser, async (req, res) => {
             });
     }
 });
+
+
+
+
 
 app.get('/', eUser, (req, res) => {
     try {

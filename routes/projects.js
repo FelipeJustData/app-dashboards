@@ -10,6 +10,8 @@ const { error } = require('console')
 const multer = require("multer");
 const { storage } = require('../config/multerConfig');
 const upload = multer({ storage: storage('projeto') });
+const { Op } = require('sequelize');
+
 
 // Página inicial de projetos
 // List All Projects
@@ -83,10 +85,10 @@ router.get('/view/:id', eUser, async (req, res) => {
 
             const customer = await Customer.findByPk(project.id_customer);
 
-            project.customer = customer;            
+            project.customer = customer;
 
-            dashboards.forEach(dashboard => {                
-                dashboard.project = project                
+            dashboards.forEach(dashboard => {
+                dashboard.project = project
             })
 
             res.render('projects/view', { project, dashboards, styles: [{ src: "/styles/pages/projects.css" }] });
@@ -110,12 +112,12 @@ router.get('/view/:id', eUser, async (req, res) => {
             const customer = await Customer.findByPk(project.id_customer);
 
             project.customer = customer;
-        
+
             dashboards.forEach(dashboard => {
                 dashboard.project = project
             })
-            
-            res.render("projects/view", { user: req.user, project,dashboards, styles: [{ src: "/styles/pages/projects.css" }] });
+
+            res.render("projects/view", { user: req.user, project, dashboards, styles: [{ src: "/styles/pages/projects.css" }] });
         }
     } catch (error) {
         console.error("Erro ao listar projetos e dashboards:", error);
@@ -156,14 +158,14 @@ router.get("/add", eUser, (req, res) => {
 router.post("/new", eAdmin, upload.fields([
     { name: 'des_project_image_desktop', maxCount: 1 },
     { name: 'des_project_image_mobile', maxCount: 1 },
-    { name: 'des_project_image_logo', maxCount: 1 } 
-]), (req, res) => {   
+    { name: 'des_project_image_logo', maxCount: 1 }
+]), (req, res) => {
 
     try {
         const newProject = {
             des_project_image_desktop: req.files['des_project_image_desktop'] ? req.files['des_project_image_desktop'][0].filename : null,
             des_project_image_mobile: req.files['des_project_image_mobile'] ? req.files['des_project_image_mobile'][0].filename : null,
-            des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null, 
+            des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null,
             nam_project: req.body.nam_project,
             objective_project: req.body.objective_project,
             id_customer: req.body.customer,
@@ -173,7 +175,7 @@ router.post("/new", eAdmin, upload.fields([
             des_title_color: req.body.des_title_color,
             des_bg_title_color: req.body.des_bg_title_color
         }
-    
+
         Project.create(newProject).then(() => {
             req.flash("success_msg", "Projeto cadastrado com sucesso")
             res.redirect("/projects/")
@@ -188,7 +190,7 @@ router.post("/new", eAdmin, upload.fields([
         res.redirect("/projects/add");
     }
 
-    
+
 })
 
 
@@ -204,7 +206,7 @@ router.get('/get-dashboards/:projectIds', (req, res) => {
 
 
 // Edit Project
-router.get("/project/edit/:id",eAdmin, (req, res) => {
+router.get("/project/edit/:id", eAdmin, (req, res) => {
     Project.findByPk(req.params.id).then((project) => {
         Customer.findByPk(project.id_customer).then((customerProject) => {
             Customer.findAll().then((customers) => {
@@ -228,22 +230,22 @@ router.get("/project/edit/:id",eAdmin, (req, res) => {
 router.post("/update/:id", eAdmin, upload.fields([
     { name: 'des_project_image_desktop', maxCount: 1 },
     { name: 'des_project_image_mobile', maxCount: 1 },
-    { name: 'des_project_image_logo', maxCount: 1 } 
-]),(req, res) => {
+    { name: 'des_project_image_logo', maxCount: 1 }
+]), (req, res) => {
     const projectID = req.params.id
 
     const updateProject = {
         des_project_image_desktop: req.files['des_project_image_desktop'] ? req.files['des_project_image_desktop'][0].filename : null,
-            des_project_image_mobile: req.files['des_project_image_mobile'] ? req.files['des_project_image_mobile'][0].filename : null,
-            des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null, 
-            nam_project: req.body.nam_project,
-            objective_project: req.body.objective_project,
-            id_customer: req.body.customer,
-            dat_expiration: req.body.dat_expiration,
-            des_status: req.body.des_status,
-            des_autoplay_timing: req.body.des_autoplay_timing,
-            des_title_color: req.body.des_title_color,
-            des_bg_title_color: req.body.des_bg_title_color
+        des_project_image_mobile: req.files['des_project_image_mobile'] ? req.files['des_project_image_mobile'][0].filename : null,
+        des_project_logo_header: req.files['des_project_image_logo'] ? req.files['des_project_image_logo'][0].filename : null,
+        nam_project: req.body.nam_project,
+        objective_project: req.body.objective_project,
+        id_customer: req.body.customer,
+        dat_expiration: req.body.dat_expiration,
+        des_status: req.body.des_status,
+        des_autoplay_timing: req.body.des_autoplay_timing,
+        des_title_color: req.body.des_title_color,
+        des_bg_title_color: req.body.des_bg_title_color
     }
 
     Project.update(updateProject, { where: { id_project: projectID } }).then(async () => {
@@ -308,6 +310,77 @@ router.post("/project/delete", eAdmin, (req, res) => {
             req.flash("error_msg", "Erro ao deletar o projeto - " + error);
             res.redirect("/projects");
         });
+});
+
+
+//search
+// Rota para pesquisa interna
+router.post('/search', async (req, res) => {
+    const searchTerm = req.body.searchTerm;
+
+    try {
+
+        if (req.user.typ_user == "Administrador") {
+            // Substitua 'Project' e 'Dashboard' pelos seus modelos Sequelize reais
+            const projects = await Project.findAll({
+                where: {
+                    nam_project: {
+                        [Op.like]: `%${searchTerm}%`, // Caso insensível a maiúsculas/minúsculas
+                    },
+                },
+            });
+
+            // Carregue os clientes com base nos projetos
+            const customers = await Customer.findAll({
+                where: { id_customer: projects.map(project => project.id_customer) }
+            });
+
+            // Associe os clientes aos projetos com base no id_customer
+            projects.forEach(project => {
+                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                project.customer = customer;
+            });
+
+            const qtdResults = projects.length
+
+            res.render("projects/search", { user: req.user, projects: projects,qtdResults, styles: [{ src: "/styles/pages/projects.css" }] });
+        }else{
+            User_Permissions.findAll({ where: { id_user: req.user.id_user } })
+            .then((userPermissions) => {
+                // Coleta os IDs dos projetos permitidos
+                const projectIds = userPermissions.map(permission => permission.id_project);
+
+                // Busca os projetos correspondentes aos IDs coletados
+                Project.findAll({ where: { id_project: projectIds, nam_project: {
+                    [Op.like]: `%${searchTerm}%`, // Caso insensível a maiúsculas/minúsculas
+                }} })
+                    .then(async (projects) => {
+                        // Carregue os clientes com base nos projetos
+                        const customers = await Customer.findAll({
+                            where: { id_customer: projects.map(project => project.id_customer) }
+                        });
+
+                        // Associe os clientes aos projetos com base no id_customer
+                        projects.forEach(project => {
+                            const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                            project.customer = customer;
+                        });
+                        res.render("projects/search", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+                    })
+                    .catch((error) => {
+                        req.flash("error_msg", "Erro ao listar projetos - " + error);
+                        res.redirect("/home");
+                    });
+            })
+            .catch((error) => {
+                req.flash("error_msg", "Erro em permissões do usuário - " + error);
+                res.redirect("/home");
+            });
+        }        
+    } catch (error) {
+        req.flash("error_msg", "Erro ao pesquisar projeto - " + error);
+        res.redirect("/projects");
+    }
 });
 
 

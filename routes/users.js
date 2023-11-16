@@ -9,6 +9,7 @@ const Customer = require('../models/Customer')
 const Projects = require('../models/Projects')
 const Dashboards = require('../models/Dashboards')
 const User_Permissions = require('../models/User_Permissions')
+const Favorite = require('../models/Favorite')
 const { Op } = require('sequelize');
 const multer = require("multer");
 const { storage } = require('../config/multerConfig');
@@ -451,18 +452,17 @@ router.get("/login/:name", (req, res) => {
 })
 
 router.post("/login", (req, res, next) => {
-    if (req.body.name_customer) {
-        passport.authenticate("local", {
-            successRedirect: "/admin/customers/" + req.body.name_customer,
-            failureRedirect: "/login/" + req.body.name_customer,
-            failureFlash: true
-        })(req, res, next)
-    } else {
-        passport.authenticate("local", {
-            successRedirect: "/home/",
-            failureRedirect: "/users/login",
-            failureFlash: true
-        })(req, res, next)
+
+    const rememberMe = Boolean(req.body.rememberMe);
+
+    passport.authenticate("local", {
+        successRedirect: "/home/",
+        failureRedirect: "/users/login",
+        failureFlash: true
+    })(req, res, next);
+
+    if (rememberMe) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Configuração do tempo de expiração do cookie (30 dias)
     }
 })
 
@@ -596,3 +596,38 @@ router.get('/users-permissions', async (req, res) => {
         res.status(500).send('Erro ao buscar dados dos usuários.');
     }
 });
+
+
+// Adicionar conteúdo aos favoritos
+router.post('/favorites', eUser, async (req, res) => {
+    const favorited = {
+        id_user: req.user.id_user,
+        id_project: req.body.id_project
+    };
+
+    try {
+        const favorite = await Favorite.create(favorited);
+        res.json(favorite);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao adicionar aos favoritos' });
+    }
+});
+
+// Remover conteúdo dos favoritos
+router.delete('/favorites', eUser, async (req, res) => {
+    const userId = req.user.id_user;
+    const contentId = req.body.id_project;
+
+    try {
+        await Favorite.destroy({ where: {id_user: userId,id_project: contentId } });
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao remover dos favoritos' });
+    }
+});
+
+
+  
+  module.exports = router;

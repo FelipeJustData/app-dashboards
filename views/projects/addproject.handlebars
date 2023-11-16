@@ -4,12 +4,10 @@
 
 {{/each}}
 
-<div class="alert alert-danger">NÃO UTILIZAR O <b>ARRASTAR</b> PARA AS IMAGENS</div>
-
 <h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Add Projeto</h2>
 <p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Novo projeto</p>
 <div class="container container-addproject">
-    <form action="/projects/new" method="POST" enctype="multipart/form-data">
+    <form action="/projects/new" method="POST" enctype="multipart/form-data" id="form-project">
         <div class="row">
 
             <div class="col-4">
@@ -144,7 +142,7 @@
                 </div>
                 <h2>Envio de imagens</h2>
                 <!-- Área de envio de imagens com suporte a arrastar e soltar -->
-                <div id="drop-area-desktop" class="upload-area">                    
+                <div id="drop-area-desktop" class="upload-area">
                     <p>Arraste aqui para carregar ou <span style="color:#0478FF;cursor:pointer"><u>selecione os
                                 arquivos</u></span></p>
                 </div>
@@ -418,10 +416,16 @@
             e.preventDefault();
             const file = e.dataTransfer.files[0];
             if (file) {
-                //showImage(file, imagePreviewDesktop);
                 openConfirmModalDesktop();
-                uploadedImageDesktop.value = file.name
-                sendInputDesktop.files = file
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputDesktop.files = filesList.files;
+
+                uploadedImageDesktop.value = file.name;
                 closeModalUploadDesktop();
             }
             dropAreaDesktop.style.backgroundColor = 'white';
@@ -539,7 +543,7 @@
                 closeModalConfirmMobile();
                 step1Mobile.style.display = 'none';
                 imagePreviewMobile.style.display = 'block';
-                showImage(file, previewImageMobile);                
+                showImage(file, previewImageMobile);
                 openModalOk();
             }
         })
@@ -586,7 +590,7 @@
             }
         });
 
- 
+
 
         // Função para exibir imagem após o carregamento
         const showImage = (file, previewElement) => {

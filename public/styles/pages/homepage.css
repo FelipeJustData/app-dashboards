@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+
 .title-home {
   color: #000;
   font-family: Anton;
@@ -130,4 +132,20 @@ font-size: 20px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
+}
+
+.favorite-toggle.favorited i.bi-star {
+  display: none; /* Oculta a estrela vazia quando favoritado */
+}
+
+.favorite-toggle.favorited i.bi-star-fill {
+  display: inline; /* Exibe a estrela preenchida quando favoritado */
+}
+
+.favorite-toggle:not(.favorited) i.bi-star {
+  display: inline; /* Exibe a estrela vazia quando não favoritado */
+}
+
+.favorite-toggle:not(.favorited) i.bi-star-fill {
+  display: none; /* Oculta a estrela preenchida quando não favoritado */
 }

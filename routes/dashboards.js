@@ -118,6 +118,8 @@ router.get("/view/:id", eUser, async (req, res) => {
             if(userPermissions){
                 try {
                     const dashboard = await Dashboard.findByPk(idDashboard);
+                    const project = await Project.findByPk(dashboard.id_project);
+                    dashboard.project = project
         
                     const urlsDashboard = await Url_Dashboard.findAll({
                         where: {id_dashboard: dashboard.id_dashboard}
