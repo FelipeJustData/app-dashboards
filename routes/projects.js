@@ -11,6 +11,8 @@ const multer = require("multer");
 const { storage } = require('../config/multerConfig');
 const upload = multer({ storage: storage('projeto') });
 const { Op } = require('sequelize');
+const Favorite = require('../models/Favorite')
+const ProjectView = require("../models/ProjectView")
 
 
 // Página inicial de projetos
@@ -54,10 +56,16 @@ router.get('/', eUser, async (req, res) => {
                             where: { id_customer: projects.map(project => project.id_customer) }
                         });
 
+                        const favorites = await Favorite.findAll({
+                            where: { id_project: projects.map(project => project.id_project) }
+                        });
+
                         // Associe os clientes aos projetos com base no id_customer
                         projects.forEach(project => {
                             const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                            const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
                             project.customer = customer;
+                            project.favorite = favorite
                         });
                         res.render("projects/projects", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
                     })
@@ -126,6 +134,26 @@ router.get('/view/:id', eUser, async (req, res) => {
     }
 });
 
+// Add Vistos recentemente
+router.post('/view', async (req, res) => {
+    const userId = req.user.id_user; 
+    const projectId = req.body.id_project;
+    
+
+    try {
+        // Adiciona uma entrada na tabela de visualizações
+        await ProjectView.create({
+            id_user: userId,
+            id_project: projectId,
+        });
+
+        // Resto da lógica para exibir o projeto
+        res.status(200).json({ message: 'Visualização registrada com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao registrar visualização:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
 
 
 // List All Projects by customer

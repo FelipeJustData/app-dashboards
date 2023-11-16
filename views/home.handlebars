@@ -23,11 +23,11 @@
                         width="100%">
                 </div>
                 <div class="col-7">
-                    <h4 class="name-project d-inline">{{nam_project}}</h4> &nbsp; <span class="favorite-toggle d-inline"
-                        onclick="toggleFavorite({{id_project}})">
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star-fill"></i>
-                    </span>
+                    <h4 class="name-project d-inline">{{nam_project}}</h4> &nbsp; <span class="favorite-toggle d-inline {{#if (eq favorite.id_project id_project)}} favorited {{/if}}"
+                        onclick="toggleFavorite({{id_project}})">                        
+                        <i class="bi bi-star-fill"></i>                       
+                        <i class="bi bi-star"></i>                                                                
+                    </span>                    
                     <p class="name-customer">{{customer.name_customer}}</p>
                     <span class="status-project mt-1">{{des_status}}</span>
                 </div>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="row">
-                {{#each projects}}
+                {{#each recentProjects}}
                 {{#if (lt @index 4)}}
                 <div class="col-6">
                     <a href="/projects/view/{{id_project}}"
@@ -74,7 +74,11 @@
 
                             </div>
                             <div class="col-6">
-                                <h4 class="name-project">{{nam_project}}</h4>
+                                <h4 class="name-project d-inline">{{nam_project}}</h4> &nbsp; <span class="favorite-toggle d-inline {{#if (eq favorite.id_project id_project)}} favorited {{/if}}"
+                        onclick="toggleFavorite({{id_project}})">                        
+                        <i class="bi bi-star-fill"></i>                       
+                        <i class="bi bi-star"></i>                                                                
+                    </span>                    
                                 <p class="name-customer">{{customer.name_customer}}</p>
                                 <span class="status-project mt-1">{{des_status}}</span>
                             </div>

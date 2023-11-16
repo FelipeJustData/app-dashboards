@@ -179,4 +179,25 @@
     svgDelete.addEventListener('click', () => {      
         modalDelete.style.display = 'block'
     })
+
+    document.addEventListener('DOMContentLoaded', function () {
+        addToProjectView({{project.id_project}})
+    })
+
+    // Adicionar conteúdo aos favoritos
+    function addToProjectView(id_project) {
+        fetch('/projects/view', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id_project: id_project }),
+        })
+            .then(response => {console.log('Resposta:', response); return response.json()})
+            .then(data => {
+                console.log('Adicionado aos projetos visualizados recentemente:', data);
+                // Atualize a interface do usuário conforme necessário
+            })
+            .catch(error => console.log('Erro ao adicionar aos favoritos: ' + error));
+    }
 </script>

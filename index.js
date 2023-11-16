@@ -19,7 +19,9 @@ const Project = require("./models/Projects")
 const Customer = require("./models/Customer")
 const User_Permissions = require("./models/User_Permissions")
 const Favorite = require("./models/Favorite")
-const { error } = require('console')
+const ProjectView = require("./models/ProjectView")
+
+
 
 // Configuração para leitura de variáveis de ambiente
 require("dotenv").config({ path: 'variables.env' });
@@ -111,61 +113,7 @@ app.use('/customers', customers)
 app.use('/dashboards', dashboards)
 
 // Rota principal
-/*
 app.get('/home', eUser, async (req, res) => {
-    try {
-        if (req.user.typ_user === "Administrador") {
-            // Se for um administrador, pode listar todos os projetos
-            const projects = await Project.findAll();
-
-            // Carregue os clientes com base nos projetos
-            const customers = await Customer.findAll({
-                where: { id_customer: projects.map(project => project.id_customer) }
-            });
-
-            // Associe os clientes aos projetos com base no id_customer
-            projects.forEach(project => {
-                const customer = customers.find(customer => customer.id_customer == project.id_customer);
-                project.customer = customer;
-            });
-
-            res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
-        } else {
-            // Se for um usuário regular, obter projetos favoritados pelo usuário
-            const userFavorites = await Favorite.findAll({
-                where: { id_user: req.user.id_user },
-                include: [{ model: Project }]
-            });
-
-            // Extrair projetos dos favoritos
-            const projects = userFavorites.map(favorite => favorite.Project);
-
-            // Carregar clientes com base nos projetos
-            const customers = await Customer.findAll({
-                where: { id_customer: projects.map(project => project.id_customer) }
-            });
-
-            // Associar clientes aos projetos com base no id_customer
-            projects.forEach(project => {
-                const customer = customers.find(customer => customer.id_customer == project.id_customer);
-                project.customer = customer;
-            });
-
-            // Agora, também obter as permissões do usuário
-            const userPermissions = await User_Permissions.findAll({
-                where: { id_user: req.user.id_user }
-            });
-
-            res.render("home", { user: req.user, projects, userPermissions, styles: [{ src: "/styles/pages/homepage.css" }] });
-        }
-    } catch (error) {
-        req.flash("error_msg", "Erro ao listar projetos - " + error);
-        res.redirect("/users/login");
-    }
-});
-*/
-
-app.get('/home', eUser, async (req, res) => {    
     if (req.user.typ_user == "Administrador") {
 
         try {
@@ -179,13 +127,44 @@ app.get('/home', eUser, async (req, res) => {
                 where: { id_customer: projects.map(project => project.id_customer) }
             });
 
+            const favorites = await Favorite.findAll({
+                where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
+            });
+
+            // Obtém as últimas 4 visualizações do usuário
+            const recentViews = await ProjectView.findAll({
+                where: { id_user: req.user.id_user },
+                order: [['createdAt', 'DESC']],
+                limit: 4,
+            });
+
+            // Obtém os projetos associados às visualizações
+            const recentProjects = await Promise.all(
+                recentViews.map(async (view) => {
+                    const project = await Project.findByPk(view.id_project);
+                    return project;
+                })
+            );
+
             // Associe os clientes aos projetos com base no id_customer
             projects.forEach(project => {
                 const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
                 project.customer = customer;
+                project.favorite = favorite
             });
 
-            res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
+            // Associe os clientes aos projetos com base no id_customer
+            recentProjects.forEach(project => {
+                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
+                project.customer = customer;
+                project.favorite = favorite
+            });
+
+
+
+            res.render("home", { user: req.user, projects: projects, recentProjects: recentProjects, styles: [{ src: "/styles/pages/homepage.css" }] });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
             res.redirect("/users/login");
@@ -206,13 +185,42 @@ app.get('/home', eUser, async (req, res) => {
                             where: { id_customer: projects.map(project => project.id_customer) }
                         });
 
+                        const favorites = await Favorite.findAll({
+                            where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
+                        });
+
+                        // Obtém as últimas 4 visualizações do usuário
+                        const recentViews = await ProjectView.findAll({
+                            where: { id_user: req.user.id_user },
+                            order: [['createdAt', 'DESC']],
+                            limit: 4,
+                        });
+
+                        // Obtém os projetos associados às visualizações
+                        const recentProjects = await Promise.all(
+                            recentViews.map(async (view) => {
+                                const project = await Project.findByPk(view.id_project);
+                                return project;
+                            })
+                        );
+
                         // Associe os clientes aos projetos com base no id_customer
                         projects.forEach(project => {
                             const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                            const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
                             project.customer = customer;
+                            project.favorite = favorite
                         });
 
-                        res.render("home", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/homepage.css" }] });
+                        // Associe os clientes aos projetos com base no id_customer
+                        recentProjects.forEach(project => {
+                            const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                            const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
+                            project.customer = customer;
+                            project.favorite = favorite
+                        });
+
+                        res.render("home", { user: req.user, projects: projects, recentProjects: recentProjects, styles: [{ src: "/styles/pages/homepage.css" }] });
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
