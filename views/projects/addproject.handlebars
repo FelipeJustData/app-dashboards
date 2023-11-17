@@ -89,6 +89,12 @@
                 <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control"
                     required>
                     <option selected>Selecionar</option>
+                    <option value="desenvolvimento">Em desenvolvimento</option>
+                    <option value="homolog interna">Homologação interna</option>
+                    <option value="homolog externa">Homologação externa</option>
+                    <option value="publicado">Publicado</option>
+                    <option value="desabilitado">Desabilitado</option>
+                    <option value="expirado">Expirado</option>
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
                 </select>
@@ -449,6 +455,16 @@
             const file = e.dataTransfer.files[0];
             if (file) {
                 openConfirmModalMobile();
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputMobile.files = filesList.files;
+
+                uploadedImageMobile.value = file.name;
+                closeModalUploadMobile();
             }
             dropAreaMobile.style.backgroundColor = 'white';
         });
@@ -471,6 +487,16 @@
             const file = e.dataTransfer.files[0];
             if (file) {
                 openConfirmModalLogo();
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputLogo.files = filesList.files;
+
+                uploadedImageLogo.value = file.name;
+                closeModalUploadLogo();
             }
             dropAreaLogo.style.backgroundColor = 'white';
         });

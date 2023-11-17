@@ -4,8 +4,6 @@
 
 {{/each}}
 
-<div class="alert alert-danger">PRECISA AJUSTAR SALVAR IMAGENS</div>
-
 <div class="row">
     <div class="col-6">
         <h2 class="title-page">
@@ -444,10 +442,16 @@
             e.preventDefault();
             const file = e.dataTransfer.files[0];
             if (file) {
-                
                 openConfirmModalDesktop();
-                uploadedImageDesktop.value = file.name
-                sendInputDesktop.files = file
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputDesktop.files = filesList.files;
+
+                uploadedImageDesktop.value = file.name;
                 closeModalUploadDesktop();
             }
             dropAreaDesktop.style.backgroundColor = 'white';
@@ -471,6 +475,16 @@
             const file = e.dataTransfer.files[0];
             if (file) {
                 openConfirmModalMobile();
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputMobile.files = filesList.files;
+
+                uploadedImageMobile.value = file.name;
+                closeModalUploadMobile();
             }
             dropAreaMobile.style.backgroundColor = 'white';
         });
@@ -493,6 +507,16 @@
             const file = e.dataTransfer.files[0];
             if (file) {
                 openConfirmModalLogo();
+
+                // Criar um novo FileList contendo o arquivo
+                const filesList = new DataTransfer();
+                filesList.items.add(file);
+
+                // Atribuir o FileList ao campo de entrada de arquivo
+                sendInputLogo.files = filesList.files;
+
+                uploadedImageLogo.value = file.name;
+                closeModalUploadLogo();
             }
             dropAreaLogo.style.backgroundColor = 'white';
         });
@@ -584,7 +608,7 @@
         sendInputDesktop.addEventListener('change', () => {
             const file = sendInputDesktop.files[0];
             if (file) {
-                //showImage(file, imagePreviewDesktop);
+                
                 openConfirmModalDesktop();
                 uploadedImageDesktop.value = file.name
                 closeModalUploadDesktop();

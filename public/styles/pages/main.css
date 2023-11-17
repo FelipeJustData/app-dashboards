@@ -118,7 +118,7 @@ body {
 
 .btn-navbar {
   display: flex;
-  width: 155px;
+  width: 100%;
   height: 58px;
   padding: 10px 15px;
   justify-content: center;
