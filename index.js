@@ -20,6 +20,7 @@ const Customer = require("./models/Customer")
 const User_Permissions = require("./models/User_Permissions")
 const Favorite = require("./models/Favorite")
 const ProjectView = require("./models/ProjectView")
+const db = require("./db/db")
 
 
 
@@ -131,12 +132,15 @@ app.get('/home', eUser, async (req, res) => {
                 where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
             });
 
-            // Obtém as últimas 4 visualizações do usuário
+            // Obtém as últimas 4 visualizações distintas do usuário
             const recentViews = await ProjectView.findAll({
+                attributes: ['id_project', [db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'latestView']],
                 where: { id_user: req.user.id_user },
-                order: [['createdAt', 'DESC']],
+                order: [[db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'DESC']],
                 limit: 4,
+                group: ['id_project'],
             });
+
 
             // Obtém os projetos associados às visualizações
             const recentProjects = await Promise.all(

@@ -442,7 +442,11 @@ router.post("/users/delete", eAdmin, (req, res) => {
 
 // LOGIN
 router.get("/login", (req, res) => {
-    res.render("users/login", { styles: [{ src: "/styles/pages/login.css" }] })
+    if(!req.user){        
+        res.render("users/login", { styles: [{ src: "/styles/pages/login.css" }] })
+    }else{
+        res.redirect("/")
+    }    
 })
 
 router.get("/login/:name", (req, res) => {

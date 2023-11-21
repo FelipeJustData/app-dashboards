@@ -11,12 +11,12 @@
                         </svg></h3>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#"><button class="btn btn-more">Ver mais</button></a>
+                    <a href="/projects/saves"><button class="btn btn-more">Ver mais</button></a>
                 </div>
             </div>
             {{#each projects}}
-            {{#if (lt @index 5)}}
-
+            {{#if (eq favorite.id_project id_project)}}
+            {{#if (lt @index 5)}}            
             <div class="row" data-content-id="{{id_project}}">
                 <div class="col-3 align-self-center">
                     <img src="{{#if des_project_image_desktop}} /uploads/projects/{{des_project_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}"
@@ -42,9 +42,10 @@
             </div>
             <br>
             {{/if}}
+            {{/if}}
 
             {{else}}
-            <h5>Nenhum projeto para ser exibido</h5>
+            <h5>Nenhum projeto salvo</h5>
             {{/each}}
         </div>
     </div>
@@ -58,15 +59,13 @@
                         </svg>Vistos recentemente</h3>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#"><button class="btn btn-more">Ver todos</button></a>
+                    <a href="/projects/recents"><button class="btn btn-more">Ver todos</button></a>
                 </div>
             </div>
             <div class="row">
                 {{#each recentProjects}}
                 {{#if (lt @index 4)}}
-                <div class="col-6">
-                    <a href="/projects/view/{{id_project}}"
-                        style="text-decoration: none !important;color:inherit !important">
+                <div class="col-6" data-content-id="{{id_project}}">                    
                         <div class="row">
                             <div class="col-4 align-self-center">
                                 <img src="{{#if des_project_image_desktop}} /uploads/projects/{{des_project_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}"
@@ -74,6 +73,7 @@
 
                             </div>
                             <div class="col-6">
+                                
                                 <h4 class="name-project d-inline">{{nam_project}}</h4> &nbsp; <span class="favorite-toggle d-inline {{#if (eq favorite.id_project id_project)}} favorited {{/if}}"
                         onclick="toggleFavorite({{id_project}})">                        
                         <i class="bi bi-star-fill"></i>                       
@@ -82,15 +82,20 @@
                                 <p class="name-customer">{{customer.name_customer}}</p>
                                 <span class="status-project mt-1">{{des_status}}</span>
                             </div>
+                            
                             <div class="col-2 text-start">
+                                <a href="/projects/view/{{id_project}}"
+                        style="text-decoration: none !important;color:inherit !important">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
                                     fill="none">
                                     <path d="M21 14L31 24L21 34" stroke="#C6C6C6" stroke-width="4"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
+                                </a>
                             </div>
+                            
                         </div>
-                    </a>
+                    
                     <br>
                 </div>
                 {{/if}}
@@ -108,7 +113,7 @@
                         Projetos</h3>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="#"><button class="btn btn-more">Ver todos</button></a>
+                    <a href="/projects/"><button class="btn btn-more">Ver todos</button></a>
                 </div>
                 <div class="col-12">
                     <div id="projectCarousel" class="carousel slide" data-ride="carousel">
