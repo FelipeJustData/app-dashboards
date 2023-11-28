@@ -2,9 +2,9 @@
   <h2 class="title-page">
     <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="16.5" width="16" height="5" transform="rotate(-90 0 16.5)" fill="#F90196" />
-    </svg> Projetos
+    </svg> Projetos Recentes
   </h2>
-  <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Projetos</p>
+  <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Projetos recentes</p>
 </div>
 <div class="col-md-6 text-md-end">
   <div id="input-filter-desk" style="float: right !important;">
@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col-12">
     <!-- listagem de projetos -->
-    <div id="projects-carousel" class="carousel slide" data-ride="carousel">
+    <div id="projects-carousel" class="carousel slide mt-4" data-ride="carousel">
       <div class="carousel-inner">
         {{#each projects}}
         {{#if (eq @index 0)}}
@@ -36,8 +36,7 @@
                     <div class="card-body text-center">
                       <div class="row">
                         <div class="col-2"></div>
-                        <div class="col-8">
-                          <a href="/projects/view/{{id_project}}" style="text-decoration: none !important;">
+                        <div class="col-8"><a href="/projects/view/{{id_project}}" style="text-decoration: none !important;">
                           <p><b class="card-title">{{nam_project}}</b></p></a>
                         </div>
                         <div class="col-2">

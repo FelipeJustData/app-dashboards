@@ -6,10 +6,17 @@
 
 .title-page {
     font-family: Anton;
-    font-size: 36px;
+    font-size: 30px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    font-style: normal;
+    color: #757474;
+    padding-left: 20px;
 }
 
 .btn-carousel-dashboards-next,
@@ -72,7 +79,11 @@
 
 }
 
-
+.form-control {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-010, #FBFAF7);
+}
 
 .btn-back-modal {
     border-radius: 4px;
@@ -135,8 +146,17 @@ select:required:invalid {
     line-height: normal;
 }
 
-.btn-confirm-form:hover{
+.btn-confirm-form:hover {
     background: #a0d8c8;
     border: inherit;
 }
 
+/*MODO ESCURO*/
+#dark-mode .container-dashboards {
+    background: var(--just-colors-008, #1C1B1D);
+}
+
+#dark-mode .container-dashboards h4,
+#dark-mode .container-dashboards p {
+    color: #FFF
+}

@@ -7,7 +7,7 @@
 <div class="alert alert-danger">PRECISA AJUSTAR SALVAR MAIS DE UMA URL E SALVAR EM FORMATOS DIFERENTES</div>
 
 <h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Add Dash</h2>
-<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / Novo dashboard</p>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit" >Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Novo dashboard</p>
 
 <div class="container container-dashboards">
 
@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="customer">Cliente</label>
-                        <select class="form-select" id="customer" name="customer" required>
+                        <select class="form-select form-control" id="customer" name="customer" required>
                             <option value="" disabled selected hidden>Selecionar</option>
                             {{#each customers}}
                             <option value="{{id_customer}}">{{name_customer}}</option>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-6">
                         <label for="customer">BU</label>
-                        <select class="form-select" id="bu" name="bu" required>
+                        <select class="form-select form-control" id="bu" name="bu" required>
                             <option value="" disabled selected hidden>Selecionar</option>
                             <option value="1">Opção 1</option>
                             <option value="2">Opção 2</option>
@@ -41,12 +41,12 @@
             </div>
             <div class="col-4">
                 <label for="project">Projeto</label>
-                <select class="form-select" id="project" name="project" required>
+                <select class="form-select form-control" id="project" name="project" required>
                     <option value="" disabled selected hidden>Selecione um projeto</option>
                 </select>
 
                 <label for="status" class="mt-4">Status</label>
-                <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control"
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status" class="form-control"
                     required>
                     <option value="" disabled selected hidden>Selecionar</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-3">
                     <label for="input_format">Forma de input</label>
-                    <select class="form-select" name="dashboardUrls[][input_format]" required>
+                    <select class="form-select form-control" name="dashboardUrls[][input_format]" required>
                         <option value="" disabled selected hidden>Selecionar</option>
                         <option value="PWBI">PWBI</option>
                         <option value="Tableu">Tableu</option>
@@ -222,7 +222,7 @@
             newUrlField.classList.add('row', 'mt-4');
             newUrlField.innerHTML = `
       <div class="col-3">                        
-                        <select class="form-select" name="dashboardUrls[][input_format]" required>
+                        <select class="form-select form-control" name="dashboardUrls[][input_format]" required>
                             <option value="" disabled selected hidden>Selecionar</option>
                             <option value="PWBI">PWBI</option>
                             <option value="Tableu">Tableu</option>

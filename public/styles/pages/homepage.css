@@ -1,9 +1,13 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
+#main-container {
+  padding-right: 0 !important;
+}
+
 .title-home {
   color: #000;
   font-family: Anton;
-  font-size: 36px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -15,13 +19,28 @@
 
 }
 
+.col-arrow {
+  align-self: center;
+  padding: 0 !important;
+  margin-left: -5%;
+}
+
 h3 {
   color: #000;
   font-family: K2D;
-  font-size: 28px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
+  margin-bottom: 20px;
+}
+
+#col-carousel{
+  padding: 0px 30px;
+}
+
+#title-carrousel{
+  font-size: 18px;
 }
 
 .btn-more {
@@ -29,10 +48,14 @@ h3 {
   background: var(--just-colors-010, #FBFAF7);
   color: #757474;
   font-family: K2D;
-  font-size: 16px;
+  font-size: 11px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.btn-more:hover{
+  color: #F90196;
 }
 
 .item-menu-ativo {
@@ -59,6 +82,7 @@ h3 {
 .carousel-inner {
   display: flex;
   width: 100%;
+  
 }
 
 .carousel-item {
@@ -70,7 +94,7 @@ h3 {
   color: #000;
   text-align: center;
   font-family: K2D;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 110.5%;
@@ -92,6 +116,7 @@ h3 {
   text-decoration: none;
   font-size: 20px;
   z-index: 2;
+  width: 10%;
 
 }
 
@@ -105,7 +130,7 @@ h3 {
 
 
 #projectCarousel {
-  padding: 10px 40px;
+  padding: 0px 40px 10px;
 }
 
 .status-project {
@@ -114,38 +139,61 @@ h3 {
   color: #000;
   text-align: center;
   font-family: K2D;
-  font-size: 16px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
   padding: 0 10px;
 }
 
-.name-customer{
-  margin-top: -10px;;
+.name-customer {
+  margin-top: -8px;
+  font-size: 11px;
 }
-.name-project{
-  color: #000;
 
-font-family: K2D;
-font-size: 17px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+.name-project {
+  color: #000;
+  font-family: K2D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .favorite-toggle.favorited i.bi-star {
-  display: none; /* Oculta a estrela vazia quando favoritado */
+  display: none;
+  /* Oculta a estrela vazia quando favoritado */
 }
 
 .favorite-toggle.favorited i.bi-star-fill {
-  display: inline; /* Exibe a estrela preenchida quando favoritado */
+  display: inline;
+  /* Exibe a estrela preenchida quando favoritado */
 }
 
 .favorite-toggle:not(.favorited) i.bi-star {
-  display: inline; /* Exibe a estrela vazia quando não favoritado */
+  display: inline;
+  /* Exibe a estrela vazia quando não favoritado */
 }
 
 .favorite-toggle:not(.favorited) i.bi-star-fill {
-  display: none; /* Oculta a estrela preenchida quando não favoritado */
+  display: none;
+  /* Oculta a estrela preenchida quando não favoritado */
+}
+
+
+/* Modo escuro */
+#dark-mode body .col-home {
+  background: var(--just-colors-008, #1C1B1D);
+}
+
+#dark-mode h2,
+#dark-mode body .col-home h3,
+#dark-mode body .col-home h4 {
+  color: #FFF;
+}
+
+#dark-mode .card,
+#dark-mode .card-title {
+  background: #2E2D2F;
+  color: #FFF;
 }

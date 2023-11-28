@@ -9,8 +9,8 @@
         <h2 class="title-page">
             <span style="color: var(--just-colors-006, #0DFFBA);">-</span> Editar Projetos
         </h2>
-        <p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> /
-            {{customerProject.name_customer}} / {{project.nam_project}} / Editar Projeto</p>
+        <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span>
+            {{customerProject.name_customer}} <span style="color:#F90196">&nbsp;/&nbsp;</span> {{project.nam_project}} <span style="color:#F90196">&nbsp;/&nbsp;</span> Editar Projeto</p>
     </div>
     <div class="col-6 text-end">
         <div style="float: right !important;">
@@ -64,14 +64,14 @@
                 <input type="text" id="nam_project" name="nam_project" class="form-control"
                     value="{{project.nam_project}}" required>
                 <label for="owner" class="mt-4">Owner:</label>
-                <select class="form-select" aria-label="Owner" id="owner" name="owner" class="form-control" required>
+                <select class="form-select form-control" aria-label="Owner" id="owner" name="owner" class="form-control" required>
                     <option selected>Autocomplete</option>
                 </select>
                 <label for="objective" class="mt-4">Objetivo do projeto:</label>
                 <textarea rows="4" cols="50" id="objective" name="objective_project" class="form-control"
                     required>{{project.objective_project}}</textarea>
                 <label for="customer" class="mt-4">Selecionar cliente*:</label>
-                <select class="form-select" aria-label="Selecionar Cliente" id="customer" name="customer"
+                <select class="form-select form-control" aria-label="Selecionar Cliente" id="customer" name="customer"
                     class="form-control" required>
                     <option value="{{customerProject.id_customer}}" selected>{{customerProject.name_customer}}</option>
                     {{#each customers}}
@@ -88,7 +88,7 @@
                 <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
                     value="{{project.dat_expiration}}">
                 <label for="status" class="mt-4">Status:</label>
-                <select class="form-select" aria-label="Status" id="des_status" name="des_status" class="form-control"
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status" class="form-control"
                     required>
                     <option value="{{project.des_status}}" selected>{{project.des_status}}</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
@@ -101,7 +101,7 @@
                     <option value="inativo">Inativo</option>
                 </select>
                 <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
-                <select class="form-select" aria-label="des_autoplay_timing" id="des_autoplay_timing"
+                <select class="form-select form-control" aria-label="des_autoplay_timing" id="des_autoplay_timing"
                     name="des_autoplay_timing" class="form-control" required>
                     <option value="{{project.des_autoplay_timing}}" selected>{{project.des_autoplay_timing}} Segundos
                     </option>

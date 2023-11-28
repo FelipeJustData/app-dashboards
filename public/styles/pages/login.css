@@ -6,15 +6,17 @@
 
 html,
 body {
-    overflow: hidden;
+    overflow-x: hidden;
+    background: white !important;
 }
 
 #bg-login {
     background-image: url('/img/bg-login.jpg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top;
     background-size: 100%;
-    padding: 50px 100px;
+    padding: 0px 70px;
+    margin-bottom: -125px;
 }
 
 #img-login {
@@ -31,56 +33,74 @@ body {
     border-radius: 0px;
     position: absolute;
     width: 38%;
-    height: 42%;
-    left: 25%;
-    top: 45%;
+    height: auto;
+    left: 21%;
+    top: 50%;
     flex-shrink: 0;
     background: #EAE9E8;
     align-items: center;
     border: none;
     z-index: 10;
+    padding-top: 50px !important;
+    padding-bottom: 40px !important;
 }
 
 label {
     color: #000 !important;
 }
 
-input {
+.input-login {
     border-radius: 4px !important;
+    color: var(--just-colors-008, #1C1B1D);
+    font-family: K2D;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
 }
 
 #btn-login {
     display: flex;
-    width: 363px;
-    padding: 16px 32px;
+    width: 300px;
+    padding: 13px 32px;
     justify-content: center;
     align-items: center;
     border-radius: 4px;
     background: var(--just-colors-008, #1C1B1D);
+    font-size: 11px;
 
 }
 
 #logo-just {
-    width: 270px;
+    width: 85%;
 }
 
-.col-workspace-login {
-    padding: 50px 0px 20px;
+.col-workspace-login {    
     background: linear-gradient(180deg, #07C38D 0%, #0DFFBA 100%);
+    background-position: left;    
+    background-repeat: no-repeat;
+    padding-left: 0;
+    padding-top: 70px;
+    padding-bottom: 5px;    
+}
+
+.p-login-ola {
+    margin-bottom: 0 !important;
+
 }
 
 .p-login {
     font-family: Anton;
     font-size: 60px;
-    font-weight: 400;
-    line-height: 96px;
+    font-weight: 400;    
     letter-spacing: 0em;
     text-align: left;
     margin-left: -20px;
-    line-height: 1em;
+    line-height: 1.2em;
     z-index: 100;
     position: relative;
+    color: var(--just-colors-008, #1C1B1D);
 }
+
 
 .col-form-login {
     display: flex;
@@ -94,9 +114,8 @@ input {
 }
 
 .form-control {
-    display: flex;
-    width: 363px;
-    padding: 16px 32px;
+    display: flex;    
+    padding: 11px 32px;
     align-items: center;
     gap: 8px;
     border-radius: 4px;
@@ -116,7 +135,7 @@ input {
 .form-check-label {
     color: var(--just-colors-008, #1C1B1D);
     font-family: K2D;
-    font-size: 14px;
+    font-size: 11px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -154,6 +173,45 @@ footer {
     z-index: 1 !important;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------------------------------------------------------------------------------------- */
 /* 
   ##Device = Desktops
   ##Screen = 1281px to higher resolution desktops
@@ -230,16 +288,7 @@ footer {
         padding-bottom: 80px;
     }
 
-    .p-login {
-        color: var(--just-colors-008, #1C1B1D);
-        font-family: Anton;
-        font-size: 30px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.2em;
-        margin-left: 0px;
 
-    }
 
     .col-workspace-login {
         background: linear-gradient(180deg, #07C38D 0%, #0DFFBA 100%);
@@ -248,20 +297,13 @@ footer {
         background-repeat: no-repeat;
         padding-left: 20px;
         padding-top: 50px;
+        padding-bottom: 5px;
 
     }
 
 
     .col-login-ola {
         display: none;
-    }
-
-    .p-login-ola {
-        display: block !important;
-    }
-
-    .p-login-acess {
-        margin-bottom: -50px;
     }
 
     #card-login {
@@ -305,6 +347,7 @@ footer {
 
     .input-login {
         width: 100% !important;
+
     }
 
     #btn-login {

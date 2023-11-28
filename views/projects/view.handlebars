@@ -28,7 +28,7 @@
     </span>
 </h2>
 
-<p><a href="/" style="text-decoration: none !important; color:inherit">Home</a> / {{project.customer.name_customer}} / {{project.nam_project}}</p>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a><span style="color:#F90196"> &nbsp;/&nbsp; </span>{{project.customer.name_customer}} <span style="color:#F90196">&nbsp;/&nbsp;</span> {{project.nam_project}}</p>
 
 <div id="modal-delete" class="modal modal-upload">
     <div class="modal-content text-center">
@@ -98,16 +98,18 @@
                             <div class="col-4 mt-4 item-{{@index}} align-self-center">
                                 <div class="row">
                                     <div class="col-3">
+                                        <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none; color:inherit">
                                         <img
-                                            src="{{#if des_dashboard_image_desktop}} /uploads/dashboards/{{des_dashboard_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}" width="100%">
+                                            src="{{#if des_dashboard_image_desktop}} /uploads/dashboards/{{des_dashboard_image_desktop}} {{else}} /img/img-square-default.jpg {{/if}}" width="100%"></a>
                                     </div>
                                     <div class="col-7">
-                                        <h4>{{title}}</h4>                                        
-                                        <p>{{project.customer.name_customer}} / {{project.nam_project}}</p>
+                                        <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none; color:inherit">
+                                        <h4 class="title-dashbord">{{title}}</h4></a>
+                                        <p class="bread-dash">{{project.customer.name_customer}} / {{project.nam_project}}</p>
                                         <span class="status-dash">{{des_status}}</span>
                                     </div>
                                     <div class="col-2 text-start">
-                                        <a href="/dashboards/view/{{id_dashboard}}">
+                                        <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none; color:inherit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
                                                 viewBox="0 0 48 48" fill="none">
                                                 <path d="M21 14L31 24L21 34" stroke="#C6C6C6" stroke-width="4"

@@ -1,3 +1,13 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+
+#projects-carousel{
+    padding: 10px 20px;
+}
+
+#dark-mode .container-viewproject{
+    background: var(--just-colors-008, #1C1B1D);
+}
+
 #form-project {
     background-color: #ffffff;
     padding: 20px;
@@ -6,6 +16,21 @@
 
 .form-group {
     margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 4px;
+    border: 1px solid rgba(201, 201, 201, 0.20);
+    background: var(--just-colors-010, #FBFAF7);
+}
+
+.title-dashbord{
+    font-size: 14px;
+}
+
+.bread-dash{
+    margin-top: -8px;
+    font-size: 11px
 }
 
 .btn-primary {
@@ -24,10 +49,17 @@
 
 .title-page {
     font-family: Anton;
-    font-size: 36px;
+    font-size: 30px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.breadcrumb{
+    font-size: 12px;
+    font-style: normal;
+    color: #757474;   
+    padding-left: 20px;
 }
 
 .container-viewproject,
@@ -69,7 +101,7 @@
 .card-title {
     color: #000;
     font-family: K2D;
-    font-size: 20px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -208,6 +240,30 @@ line-height: 16px; /* 133.333% */
 #input-filter-desk{
     display: block;
 }
+
+.favorite-toggle.favorited i.bi-star {
+    display: none; /* Oculta a estrela vazia quando favoritado */
+  }
+  
+  .favorite-toggle.favorited i.bi-star-fill {
+    display: inline; /* Exibe a estrela preenchida quando favoritado */
+  }
+  
+  .favorite-toggle:not(.favorited) i.bi-star {
+    display: inline; /* Exibe a estrela vazia quando não favoritado */
+  }
+  
+  .favorite-toggle:not(.favorited) i.bi-star-fill {
+    display: none; /* Oculta a estrela preenchida quando não favoritado */
+  }
+
+  #dark-mode .card,#dark-mode .card-title {
+    background: #2E2D2F;
+    color: #FFF;
+  }
+  #dark-mode #projects-carousel{
+    background: var(--just-colors-008, #1C1B1D);
+  }
 
 @media (min-width: 320px) and (max-width: 480px) {
   

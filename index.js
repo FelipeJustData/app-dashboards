@@ -119,9 +119,7 @@ app.get('/home', eUser, async (req, res) => {
 
         try {
             // Recupere os projetos que você deseja exibir no carousel
-            const projects = await Project.findAll({
-
-            });
+            const projects = await Project.findAll();
 
             // Carregue os clientes com base nos projetos
             const customers = await Customer.findAll({
@@ -158,7 +156,7 @@ app.get('/home', eUser, async (req, res) => {
                 project.favorite = favorite
             });
 
-            // Associe os clientes aos projetos com base no id_customer
+            // Associe os clientes aos projetos recentes com base no id_customer
             recentProjects.forEach(project => {
                 const customer = customers.find(customer => customer.id_customer == project.id_customer);
                 const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
@@ -193,11 +191,13 @@ app.get('/home', eUser, async (req, res) => {
                             where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
                         });
 
-                        // Obtém as últimas 4 visualizações do usuário
+                        // Obtém as últimas 4 visualizações distintas do usuário
                         const recentViews = await ProjectView.findAll({
+                            attributes: ['id_project', [db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'latestView']],
                             where: { id_user: req.user.id_user },
-                            order: [['createdAt', 'DESC']],
+                            order: [[db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'DESC']],
                             limit: 4,
+                            group: ['id_project'],
                         });
 
                         // Obtém os projetos associados às visualizações

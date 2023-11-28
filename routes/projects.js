@@ -13,9 +13,11 @@ const upload = multer({ storage: storage('projeto') });
 const { Op } = require('sequelize');
 const Favorite = require('../models/Favorite')
 const ProjectView = require("../models/ProjectView")
+const db = require("../db/db")
 
 
 // Página inicial de projetos
+
 // List All Projects
 router.get('/', eUser, async (req, res) => {
     if (req.user.typ_user == "Administrador") {
@@ -29,10 +31,16 @@ router.get('/', eUser, async (req, res) => {
                 where: { id_customer: projects.map(project => project.id_customer) }
             });
 
+            const favorites = await Favorite.findAll({
+                where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
+            });
+
             // Associe os clientes aos projetos com base no id_customer
             projects.forEach(project => {
                 const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
                 project.customer = customer;
+                project.favorite = favorite
             });
 
             res.render("projects/projects", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
@@ -57,7 +65,7 @@ router.get('/', eUser, async (req, res) => {
                         });
 
                         const favorites = await Favorite.findAll({
-                            where: { id_project: projects.map(project => project.id_project) }
+                            where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
                         });
 
                         // Associe os clientes aos projetos com base no id_customer
@@ -81,8 +89,104 @@ router.get('/', eUser, async (req, res) => {
     }
 });
 
+// List Save Projects
+router.get('/saves', eUser, async (req, res) => {
+    try {
 
-// List All Projects
+        const favorites = await Favorite.findAll({
+            where: { id_user: req.user.id_user }
+        });
+
+        // Recupere os projetos que você deseja exibir n
+        const projects = await Project.findAll({
+            where: { id_project: favorites.map(project => project.id_project) }
+        });
+
+        // Carregue os clientes com base nos projetos
+        const customers = await Customer.findAll({
+            where: { id_customer: projects.map(project => project.id_customer) }
+        });
+
+        // Associe os clientes aos projetos com base no id_customer
+        projects.forEach(project => {
+            const customer = customers.find(customer => customer.id_customer == project.id_customer);
+            project.customer = customer;
+        });
+
+        res.render("projects/saves", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+    } catch (error) {
+        req.flash("error_msg", "Erro ao listar projetos - " + error);
+        res.redirect("/home");
+    }
+
+
+});
+
+// List Recentes Projects
+router.get('/recents', eUser, async (req, res) => {
+    try {
+
+        // Obtém as últimas 4 visualizações do usuário
+        const recentViews = await ProjectView.findAll({
+            attributes: ['id_project', [db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'latestView']],
+            where: { id_user: req.user.id_user },
+            order: [[db.Sequelize.fn('MAX', db.Sequelize.col('createdAt')), 'DESC']],
+            group: ['id_project'],
+        });
+
+        // Obtém os projetos associados às visualizações
+        const recentProjects = await Promise.all(
+            recentViews.map(async (view) => {
+                const project = await Project.findByPk(view.id_project);
+                return project;
+            })
+        );
+
+        // Recupere os projetos que você deseja exibir no carousel
+        const projects = await Project.findAll();
+
+        // Carregue os clientes com base nos projetos
+        const customers = await Customer.findAll({
+            where: { id_customer: projects.map(project => project.id_customer) }
+        });
+
+        const favorites = await Favorite.findAll({
+            where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
+        });
+
+        // Associe os clientes aos projetos recentes com base no id_customer
+        recentProjects.forEach(project => {
+            const customer = customers.find(customer => customer.id_customer == project.id_customer);
+            const favorite = favorites.find(favorite => favorite.id_project == project.id_project)
+            project.customer = customer;
+            project.favorite = favorite
+        });
+
+        res.render("projects/recents", { user: req.user, projects: recentProjects, styles: [{ src: "/styles/pages/projects.css" }] });
+    } catch (error) {
+        req.flash("error_msg", "Erro ao listar projetos - " + error);
+        res.redirect("/home");
+    }
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// View project ID
 router.get('/view/:id', eUser, async (req, res) => {
     try {
         const idProject = req.params.id
@@ -136,9 +240,9 @@ router.get('/view/:id', eUser, async (req, res) => {
 
 // Add Vistos recentemente
 router.post('/view', async (req, res) => {
-    const userId = req.user.id_user; 
+    const userId = req.user.id_user;
     const projectId = req.body.id_project;
-    
+
 
     try {
         // Adiciona uma entrada na tabela de visualizações
@@ -371,40 +475,44 @@ router.post('/search', async (req, res) => {
 
             const qtdResults = projects.length
 
-            res.render("projects/search", { user: req.user, projects: projects,qtdResults, styles: [{ src: "/styles/pages/projects.css" }] });
-        }else{
+            res.render("projects/search", { user: req.user, projects: projects, qtdResults, styles: [{ src: "/styles/pages/projects.css" }] });
+        } else {
             User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
-                // Coleta os IDs dos projetos permitidos
-                const projectIds = userPermissions.map(permission => permission.id_project);
+                .then((userPermissions) => {
+                    // Coleta os IDs dos projetos permitidos
+                    const projectIds = userPermissions.map(permission => permission.id_project);
 
-                // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds, nam_project: {
-                    [Op.like]: `%${searchTerm}%`, // Caso insensível a maiúsculas/minúsculas
-                }} })
-                    .then(async (projects) => {
-                        // Carregue os clientes com base nos projetos
-                        const customers = await Customer.findAll({
-                            where: { id_customer: projects.map(project => project.id_customer) }
-                        });
-
-                        // Associe os clientes aos projetos com base no id_customer
-                        projects.forEach(project => {
-                            const customer = customers.find(customer => customer.id_customer == project.id_customer);
-                            project.customer = customer;
-                        });
-                        res.render("projects/search", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+                    // Busca os projetos correspondentes aos IDs coletados
+                    Project.findAll({
+                        where: {
+                            id_project: projectIds, nam_project: {
+                                [Op.like]: `%${searchTerm}%`, // Caso insensível a maiúsculas/minúsculas
+                            }
+                        }
                     })
-                    .catch((error) => {
-                        req.flash("error_msg", "Erro ao listar projetos - " + error);
-                        res.redirect("/home");
-                    });
-            })
-            .catch((error) => {
-                req.flash("error_msg", "Erro em permissões do usuário - " + error);
-                res.redirect("/home");
-            });
-        }        
+                        .then(async (projects) => {
+                            // Carregue os clientes com base nos projetos
+                            const customers = await Customer.findAll({
+                                where: { id_customer: projects.map(project => project.id_customer) }
+                            });
+
+                            // Associe os clientes aos projetos com base no id_customer
+                            projects.forEach(project => {
+                                const customer = customers.find(customer => customer.id_customer == project.id_customer);
+                                project.customer = customer;
+                            });
+                            res.render("projects/search", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+                        })
+                        .catch((error) => {
+                            req.flash("error_msg", "Erro ao listar projetos - " + error);
+                            res.redirect("/home");
+                        });
+                })
+                .catch((error) => {
+                    req.flash("error_msg", "Erro em permissões do usuário - " + error);
+                    res.redirect("/home");
+                });
+        }
     } catch (error) {
         req.flash("error_msg", "Erro ao pesquisar projeto - " + error);
         res.redirect("/projects");

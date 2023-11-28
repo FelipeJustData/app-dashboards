@@ -17,7 +17,7 @@ router.get('/customers', eAdmin,(req,res) => {
     
 })
 
-router.get('/customers/:name', eUser, (req, res) => {
+router.get('/:name', eUser, (req, res) => {
     Customer.findOne({where: {name_customer: req.params.name}}).then((customer) => {
         res.render('customers/view', {customer: customer})
 
