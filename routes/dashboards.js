@@ -201,6 +201,7 @@ router.get("/add",eAdmin, (req,res) => {
         res.redirect("/admin")
     }) 
 })*/
+
 // Add dashboard - Exibe o formulário para adicionar um novo dashboard
 router.get("/add", eAdmin, (req, res) => {
     Customer.findAll().then((customers) => {
@@ -278,33 +279,8 @@ router.post("/dashboard/new", (req,res) => {
 
 
 
-
-
-/*
-//Save new dashboardurl
-router.post("/dashboardurl/new", (req,res) => {
-
-    const newDashboardUrl = {
-        id_dashboard: req.body.id_dashboard,
-        url_dashboard: req.body.url_dashboard,
-        typ_screen: req.body.typ_screen,
-        is_default: req.body.is_default,
-        typ_plataform_dashboard: req.body.typ_plataform_dashboard,
-        typ_database: req.body.typ_database
-    }
-
-    Url_Dashboard.create(newDashboardUrl).then(() => {
-        req.flash("success_msg", "Dashboard atualizada")
-        res.redirect("/home")
-    }).catch((error) => {
-        req.flash("error_msg", "Houve erro ao atualizar dashboard - "+error)
-        res.redirect("/home")
-    })
-})
-*/
-
 // Add dasboard
-router.post("/new", (req, res) => {
+router.post("/new", eAdmin, (req, res) => {
     var errors = [];
 
     if (req.body.customer === '0') {
@@ -324,8 +300,9 @@ router.post("/new", (req, res) => {
             des_status: req.body.des_status,
             dat_expiration: req.body.dat_expiration,
             id_project: req.body.project,
-            id_customer: req.body.customer
+            id_customer: req.body.customer            
         };
+
 
         // Crie o novo dashboard na tabela 'dashboards'
         Dashboard.create(newDashboard)
@@ -340,10 +317,8 @@ router.post("/new", (req, res) => {
                         const newDashboardUrl = {
                             id_dashboard: dashboard.id_dashboard, // Use o ID do dashboard recém-criado
                             url_dashboard: url.url_dashboard,
-                            typ_screen: url.typ_screen,
-                            is_default: url.is_default,
-                            typ_plataform_dashboard: url.typ_plataform_dashboard,
-                            typ_database: url.typ_database,
+                            typ_plataform_dashboard: url.input_format,
+                            typ_device: url.dispositivo,
                         };
 
                         // Crie a URL do dashboard na tabela 'url_dashboard'

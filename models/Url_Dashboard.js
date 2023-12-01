@@ -12,21 +12,13 @@ const Url_Dashboard = db.sequelize.define('url_dashboard', {
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    typ_screen:{
+    typ_device:{
         type: db.Sequelize.STRING,
-        allowNull: false
-    },
-    is_default:{
-        type: db.Sequelize.BOOLEAN,
-        defaultValue: false,
         allowNull: false
     },
     typ_plataform_dashboard:{
         type: db.Sequelize.STRING,
         allowNull: false
-    },
-    typ_database: {
-        type: db.Sequelize.STRING
     }
 })
 Url_Dashboard.belongsTo(Dashboard, {

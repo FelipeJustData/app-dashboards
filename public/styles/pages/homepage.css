@@ -197,3 +197,22 @@ h3 {
   background: #2E2D2F;
   color: #FFF;
 }
+
+/* MOBILE */
+@media (min-width: 320px) and (max-width: 480px) {
+  .col-home{
+    margin-bottom: 20px;
+  }
+
+  .col-card-carousel{
+    margin-bottom: 20px;
+  }
+
+  .carousel-control-prev,.carousel-control-next{
+    display: none;
+  }
+
+  #projectCarousel{
+    padding: 0;
+  }
+}

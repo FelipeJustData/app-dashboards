@@ -24,6 +24,19 @@
     background: var(--just-colors-010, #FBFAF7);
 }
 
+.status-project {
+    border-radius: 100px;
+    background: #D9D9D9;
+    color: #000;
+    text-align: center;
+    font-family: K2D;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    padding: 0 10px;
+  }
+
 .title-dashbord{
     font-size: 14px;
 }

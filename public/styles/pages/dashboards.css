@@ -76,7 +76,30 @@
     background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     text-align: center;
+}
 
+.upload-area {
+    border-radius: 4px;
+    border: 1px dashed #808080;
+    background: rgba(198, 198, 198, 0.20);
+    cursor: pointer;
+    display: none;
+}
+
+.upload-area-modal{
+    border-radius: 4px;
+    border: 1px dashed #808080;
+    background: rgba(198, 198, 198, 0.20);
+    padding: 40px;
+}
+
+#dashboard-image{
+    display: none;
+}
+
+
+#modal-upload-image, #confirm-modal-image{
+    display: none;
 }
 
 .form-control {

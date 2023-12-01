@@ -506,6 +506,16 @@ footer .col-2 {
   #main-container {
     padding: 20px !important;
   }
+
+  .item-menu{
+    padding-bottom: 5px;
+  }
+
+  .item-menu a{
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.2em;    
+  }
 }
 
 

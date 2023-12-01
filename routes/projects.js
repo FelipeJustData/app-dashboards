@@ -23,13 +23,35 @@ router.get('/', eUser, async (req, res) => {
     if (req.user.typ_user == "Administrador") {
 
         try {
-            // Recupere os projetos que você deseja exibir no carousel
-            const projects = await Project.findAll();
+            // Lógica para aplicar os filtros
+            const filterOptions = req.query;
+
+            const filterConditions = {};
+
+            if (filterOptions.status) {
+                filterConditions.des_status = filterOptions.status;
+            }
+
+            if (filterOptions.expirationDate) {
+                filterConditions.dat_expiration = filterOptions.expirationDate;
+            }
+
+            if (filterOptions.client) {
+                filterConditions.id_customer = filterOptions.client;
+            }
+
+            var projects = await Project.findAll({
+                where: filterConditions
+            })
+
+           
 
             // Carregue os clientes com base nos projetos
             const customers = await Customer.findAll({
                 where: { id_customer: projects.map(project => project.id_customer) }
             });
+
+            const uniqueCustomers = await Customer.findAll();
 
             const favorites = await Favorite.findAll({
                 where: { id_user: req.user.id_user, id_project: projects.map(project => project.id_project) }
@@ -43,7 +65,7 @@ router.get('/', eUser, async (req, res) => {
                 project.favorite = favorite
             });
 
-            res.render("projects/projects", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+            res.render("projects/projects", { user: req.user, customers: uniqueCustomers, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
             res.redirect("/home");
@@ -52,12 +74,29 @@ router.get('/', eUser, async (req, res) => {
     }
     else {
         User_Permissions.findAll({ where: { id_user: req.user.id_user } })
-            .then((userPermissions) => {
+            .then(async (userPermissions) => {
                 // Coleta os IDs dos projetos permitidos
                 const projectIds = userPermissions.map(permission => permission.id_project);
 
+                // Lógica para aplicar os filtros
+                const filterOptions = req.query;
+
+                const filterConditions = {};
+
+                if (filterOptions.status) {
+                    filterConditions.des_status = filterOptions.status;
+                }
+
+                if (filterOptions.expirationDate) {
+                    filterConditions.dat_expiration = filterOptions.expirationDate;
+                }
+
+                if (filterOptions.client) {
+                    filterConditions.id_customer = filterOptions.client;
+                }
+
                 // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds } })
+                Project.findAll({ where: { id_project: projectIds, filterConditions } })
                     .then(async (projects) => {
                         // Carregue os clientes com base nos projetos
                         const customers = await Customer.findAll({

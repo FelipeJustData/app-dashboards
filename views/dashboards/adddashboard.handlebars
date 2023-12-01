@@ -4,14 +4,13 @@
 
 {{/each}}
 
-<div class="alert alert-danger">PRECISA AJUSTAR SALVAR MAIS DE UMA URL E SALVAR EM FORMATOS DIFERENTES</div>
-
 <h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Add Dash</h2>
-<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit" >Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Novo dashboard</p>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span
+        style="color:#F90196">&nbsp;/&nbsp;</span> Novo dashboard</p>
 
 <div class="container container-dashboards">
 
-    <form class="mt-4" action="/dashboards/new" method="POST" enctype="multipart/form-data">
+    <form class="mt-4" action="/dashboards/new" method="POST">
         <div class="row">
             <div class="col-4">
                 <div class="row">
@@ -46,8 +45,8 @@
                 </select>
 
                 <label for="status" class="mt-4">Status</label>
-                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status" class="form-control"
-                    required>
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status"
+                    class="form-control" required>
                     <option value="" disabled selected hidden>Selecionar</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
                     <option value="homolog interna">Homologação interna</option>
@@ -74,13 +73,14 @@
             <div class="row">
                 <div class="col-3">
                     <label for="input_format">Forma de input</label>
-                    <select class="form-select form-control" name="dashboardUrls[][input_format]" required>
+                    <select class="form-select form-control" id="input_format" name="dashboardUrls[][input_format]"
+                        required>
                         <option value="" disabled selected hidden>Selecionar</option>
                         <option value="PWBI">PWBI</option>
                         <option value="Tableu">Tableu</option>
                         <option value="Looker">Looker</option>
                         <option value="Figma">Figma</option>
-                        <option value="Imagem">Imagem</option>
+                      <!--  <option value="Imagem">Imagem</option> -->
                         <option value="URL Genérica">URL Genérica</option>
                         <option value="Python">Python</option>
                         <option value="Bloco">Bloco</option>
@@ -91,11 +91,14 @@
                     <label for="url_dashboard">Link do Dash</label>
                     <input class="form-control" type="text" id="url_dashboard" name="dashboardUrls[][url_dashboard]"
                         required>
+                    <input class="form-control" type="file" id="dashboard-image" name="dashboard-image">
+                    <div class="upload-area text-center" id="step-1">
+                        <span>Envio de imagem</span>
+                    </div>
                 </div>
                 <div class="col-3">
-                    <label for="url_dashboard">Dispositivo</label>
-                    <input class="form-control" type="text" id="url_dashboard" name="dashboardUrls[][dispositivo]"
-                        required>
+                    <label for="device">Dispositivo</label>
+                    <input class="form-control" type="text" id="device" name="dashboardUrls[][dispositivo]" required>
                 </div>
                 <div class="col-3 ">
                     <br>
@@ -103,6 +106,7 @@
                 </div>
             </div>
         </div>
+
         <div class="mt-4">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
                 <path
@@ -122,48 +126,8 @@
     </div>
 
 </div>
-<!--
-<div id="confirm-modal" class="modal modal-upload">
 
-    <div class="modal-content text-center modal-container">
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="92" viewBox="0 0 100 92" fill="none">
-                <path
-                    d="M76.9231 80.5C76.9231 79.4618 76.5425 78.5634 75.7812 77.8047C75.02 77.046 74.1186 76.6667 73.0769 76.6667C72.0353 76.6667 71.1338 77.046 70.3726 77.8047C69.6114 78.5634 69.2308 79.4618 69.2308 80.5C69.2308 81.5382 69.6114 82.4366 70.3726 83.1953C71.1338 83.954 72.0353 84.3333 73.0769 84.3333C74.1186 84.3333 75.02 83.954 75.7812 83.1953C76.5425 82.4366 76.9231 81.5382 76.9231 80.5ZM92.3077 80.5C92.3077 79.4618 91.9271 78.5634 91.1659 77.8047C90.4046 77.046 89.5032 76.6667 88.4615 76.6667C87.4199 76.6667 86.5184 77.046 85.7572 77.8047C84.996 78.5634 84.6154 79.4618 84.6154 80.5C84.6154 81.5382 84.996 82.4366 85.7572 83.1953C86.5184 83.954 87.4199 84.3333 88.4615 84.3333C89.5032 84.3333 90.4046 83.954 91.1659 83.1953C91.9271 82.4366 92.3077 81.5382 92.3077 80.5ZM100 67.0833V86.25C100 87.8472 99.4391 89.2049 98.3173 90.3229C97.1955 91.441 95.8333 92 94.2308 92H5.76923C4.16667 92 2.80449 91.441 1.68269 90.3229C0.560897 89.2049 0 87.8472 0 86.25V67.0833C0 65.4861 0.560897 64.1285 1.68269 63.0104C2.80449 61.8924 4.16667 61.3333 5.76923 61.3333H33.7139L41.8269 69.4792C44.1506 71.7153 46.875 72.8333 50 72.8333C53.125 72.8333 55.8494 71.7153 58.1731 69.4792L66.3462 61.3333H94.2308C95.8333 61.3333 97.1955 61.8924 98.3173 63.0104C99.4391 64.1285 100 65.4861 100 67.0833ZM80.4688 33.0026C81.1498 34.6398 80.8694 36.0373 79.6274 37.1953L52.7043 64.0286C51.9832 64.7873 51.0817 65.1667 50 65.1667C48.9183 65.1667 48.0168 64.7873 47.2957 64.0286L20.3726 37.1953C19.1306 36.0373 18.8502 34.6398 19.5312 33.0026C20.2123 31.4453 21.3942 30.6667 23.0769 30.6667H38.4615V3.83333C38.4615 2.79514 38.8421 1.8967 39.6034 1.13802C40.3646 0.37934 41.266 0 42.3077 0H57.6923C58.734 0 59.6354 0.37934 60.3966 1.13802C61.1579 1.8967 61.5385 2.79514 61.5385 3.83333V30.6667H76.9231C78.6058 30.6667 79.7877 31.4453 80.4688 33.0026Z"
-                    fill="#97CCBD" />
-            </svg>
-        </div>
-        <div>
-            <h2>Confirme seu envio:</h2>
-            <input id="input-doc-1" disabled>
-            <input id="input-doc-2" disabled style="display: none;">
-            <input id="input-doc-3" disabled style="display: none;">
-            <div class="row">
-                <div class="col-3">
-                    <p>Forma de input: <span id="displayInputFormat"></span></p>
-                </div>
-                <div class="col-3">
-                    <p>Link do Dash: <span id="displayUrlDashboard"></span></p>
-                </div>
-                <div class="col-3">
-                    <p>Dispositivo: <span id="displayDispositivo"></span></p>
-                </div>
-            </div>
-        </div>
 
-        <br>
-        <div class="row">
-            <div class="col-6">
-                <button class="btn btn-back-modal" id="cancel-upload-desktop">Cancelar</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-confirm-modal" id="confirm-upload-desktop">Enviar</button>
-            </div>
-        </div>
-
-    </div>
-</div>
--->
 <div id="confirm-modal" class="modal">
     <div class="modal-content text-center modal-container">
         <div>
@@ -214,8 +178,30 @@
         const btnConfirmSend = document.getElementById('confirm-send')
         const btnCancelModall = document.getElementById('cancel-modal')
         const btnSubmitForm = document.getElementById('save-dashbord')
+
         const confirmModal = document.getElementById('confirm-modal');
         const submitButton = document.getElementById('send-dashbord');
+        var uploadArea = document.getElementById('step-1');
+        var urlDashboardInput = document.getElementById('dashboard-image');
+        var urlInput = document.getElementById('url_dashboard');
+
+        const modalUploadImage = document.getElementById('modal-upload-image')
+        const dropAreaImage = document.getElementById('drop-area-image')
+
+        const confirmUploadImage = document.getElementById('confirm-modal-image')
+        const uploadedImageInput = document.getElementById('uploaded-image')
+
+        const modalOk = document.getElementById('modal-ok')
+        const buttonOk = document.getElementById('button-ok')
+
+        const cancelUploadButton = document.getElementById('cancel-upload-button')
+        const sendUploadButton = document.getElementById('send-upload-button')
+
+        const cancelConfirmUpload = document.getElementById('cancel-confirm-upload')
+        const sendConfirmUpload = document.getElementById('send-confirm-upload')
+
+ 
+        
 
         addUrlFieldButton.addEventListener('click', function () {
             const newUrlField = document.createElement('div');
@@ -228,7 +214,7 @@
                             <option value="Tableu">Tableu</option>
                             <option value="Looker">Looker</option>
                             <option value="Figma">Figma</option>
-                            <option value="Imagem">Imagem</option>    
+                               
                             <option value="URL Genérica">URL Genérica</option>    
                             <option value="Python">Python</option>    
                             <option value="Bloco">Bloco</option>    
@@ -257,8 +243,15 @@
             }
         });
 
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        //submit form
         submitButton.addEventListener('click', function (event) {
             updateModalValues();
             confirmModal.style.display = 'block'
@@ -297,15 +290,15 @@
 
         })
 
-        
+
     });
-            function removeUrlField(element) {
-            const urlFields = document.getElementById('urlFields');
-            urlFields.removeChild(element.parentElement); // Remove o elemento pai
-            const addUrlFieldButton = document.getElementById('addUrlField');
-            addUrlFieldButton.disabled = false; // Habilita o botão de adição
-            updateModalValues();
-        }
+    function removeUrlField(element) {
+        const urlFields = document.getElementById('urlFields');
+        urlFields.removeChild(element.parentElement); // Remove o elemento pai
+        const addUrlFieldButton = document.getElementById('addUrlField');
+        addUrlFieldButton.disabled = false; // Habilita o botão de adição
+        updateModalValues();
+    }
 
 </script>
 
@@ -352,9 +345,6 @@
 
 </script>
 -->
-
-
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

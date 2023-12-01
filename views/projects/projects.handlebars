@@ -4,14 +4,41 @@
       <rect y="16.5" width="16" height="5" transform="rotate(-90 0 16.5)" fill="#F90196" />
     </svg> Projetos
   </h2>
-  <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Projetos</p>
+  <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span
+      style="color:#F90196">&nbsp;/&nbsp;</span> Projetos</p>
 </div>
 <div class="col-md-6 text-md-end">
   <div id="input-filter-desk" style="float: right !important;">
-    <select class="form-select" aria-label="Filtrar" id="filter-project" name="filter-project" class="form-control"
-      required>
-      <option selected>Filtrar</option>
-    </select>
+    <form id="filterForm">
+      <label for="status">Status:</label>
+      <select name="status" id="status">
+        <option  value="" disabled selected>Selecionar</option>
+        <option value="desenvolvimento">Em desenvolvimento</option>
+        <option value="homolog interna">Homologação interna</option>
+        <option value="homolog externa">Homologação externa</option>
+        <option value="publicado">Publicado</option>
+        <option value="desabilitado">Desabilitado</option>
+        <option value="expirado">Expirado</option>
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+        <!-- Adicione mais opções conforme necessário -->
+      </select>
+
+      <label for="expirationDate">Data de Vencimento:</label>
+      <input type="date" name="expirationDate" id="expirationDate">
+
+      <label for="client">Cliente:</label>
+      <select class="form-select form-control" aria-label="Selecionar Cliente" id="client" name="customer"
+                    class="form-control" required>
+                    <option value="" disabled selected>Selecionar</option>
+                    {{#each customers}}
+                    <option value={{id_customer}}>{{name_customer}}</option>
+                    {{else}}
+                    {{/each}}
+                </select>
+
+      <button type="button" onclick="applyFilters()">Aplicar Filtros</button>
+    </form>
   </div>
 </div>
 </div>
@@ -38,7 +65,9 @@
                         <div class="col-2"></div>
                         <div class="col-8">
                           <a href="/projects/view/{{id_project}}" style="text-decoration: none !important;">
-                          <p><b class="card-title">{{nam_project}}</b></p></a>
+                            <p style="margin-bottom: 0;"><b class="card-title">{{nam_project}}</b></p>
+                          </a>
+                          <span class="status-project mt-1">{{des_status}}</span>
                         </div>
                         <div class="col-2">
                           <span style="position: absolute;right: 10px;top: 10px;"
@@ -50,7 +79,7 @@
                         </div>
                       </div>
                       <a href="/projects/view/{{id_project}}" style="text-decoration: none !important;">
-                        <img
+                        <img style="margin-top: 10px;"
                           src="{{#if des_project_image_desktop}} /uploads/projects/{{des_project_image_desktop}} {{else}} /img/img-default.jpg {{/if}}"
                           class="card-img-top">
                       </a>
@@ -134,67 +163,85 @@
     </div>
   </div>
 
- <script>
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     });
 
 
     // Função para alternar favorito do carrousel de projetos
     function toggleFavoriteAllProjects(contentId) {
-        const favoriteToggle = document.querySelector(`[data-content-id="${contentId}"] .favorite-toggle.all-projects`);
-        toggleFavorite(favoriteToggle, contentId)
+      const favoriteToggle = document.querySelector(`[data-content-id="${contentId}"] .favorite-toggle.all-projects`);
+      toggleFavorite(favoriteToggle, contentId)
     }
 
 
     // Função para alternar favorito
     function toggleFavorite(favoriteToggle, contentId) {
-        const isFavorited = favoriteToggle.classList.contains('favorited');
+      const isFavorited = favoriteToggle.classList.contains('favorited');
 
-        // Simule a troca de ícones (estrela vazia <-> estrela preenchida)
-        favoriteToggle.classList.toggle('favorited');
+      // Simule a troca de ícones (estrela vazia <-> estrela preenchida)
+      favoriteToggle.classList.toggle('favorited');
 
-        // Chama a função apropriada com base no estado atual
-        if (isFavorited) {
-            removeFromFavorites(contentId);
-        } else {
-            addToFavorites(contentId);
-        }
+      // Chama a função apropriada com base no estado atual
+      if (isFavorited) {
+        removeFromFavorites(contentId);
+      } else {
+        addToFavorites(contentId);
+      }
     }
 
     // Adicionar conteúdo aos favoritos
     function addToFavorites(contentId) {
-        fetch('/users/favorites', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id_project: contentId }),
+      fetch('/users/favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_project: contentId }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Adicionado aos favoritos:', data);
+          // Atualize a interface do usuário conforme necessário
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Adicionado aos favoritos:', data);
-                // Atualize a interface do usuário conforme necessário
-            })
-            .catch(error => console.log('Erro ao adicionar aos favoritos: ' + error));
+        .catch(error => console.log('Erro ao adicionar aos favoritos: ' + error));
     }
 
     // Remover conteúdo dos favoritos
     function removeFromFavorites(contentId) {
-        fetch('/users/favorites', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id_project: contentId }),
+      fetch('/users/favorites', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_project: contentId }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Removido dos favoritos:', data);
+          // Atualize a interface do usuário conforme necessário
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Removido dos favoritos:', data);
-                // Atualize a interface do usuário conforme necessário
-            })
-            .catch(error => console.log('Erro ao remover dos favoritos: ' + error));
+        .catch(error => console.log('Erro ao remover dos favoritos: ' + error));
     }
-</script>
+
+    //Filtrar
+    function applyFilters() {
+      // Coletar valores dos elementos de filtro
+      const status = document.getElementById('status').value;
+      const expirationDate = document.getElementById('expirationDate').value;
+      const client = document.getElementById('client').value;
+
+      // Construir a URL com parâmetros de consulta
+      const queryParams = new URLSearchParams({
+        status: status,
+        expirationDate: expirationDate,
+        client: client
+      });
+
+      // Redirecionar para a rota com os parâmetros de consulta
+      window.location.href = `/projects?${queryParams.toString()}`;
+    }
+  </script>
