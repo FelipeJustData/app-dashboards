@@ -86,19 +86,20 @@
     display: none;
 }
 
-.upload-area-modal{
+.upload-area-modal {
     border-radius: 4px;
     border: 1px dashed #808080;
     background: rgba(198, 198, 198, 0.20);
     padding: 40px;
 }
 
-#dashboard-image{
+#dashboard-image {
     display: none;
 }
 
 
-#modal-upload-image, #confirm-modal-image{
+#modal-upload-image,
+#confirm-modal-image {
     display: none;
 }
 
@@ -129,7 +130,8 @@
 
 
 
-#addUrlField {
+#addUrlField,
+#addUrlFieldMob {
     border-radius: 4px;
     border: 1px solid rgba(201, 201, 201, 0.20);
     background: #D2E4DD;
@@ -182,4 +184,63 @@ select:required:invalid {
 #dark-mode .container-dashboards h4,
 #dark-mode .container-dashboards p {
     color: #FFF
+}
+
+.btn-addurl-mobile {
+    display: none;
+}
+
+.col-btn-addurl-desktop {
+    display: block;
+}
+
+.col-btn-remove-url-mobile {
+    display: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    #input-filter-desk {
+        display: none;
+    }
+
+    .container-dashboards {
+        margin: 0;
+    }
+
+    .btn-addurl-mobile {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .col-btn-addurl-desktop {
+        display: none;
+    }
+
+    #urlFields label {
+        display: none;
+    }
+
+    #urlFields .form-control {
+        margin-bottom: 12px;
+    }
+
+    .row-url-fields {
+        border-radius: 4px;
+        background: #FFF;
+        padding: 10px 5px 0px 5px;
+        margin: 10px 5px;
+    }
+
+    .col-btn-remove-url-mobile {
+        display: block;
+        text-align: end;
+        padding-bottom: 20px;
+    }
+
+    .svg-remove-desktop {
+        display: none;
+    }
+
+
 }

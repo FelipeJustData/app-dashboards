@@ -73,7 +73,7 @@ router.get('/', eUser, async (req, res) => {
 
     }
     else {
-        User_Permissions.findAll({ where: { id_user: req.user.id_user } })
+       await User_Permissions.findAll({ where: { id_user: req.user.id_user } })
             .then(async (userPermissions) => {
                 // Coleta os IDs dos projetos permitidos
                 const projectIds = userPermissions.map(permission => permission.id_project);
@@ -95,8 +95,10 @@ router.get('/', eUser, async (req, res) => {
                     filterConditions.id_customer = filterOptions.client;
                 }
 
+
+
                 // Busca os projetos correspondentes aos IDs coletados
-                Project.findAll({ where: { id_project: projectIds, filterConditions } })
+               await Project.findAll({ where: { id_project: projectIds, ...filterConditions } })
                     .then(async (projects) => {
                         // Carregue os clientes com base nos projetos
                         const customers = await Customer.findAll({

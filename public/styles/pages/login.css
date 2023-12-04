@@ -274,6 +274,10 @@ footer {
 
 @media (min-width: 320px) and (max-width: 480px) {
 
+    .p-login{
+        font-size: 40px;
+    }
+
     #bg-login {
         background-image: url('/img/bg-login-mobile.jpg');
         background-repeat: no-repeat;
@@ -325,10 +329,6 @@ footer {
         padding-top: 0;
     }
 
-    .col-form-login {
-        padding-top: 20px;
-    }
-
     .row-footer-desktop {
         display: none;
     }
@@ -355,7 +355,8 @@ footer {
     }
 
     footer {
-        padding: 0px 30px;
+        padding: 20px 30px;
+        margin-top: 30%;
     }
 
     .p-footer-copy {

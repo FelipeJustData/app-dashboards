@@ -64,19 +64,19 @@
 
 <div class="container container-viewproject">
     <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label for="objective" class="mt-4">Objetivo do projeto:</label>
             <textarea rows="5" cols="50" id="objective" name="objective_project"
                 class="form-control" disabled>{{project.objective_project}}</textarea>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label for="dat_expiration" class="mt-4">Data expiração:</label>
             <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
                 value="{{project.dat_expiration}}" disabled>
             <label for="status" class="mt-4">Status:</label>
             <input type="text" name="status" id="status" class="form-control" value="{{project.des_status}}" disabled>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
             <input type="text" name="des_autoplay_timing" id="des_autoplay_timing" class="form-control"
                 value="{{project.des_autoplay_timing}}" disabled>
@@ -95,7 +95,7 @@
                     <div class="carousel-item">
                         <div class="row">
                             {{/if}}
-                            <div class="col-4 mt-4 item-{{@index}} align-self-center">
+                            <div class="col-12 col-md-4 mt-4 item-{{@index}} align-self-center">
                                 <div class="row">
                                     <div class="col-3">
                                         <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none; color:inherit">

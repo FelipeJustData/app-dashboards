@@ -3,73 +3,171 @@
 {{else}}
 {{/each}}
 
-<div class="alert alert-danger">Nova visualização da página edição em desenvolvimento. Favor utilizar a antiga (abaixo).</div>
-
-<h2>Editando dashboard</h2>
-
-<div class="row">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <form action="/admin/dashboard/edit" method="POST">
-                    <input type="hidden" name="id_dashboard" id="id_dashboard" value="{{dashboard.id_dashboard}}">
-                    <label for="title">Título:</label>
-                    <input class="form-control" type="text" id="title" name="title" value="{{dashboard.title}}"
-                        required>
-
-                    <label for="description">Descrição:</label>
-                    <input class="form-control" type="text" id="description" name="description"
-                        value="{{dashboard.title}}">
-
-                    <label for="des_status">Status:</label>
-                    <input class="form-control" type="text" id="des_status" name="des_status"
-                        value="{{dashboard.des_status}}" required>
-
-                    <label for="dat_expiration">Data de Expiração:</label>
-                    <input class="form-control" type="date" id="dat_expiration" name="dat_expiration"
-                        value="{{dashboard.dat_expiration}}">
+<h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Edit Dash</h2>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span
+        style="color:#F90196">&nbsp;/&nbsp;</span>{{dashboard.title}}</p>
 
 
-                    <h4>URLs do Dashboard</h4>
-                    <div id="urlFields">
-
-                        <ul id="urls-list">
-                            {{#each urlDashboards}}
-                            <li>
-                                <label for="url_dashboard">URL:</label>
-                                <input class="form-control" type="text" name="dashboardUrls[][url_dashboard]"
-                                    value="{{url_dashboard}}" required>
-
-                                <label for="typ_screen">Tipo de Tela:</label>
-                                <input class="form-control" type="text" name="dashboardUrls[][typ_screen]"
-                                    value="{{typ_screen}}" required>
-
-                                <label for="typ_plataform_dashboard">Plataforma:</label>
-                                <input class="form-control" type="text" name="dashboardUrls[][typ_plataform_dashboard]"
-                                    value="{{typ_plataform_dashboard}}" required>
-
-                                <label for="typ_database">Banco de Dados:</label>
-                                <input class="form-control" type="text" name="dashboardUrls[][typ_database]"
-                                    value="{{typ_database}}">
-                                <button type="button" class="btn btn-secondary remove-url">Remover</button>
-                            </li>
+<div class="container container-dashboards">
+    <form action="/admin/dashboard/edit" method="POST">
+    <input type="hidden" name="id_dashboard" id="id_dashboard" value="{{dashboard.id_dashboard}}">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="customer">Cliente</label>
+                        <select class="form-select form-control" id="customer" name="customer" required>
+                            <option value="" disabled selected hidden>Selecionar</option>
+                            {{#each customers}}
+                            <option value="{{id_customer}}">{{name_customer}}</option>
                             {{/each}}
-                        </ul>
-
-
+                        </select>
                     </div>
-                    <button class="btn btn-primary" type="button" id="addUrlField">Adicionar URL</button>
+                    <div class="col-6">
+                        <label for="customer">BU</label>
+                        <select class="form-select form-control" id="bu" name="bu" required>
+                            <option value="" disabled selected hidden>Selecionar</option>
+                            <option value="1">Opção 1</option>
+                            <option value="2">Opção 2</option>
+                            <option value="3">Opção 3</option>
+                            <option value="4">Opção 4</option>
+                        </select>
+                    </div>
+                </div>
+                <label for="objective" class="mt-4">Objetivo do Dash</label>
+                <textarea rows="5" cols="50" id="objective" name="objective_project" class="form-control"
+                    required></textarea>
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="project">Projeto</label>
+                <select class="form-select form-control" id="project" name="project" required>
+                    <option value="" disabled selected hidden>Selecione um projeto</option>
+                </select>
 
-                    <button class="btn btn-primary" type="submit">Salvar Dashboard e URLs</button>
-                </form>
+                <label for="status" class="mt-4">Status</label>
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status"
+                    class="form-control" required>
+                    <option value="" disabled selected hidden>Selecionar</option>
+                    <option value="desenvolvimento">Em desenvolvimento</option>
+                    <option value="homolog interna">Homologação interna</option>
+                    <option value="homolog externa">Homologação externa</option>
+                    <option value="publicado">Publicado</option>
+                    <option value="desabilitado">Desabilitado</option>
+                    <option value="expirado">Expirado</option>
+                </select>
+
+                <label for="dat_expiration" class="mt-4">Data expiração:</label>
+                <input type="text" name="dat_expiration" id="dat_expiration" class="form-control"
+                    placeholder="Selecionar" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="title">Nome do Dash</label>
+                <input class="form-control" type="text" id="title" name="title" required>
+
+                <label for="link_documentation" class="mt-4">Link da Documentação</label>
+                <input class="form-control" type="text" id="link_documentation" name="link_documentation">
             </div>
         </div>
-    </div>
-    <div class="col-6"></div>
+        
+
+        <button class="btn btn-primary btn-addurl-mobile" type="button" id="addUrlFieldMob">Add Dash +</button>
+
+        <div class="row mt-4 " id="urlFields">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <label for="input_format">Forma de input</label>
+                    <select class="form-select form-control" id="input_format" name="dashboardUrls[][input_format]"
+                        required>
+                        <option value="" disabled selected hidden>Selecionar</option>
+                        <option value="PWBI">PWBI</option>
+                        <option value="Tableu">Tableu</option>
+                        <option value="Looker">Looker</option>
+                        <option value="Figma">Figma</option>
+                        <!--  <option value="Imagem">Imagem</option> -->
+                        <option value="URL Genérica">URL Genérica</option>
+                        <option value="Python">Python</option>
+                        <option value="Bloco">Bloco</option>
+                        <option value="API">API</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="url_dashboard">Link do Dash</label>
+                    <input class="form-control" type="text" id="url_dashboard" name="dashboardUrls[][url_dashboard]"
+                        required>
+                    <input class="form-control" type="file" id="dashboard-image" name="dashboard-image">
+                    <div class="upload-area text-center" id="step-1">
+                        <span>Envio de imagem</span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="device">Dispositivo</label>
+                    <input class="form-control" type="text" id="device" name="dashboardUrls[][dispositivo]" required>
+                </div>
+                <div class="col-3 col-btn-addurl-desktop">
+                    <br>
+                    <button class="btn btn-primary" type="button" id="addUrlField">Add Dash +</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <path
+                    d="M13.5535 11.7737C13.5285 11.6354 13.4525 11.5115 13.3407 11.4264C13.2288 11.3412 13.0892 11.3011 12.9492 11.3138C12.8092 11.3265 12.679 11.3911 12.5843 11.495C12.4896 11.5989 12.4372 11.7344 12.4375 11.875V16.9397L12.4465 17.041C12.4715 17.1793 12.5475 17.3032 12.6593 17.3884C12.7712 17.4735 12.9108 17.5137 13.0508 17.501C13.1908 17.4883 13.321 17.4236 13.4157 17.3198C13.5104 17.2159 13.5628 17.0803 13.5625 16.9397V11.875L13.5535 11.7737ZM13.8989 9.34375C13.8989 9.11997 13.81 8.90536 13.6517 8.74713C13.4935 8.58889 13.2789 8.5 13.0551 8.5C12.8313 8.5 12.6167 8.58889 12.4585 8.74713C12.3003 8.90536 12.2114 9.11997 12.2114 9.34375C12.2114 9.56753 12.3003 9.78214 12.4585 9.94037C12.6167 10.0986 12.8313 10.1875 13.0551 10.1875C13.2789 10.1875 13.4935 10.0986 13.6517 9.94037C13.81 9.78214 13.8989 9.56753 13.8989 9.34375ZM22 13C22 10.6131 21.0518 8.32387 19.364 6.63604C17.6761 4.94821 15.3869 4 13 4C10.6131 4 8.32387 4.94821 6.63604 6.63604C4.94821 8.32387 4 10.6131 4 13C4 15.3869 4.94821 17.6761 6.63604 19.364C8.32387 21.0518 10.6131 22 13 22C15.3869 22 17.6761 21.0518 19.364 19.364C21.0518 17.6761 22 15.3869 22 13ZM5.125 13C5.125 11.9658 5.32869 10.9418 5.72445 9.98637C6.1202 9.03093 6.70027 8.1628 7.43153 7.43153C8.1628 6.70027 9.03093 6.1202 9.98637 5.72445C10.9418 5.32869 11.9658 5.125 13 5.125C14.0342 5.125 15.0582 5.32869 16.0136 5.72445C16.9691 6.1202 17.8372 6.70027 18.5685 7.43153C19.2997 8.1628 19.8798 9.03093 20.2756 9.98637C20.6713 10.9418 20.875 11.9658 20.875 13C20.875 15.0886 20.0453 17.0916 18.5685 18.5685C17.0916 20.0453 15.0886 20.875 13 20.875C10.9114 20.875 8.90838 20.0453 7.43153 18.5685C5.95468 17.0916 5.125 15.0886 5.125 13Z"
+                    fill="#808080" />
+            </svg> <span class="text-inform">Máx. 3 envios</span>
+        </div>
+
+        <button type="submit" class="btn btn-confirm-form" id="save-dashbord"
+            style="display: none !important;">Enviar</button>
+    </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnUrl = document.getElementById('addUrlField')
+        document.getElementById('addUrlFieldMob').addEventListener('click', () => {
+            
+            btnUrl.click()
+        })
 
+        document.getElementById('customer').addEventListener('change', function () {
+            const selectedCustomer = this.value;
+
+            // Enviar solicitação para buscar os dashboards relacionados
+            fetch(`/projects/get-projects/${selectedCustomer}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    // Atualize o campo "dashboard_permissions" com as opções de dashboards disponíveis
+                    const projectsSelect = document.getElementById('project');
+                    projectsSelect.innerHTML = '';
+
+                    if (data.length > 0) {
+
+                        data.forEach(project => {
+                            const option = document.createElement('option');
+                            option.value = project.id_project;
+                            option.textContent = project.nam_project; // Altere para o campo apropriado do seu dashboard
+
+                            projectsSelect.appendChild(option);
+                        })
+                    } else {
+
+                        const option = document.createElement('option');
+                        option.value = ""
+                        option.textContent = "Nenhum projeto cadastrado"
+
+                        projectsSelect.appendChild(option);
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dashboards:', error);
+                });
+        });
+    });
+</script>
 <!--
-
 <form class="mt-4" action="/dashboards/edit" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-4">

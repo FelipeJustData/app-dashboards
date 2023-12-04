@@ -283,4 +283,8 @@ line-height: 16px; /* 133.333% */
     #input-filter-desk{
         display: none;
     }
+
+    .container-viewproject{
+        margin: 0;
+    }
   }

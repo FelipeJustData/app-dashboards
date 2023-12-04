@@ -12,7 +12,7 @@
 
     <form class="mt-4" action="/dashboards/new" method="POST">
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <div class="row">
                     <div class="col-6">
                         <label for="customer">Cliente</label>
@@ -38,7 +38,7 @@
                 <textarea rows="5" cols="50" id="objective" name="objective_project" class="form-control"
                     required></textarea>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <label for="project">Projeto</label>
                 <select class="form-select form-control" id="project" name="project" required>
                     <option value="" disabled selected hidden>Selecione um projeto</option>
@@ -60,7 +60,7 @@
                 <input type="text" name="dat_expiration" id="dat_expiration" class="form-control"
                     placeholder="Selecionar" onfocus="(this.type='date')" onblur="(this.type='text')">
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <label for="title">Nome do Dash</label>
                 <input class="form-control" type="text" id="title" name="title" required>
 
@@ -68,10 +68,11 @@
                 <input class="form-control" type="text" id="link_documentation" name="link_documentation">
             </div>
         </div>
+        <button class="btn btn-primary btn-addurl-mobile" type="button" id="addUrlFieldMob">Add Dash +</button>
+        <div class="mt-4 " id="urlFields">
+            <div class="row row-url-fields">
 
-        <div class="row mt-4 " id="urlFields">
-            <div class="row">
-                <div class="col-3">
+                <div class="col-12 col-md-3">
                     <label for="input_format">Forma de input</label>
                     <select class="form-select form-control" id="input_format" name="dashboardUrls[][input_format]"
                         required>
@@ -80,14 +81,14 @@
                         <option value="Tableu">Tableu</option>
                         <option value="Looker">Looker</option>
                         <option value="Figma">Figma</option>
-                      <!--  <option value="Imagem">Imagem</option> -->
+                        <!--  <option value="Imagem">Imagem</option> -->
                         <option value="URL Genérica">URL Genérica</option>
                         <option value="Python">Python</option>
                         <option value="Bloco">Bloco</option>
                         <option value="API">API</option>
                     </select>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-md-3">
                     <label for="url_dashboard">Link do Dash</label>
                     <input class="form-control" type="text" id="url_dashboard" name="dashboardUrls[][url_dashboard]"
                         required>
@@ -96,11 +97,11 @@
                         <span>Envio de imagem</span>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-md-3">
                     <label for="device">Dispositivo</label>
                     <input class="form-control" type="text" id="device" name="dashboardUrls[][dispositivo]" required>
                 </div>
-                <div class="col-3 ">
+                <div class="col-3 col-btn-addurl-desktop">
                     <br>
                     <button class="btn btn-primary" type="button" id="addUrlField">Add Dash +</button>
                 </div>
@@ -200,14 +201,32 @@
         const cancelConfirmUpload = document.getElementById('cancel-confirm-upload')
         const sendConfirmUpload = document.getElementById('send-confirm-upload')
 
- 
-        
+        const btnUrl = document.getElementById('addUrlField')
+        document.getElementById('addUrlFieldMob').addEventListener('click', () => {
+
+            btnUrl.click()
+        })
+
+
+
 
         addUrlFieldButton.addEventListener('click', function () {
             const newUrlField = document.createElement('div');
-            newUrlField.classList.add('row', 'mt-4');
+            newUrlField.classList.add('row', 'mt-4', 'row-url-fields');
             newUrlField.innerHTML = `
-      <div class="col-3">                        
+                            <div class="col-12 col-btn-remove-url-mobile">
+                    <span style="cursor: pointer; flex: 0 0 auto;width: 25%;margin:0; padding:0;align-self: center;"
+                        onclick="removeUrlField(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path
+                                d="M13.6693 4H2.33594M12.5579 5.66667L12.2513 10.2667C12.1333 12.036 12.0746 12.9207 11.4979 13.46C10.9213 14 10.0339 14 8.2606 14H7.7446C5.97127 14 5.08394 14 4.50727 13.46C3.9306 12.9207 3.87127 12.036 3.75394 10.2667L3.44727 5.66667M6.33594 7.33333L6.66927 10.6667M9.66927 7.33333L9.33594 10.6667"
+                                stroke="#808080" stroke-linecap="round" />
+                            <path
+                                d="M4.33594 4H4.40927C4.67757 3.99314 4.93755 3.90548 5.15522 3.74847C5.37289 3.59147 5.53811 3.37243 5.62927 3.12L5.65194 3.05133L5.7166 2.85733C5.77194 2.69133 5.79994 2.60867 5.8366 2.538C5.90874 2.39959 6.01228 2.27999 6.13892 2.18877C6.26557 2.09755 6.41181 2.03724 6.56594 2.01267C6.64394 2 6.73127 2 6.90594 2H9.09927C9.27394 2 9.36127 2 9.43927 2.01267C9.5934 2.03724 9.73964 2.09755 9.86629 2.18877C9.99293 2.27999 10.0965 2.39959 10.1686 2.538C10.2053 2.60867 10.2333 2.69133 10.2886 2.85733L10.3533 3.05133C10.4378 3.33218 10.6125 3.57734 10.8504 3.74884C11.0883 3.92034 11.3761 4.00862 11.6693 4"
+                                stroke="#808080" />
+                        </svg></span>
+                </div>
+      <div class="col-12 col-md-3">                        
                         <select class="form-select form-control" name="dashboardUrls[][input_format]" required>
                             <option value="" disabled selected hidden>Selecionar</option>
                             <option value="PWBI">PWBI</option>
@@ -221,13 +240,13 @@
                             <option value="API">API</option>    
                         </select>
                         </div>
-                        <div class="col-3">        
+                        <div class="col-12 col-md-3">        
                             <input class="form-control" type="text" name="dashboardUrls[][url_dashboard]" required>
                         </div>
-                        <div class="col-3">     
+                        <div class="col-12 col-md-3">     
                             <input class="form-control" type="text" name="dashboardUrls[][dispositivo]" required>
                         </div>                        
-                        <span style="cursor: pointer; flex: 0 0 auto;width: 25%;margin:0; padding:0;align-self: center;" onclick="removeUrlField(this)">                                       
+                        <span class="svg-remove-desktop" style="cursor: pointer; flex: 0 0 auto;width: 25%;margin:0; padding:0;align-self: center;" onclick="removeUrlField(this)">                                       
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M13.6693 4H2.33594M12.5579 5.66667L12.2513 10.2667C12.1333 12.036 12.0746 12.9207 11.4979 13.46C10.9213 14 10.0339 14 8.2606 14H7.7446C5.97127 14 5.08394 14 4.50727 13.46C3.9306 12.9207 3.87127 12.036 3.75394 10.2667L3.44727 5.66667M6.33594 7.33333L6.66927 10.6667M9.66927 7.33333L9.33594 10.6667" stroke="#808080" stroke-linecap="round"/>
         <path d="M4.33594 4H4.40927C4.67757 3.99314 4.93755 3.90548 5.15522 3.74847C5.37289 3.59147 5.53811 3.37243 5.62927 3.12L5.65194 3.05133L5.7166 2.85733C5.77194 2.69133 5.79994 2.60867 5.8366 2.538C5.90874 2.39959 6.01228 2.27999 6.13892 2.18877C6.26557 2.09755 6.41181 2.03724 6.56594 2.01267C6.64394 2 6.73127 2 6.90594 2H9.09927C9.27394 2 9.36127 2 9.43927 2.01267C9.5934 2.03724 9.73964 2.09755 9.86629 2.18877C9.99293 2.27999 10.0965 2.39959 10.1686 2.538C10.2053 2.60867 10.2333 2.69133 10.2886 2.85733L10.3533 3.05133C10.4378 3.33218 10.6125 3.57734 10.8504 3.74884C11.0883 3.92034 11.3761 4.00862 11.6693 4" stroke="#808080"/>
@@ -243,14 +262,14 @@
             }
         });
 
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
         //submit form
         submitButton.addEventListener('click', function (event) {
             updateModalValues();

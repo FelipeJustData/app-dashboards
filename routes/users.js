@@ -218,6 +218,7 @@ router.get('/users/perfil/:id', eUser, async (req, res) => {
             return res.redirect("/users/users");
         }
 
+        res.setHeader('Cache-Control', 'no-cache');
         res.render("users/editperfil", {
             userEdit,
             styles: [{ src: "/styles/pages/users.css" }]
