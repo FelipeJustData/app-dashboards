@@ -22,8 +22,6 @@ const Favorite = require("./models/Favorite")
 const ProjectView = require("./models/ProjectView")
 const db = require("./db/db")
 
-
-
 // Configuração para leitura de variáveis de ambiente
 require("dotenv").config({ path: 'variables.env' });
 
@@ -164,9 +162,14 @@ app.get('/home', eUser, async (req, res) => {
                 project.favorite = favorite
             });
 
-
-
-            res.render("home", { user: req.user, projects: projects, recentProjects: recentProjects, styles: [{ src: "/styles/pages/homepage.css" }] });
+            // Renderiza a view 
+            res.render("home", { 
+                user: req.user, 
+                projects: projects, 
+                recentProjects: recentProjects, 
+                styles: [{ src: "/styles/pages/homepage.css" }], 
+                scripts: [{ src: "/js/homepage.js" }] 
+            });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
             res.redirect("/users/login");
@@ -223,8 +226,15 @@ app.get('/home', eUser, async (req, res) => {
                             project.customer = customer;
                             project.favorite = favorite
                         });
-
-                        res.render("home", { user: req.user, projects: projects, recentProjects: recentProjects, styles: [{ src: "/styles/pages/homepage.css" }] });
+                        
+                        // Renderiza a view
+                        res.render("home", { 
+                            user: req.user, 
+                            projects: projects, 
+                            recentProjects: recentProjects, 
+                            styles: [{ src: "/styles/pages/homepage.css" }] ,
+                            scripts: [{ src: "/js/homepage.js" }] 
+                        });
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
@@ -238,10 +248,7 @@ app.get('/home', eUser, async (req, res) => {
     }
 });
 
-
-
-
-
+//Página inicial
 app.get('/', eUser, (req, res) => {
     try {
         res.redirect("/home");

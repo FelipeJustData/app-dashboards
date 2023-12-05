@@ -1,50 +1,57 @@
 <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
   <a href="/"><img src="" alt="" id="logo-just"></a>
   <ul>
-    <li class="item-menu">
-      <a href="/home">
+    <a class="item-menu-href" href="/home" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <span class="icon"><svg width="18" height="16" viewBox="0 0 24 22" fill="currentColor"
             xmlns="http://www.w3.org/2000/svg">
             <path id="Vector"
               d="M12.8413 0C12.8413 0 5.14968 7.12 0.851299 10.976C0.714522 11.1038 0.604325 11.261 0.527854 11.4374C0.451384 11.6138 0.410349 11.8055 0.40741 12C0.40741 12.3536 0.538409 12.6928 0.771589 12.9428C1.00477 13.1929 1.32103 13.3333 1.6508 13.3333H4.13757V22.6667C4.13757 23.0203 4.26857 23.3594 4.50175 23.6095C4.73493 23.8595 5.05119 24 5.38095 24H9.11111C9.44088 24 9.75714 23.8595 9.99032 23.6095C10.2235 23.3594 10.3545 23.0203 10.3545 22.6667V17.3333H15.328V22.6667C15.328 23.0203 15.459 23.3594 15.6922 23.6095C15.9254 23.8595 16.2417 24 16.5714 24H20.3016C20.6314 24 20.9476 23.8595 21.1808 23.6095C21.414 23.3594 21.545 23.0203 21.545 22.6667V13.3333H24.0317C24.3615 13.3333 24.6778 13.1929 24.911 12.9428C25.1441 12.6928 25.2751 12.3536 25.2751 12C25.2734 11.8018 25.2296 11.6065 25.1471 11.4291C25.0646 11.2517 24.9455 11.0968 24.7989 10.976C20.5304 7.12 12.8413 0 12.8413 0Z" />
           </svg>
         </span>
+        &nbsp;
         <span class="txt-menu">Home</span>
-      </a>
-    </li>
-    <li class="item-menu">
-      <a href="/dashboards">
+      </li>
+    </a>
+    <a class="item-menu-href" href="/dashboards" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
             class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
             <path
               d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
-          </svg></span>
+          </svg>
+        </span>
+        &nbsp;
         <span class="txt-menu">Dashboards</span>
-      </a>
-    </li>
-    <li class="item-menu">
-      <a href="/projects">
+      </li>
+    </a>
+    <a class="item-menu-href" href="/projects" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
             class="bi bi-folder-fill" viewBox="0 0 16 16">
             <path
               d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
-          </svg></span>
+          </svg>
+        </span>
+        &nbsp;
         <span class="txt-menu">Projetos</span>
-      </a>
-    </li>
+      </li>
+    </a>
     {{#ifAdmin user.typ_user}}
-    <li class="item-menu">
-      <a href="/customers/customers">
+    <a class="item-menu-href" href="/customers/customers" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
             class="bi bi-people-fill" viewBox="0 0 16 16">
             <path
               d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-          </svg></span>
+          </svg>
+        </span>
+        &nbsp;
         <span class="txt-menu">Clientes</span>
-      </a>
-    </li>
-    <li class="item-menu">
-      <a href="/users/users">
+      </li>
+    </a>
+    <a class="item-menu-href" href="/users/users" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <svg height="18" width="18" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 248.349 248.349" xml:space="preserve">
           <g>
@@ -59,21 +66,24 @@
 			c0,16.883,5.939,32.39,15.8,44.6C70.072,124.262,71.366,125.687,72.699,127.09z" />
             </g>
           </g>
-        </svg></span>
+        </svg>
+        </span>
+        &nbsp;
         <span class="txt-menu">Usuários</span>
-      </a>
-    </li>
+      </li>
+    </a>
     {{/ifAdmin}}
-    <li class="item-menu">
-      <a href="#">
+    <a class="item-menu-href" href="#" style="text-decoration: none; color: inherit">
+      <li class="item-menu">
         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
             class="bi bi-bookmark-fill" viewBox="0 0 16 16">
             <path
               d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
           </svg></span>
+        &nbsp;
         <span class="txt-menu">FAQ</span>
-      </a>
-    </li>
+      </li>
+    </a>
   </ul>
   <div class="btnCollapse">
     <button id="sidebarCollapse">&lt;</button>
@@ -253,77 +263,5 @@
     <div class="item-menu">
       <a class="text-menu" href="/users/logout">Sair</a>
     </div>
-
-
   </div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-    const sidebar = document.getElementById('sidebar');
-    const collapseButton = document.getElementById('sidebarCollapse');
-    const headerBar = document.getElementById('header-bar');
-    const mainContainer = document.getElementById('main-container');
-    const sidebarCollapse = document.getElementById('sidebarCollapse');
-    const logoJust = document.getElementById('logo-just');
-    const currentLogo = localStorage.getItem('logo');
-    const setMode = document.getElementById('set-mode')
-
-    // Verifique o valor armazenado no Local Storage
-    const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (isSidebarCollapsed === 'true') {
-      sidebar.classList.add('collapsed');
-      headerBar.classList.add('header-bar-expand');
-      mainContainer.classList.add('mainContainer-expand');
-      sidebarCollapse.innerHTML = "&gt;";
-      logoJust.style.display = 'none'
-      setMode.style.display = 'none'
-    } else {
-      sidebar.classList.remove('collapsed');
-      headerBar.classList.remove('header-bar-expand');
-      mainContainer.classList.remove('mainContainer-expand');
-      sidebarCollapse.innerHTML = "&lt;";
-      logoJust.style.display = 'block'
-      setMode.style.display = 'block'
-    }
-
-    // Função para alternar as classes da barra lateral
-    function toggleSidebar() {
-      sidebar.classList.toggle('collapsed');
-      headerBar.classList.toggle('header-bar-expand');
-      mainContainer.classList.toggle('mainContainer-expand');
-      if (sidebar.classList.contains('collapsed')) {
-        sidebarCollapse.innerHTML = "&gt;"; // Menu recolhido
-        logoJust.setAttribute('src', '')
-        localStorage.setItem('sidebarCollapsed', 'true');
-        setMode.style.display = 'none'
-      } else {
-        sidebarCollapse.innerHTML = "&lt;"; // Menu expandido
-        logoJust.setAttribute('src', currentLogo)
-        localStorage.setItem('sidebarCollapsed', 'false');
-        setMode.style.display = 'block'
-      }
-    }
-
-
-    // Adicionar um ouvinte de evento ao botão de expansão/recolhimento
-    collapseButton.addEventListener('click', toggleSidebar);
-
-    const menuItems = document.querySelectorAll('.item-menu');
-    // Verifica a URL da página atual e destaca o item de menu correspondente
-    const currentPageUrl = window.location.pathname;
-
-    menuItems.forEach((item) => {
-      const menuItemUrl = item.querySelector('a').getAttribute('href');
-
-      if (currentPageUrl.includes(menuItemUrl)) {
-        item.classList.add('item-menu-ativo');
-      }
-    });
-
-
-  });  
-</script>

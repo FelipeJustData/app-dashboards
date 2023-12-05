@@ -14,8 +14,7 @@ const multer = require("multer");
 const { storage } = require('../config/multerConfig');
 const upload = multer({ storage: storage('dashboard') });
 
-/** DASHBOARDS */
-// List Dashboards
+// Lista todos Dashboards
 router.get("/", eUser, async (req, res) => {
     if (req.user.typ_user == "Administrador") {
 
@@ -90,7 +89,7 @@ router.get("/", eUser, async (req, res) => {
     }
 })
 
-// show dashboard
+// Visualizad dashboard
 router.get("/view/:id", eUser, async (req, res) => {
     const idDashboard = req.params.id
 
@@ -184,24 +183,6 @@ router.get("/view/:id", eUser, async (req, res) => {
         }    */
 })
 
-
-/*
-// Add dashboard
-router.get("/add",eAdmin, (req,res) => {
-    Customer.findAll().then((customer) => {
-        Project.findAll().then((projects) => {
-            res.render("admin/adddashboard", {customer: customer, projects: projects})
-        }).catch((error) => {
-            req.flash("error_msg", "Erro ao listar projetos - "+error)
-            res.redirect("/admin")
-        })
-        
-    }).catch((error) => {
-        req.flash("error_msg", "Erro ao adicionar dashboard - "+error)
-        res.redirect("/admin")
-    }) 
-})*/
-
 // Add dashboard - Exibe o formulário para adicionar um novo dashboard
 router.get("/add", eAdmin, (req, res) => {
     Customer.findAll().then((customers) => {
@@ -209,7 +190,8 @@ router.get("/add", eAdmin, (req, res) => {
             res.render("dashboards/adddashboard", {
                 customers: customers,
                 projects: projects,
-                styles: [{ src: "/styles/pages/dashboards.css" }]
+                styles: [{ src: "/styles/pages/dashboards.css" }],
+                scripts: [{ src: "/js/adddashboard.js" }]
             });
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
@@ -221,12 +203,13 @@ router.get("/add", eAdmin, (req, res) => {
     });
 });
 
-
-// Add dashboard customer
+// Add dashboard por cliente
 router.get("/dashboard/customer/:id", eAdmin, (req, res) => {
     Customer.findOne({ where: { id_customer: req.params.id } }).then((customer) => {
         Project.findAll().then((projects) => {
-            res.render("dashboards/adddashboard", { customer: customer, projects: projects })
+            res.render("dashboards/adddashboard", { 
+                customer: customer, 
+                projects: projects })
         }).catch((error) => {
             req.flash("error_msg", "Erro ao listar projetos - " + error)
             res.redirect("/home")
@@ -239,47 +222,7 @@ router.get("/dashboard/customer/:id", eAdmin, (req, res) => {
 
 })
 
-//Save new dashboards
-/*
-router.post("/dashboard/new", (req,res) => {
-
-    var errors = []
-
-    if(req.body.customer == '0'){
-        errors.push({texto: "Cliente inválido - Cadastre um cliente primeiro"})
-    }
-
-    if(req.body.project == '0'){
-        errors.push({texto: "Projeto inválido - Cadastre um projeto primeiro"})
-    }
-
-    if(errors.length > 0){
-        res.render("admin/adddashboard", {errors: errors})
-    }else{
-        const newDashboard = {
-            title: req.body.title,
-            description: req.body.description,
-            des_status: req.body.des_status,
-            dat_expiration: req.body.dat_expiration,
-            id_project: req.body.project,
-            id_customer: req.body.customer
-        }
-
-        Dashboard.create(newDashboard).then(() => {
-            req.flash("success_msg", "Dashboard criada com sucesso! Agora insira os detalhes dela")
-            res.redirect("/home")
-        }).catch((error) => {
-            req.flash("error_msg", "Houve erro ao cadastrar dashboard - "+error)
-            res.redirect("/home")
-        })
-    }
-})
-*/
-
-
-
-
-// Add dasboard
+//Salva nova dashboard
 router.post("/new", eAdmin, (req, res) => {
     var errors = [];
 
@@ -335,7 +278,7 @@ router.post("/new", eAdmin, (req, res) => {
     }
 });
 
-// Delete dashboard
+// Deleta dashboard
 router.post("/delete", eAdmin, (req, res) => {
     Dashboard.destroy({ where: { id_dashboard: req.body.id } }).then(() => {
         req.flash("success_msg", "Dashboard deletado com sucesso")
@@ -346,7 +289,7 @@ router.post("/delete", eAdmin, (req, res) => {
 })
 
 
-//Edit dashboard
+//Edita dashboard
 router.get("/edit/:id", eAdmin, async (req, res) => {
     await Dashboard.findByPk(req.params.id).then(async (dashboard) => {
         await Url_Dashboard.findAll({ where: { id_dashboard: dashboard.id_dashboard } }).then(async (urlsDashboard) => {
@@ -356,7 +299,12 @@ router.get("/edit/:id", eAdmin, async (req, res) => {
                     project.customer = customer;
                     dashboard.project = project
                     await Customer.findAll().then((customers) => {
-                        res.render("dashboards/edit", { dashboard: dashboard, customers: customers, styles: [{ src: "/styles/pages/dashboards.css" }] })
+                        res.render("dashboards/edit", { 
+                            dashboard: dashboard, 
+                            customers: customers, 
+                            styles: [{ src: "/styles/pages/dashboards.css" }],
+                            scripts: [{ src: "/js/editdashboard.js"}]
+                        })
                     }).catch((error) => {
                         req.flash("error_msg", "Erro ao listar clientes - " + error);
                         res.redirect("/dashboards");
@@ -374,17 +322,13 @@ router.get("/edit/:id", eAdmin, async (req, res) => {
             req.flash("error_msg", "Erro ao listar URLS do Dashboard - " + error);
             res.redirect("/dashboards");
         })
-
-
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar Dashboard - " + error + " id dash: " + req.params.id);
         res.redirect("/dashboards");
     })
-
-
 });
 
-// Add dasboard
+// Update dasboard
 router.post("/edit", (req, res) => {
     const idDashboard = req.body.id_dashboard
 
@@ -434,4 +378,5 @@ router.post("/edit", (req, res) => {
         });
 
 });
+
 module.exports = router

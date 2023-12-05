@@ -43,7 +43,7 @@
                 </div>
                 <h2>Confirme a exclusão</h2>
                 
-                <p>Tem certeza que deseja excluir o projeto {{project.nam_project}}? <br>Atenção, essa opção não poderá ser desfeita.</p>
+                <p>Tem certeza que deseja excluir o projeto <b>{{project.nam_project}}</b>? <br>Atenção, essa opção não poderá ser desfeita.</p>
                 <br>
                  <div class="row">
                     <div class="col-6">
@@ -58,9 +58,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <div class="container container-viewproject">
     <div class="row">
@@ -134,7 +131,6 @@
     </div>
     <div class="row">
         <div class="col-6 col-btn-carousel-projects-prev">
-            <!-- Controles do carousel abaixo -->
             <button class="carousel-control-prev btn-carousel-projects-prev" type="button"
                 data-bs-target="#dashboardCarousel2" data-bs-slide="prev">
                 <span aria-hidden="true">
@@ -160,46 +156,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    const btnDelete = document.getElementById('btn-delete-project')
-    const svgDelete = document.getElementById('svg-delete-project')
-    const modalDelete = document.getElementById('modal-delete')
-
-    const cancelButtonDelete = document.getElementById('cancel-button-delete')
-    const confirmButtonDelete = document.getElementById('confirm-button-delete')
-
-    cancelButtonDelete.addEventListener('click', () => {
-        modalDelete.style.display = 'none'
-    })
-
-    confirmButtonDelete.addEventListener('click', () => {
-        btnDelete.click()
-        modalDelete.style.display = 'none'        
-    })
-
-    svgDelete.addEventListener('click', () => {      
-        modalDelete.style.display = 'block'
-    })
-
-    document.addEventListener('DOMContentLoaded', function () {
-        addToProjectView({{project.id_project}})
-    })
-
-    // Adicionar conteúdo aos favoritos
-    function addToProjectView(id_project) {
-        fetch('/projects/view', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id_project: id_project }),
-        })
-            .then(response => {console.log('Resposta:', response); return response.json()})
-            .then(data => {
-                console.log('Adicionado aos projetos visualizados recentemente:', data);
-                // Atualize a interface do usuário conforme necessário
-            })
-            .catch(error => console.log('Erro ao adicionar aos favoritos: ' + error));
-    }
-</script>

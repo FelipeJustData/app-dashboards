@@ -15,10 +15,7 @@ const Favorite = require('../models/Favorite')
 const ProjectView = require("../models/ProjectView")
 const db = require("../db/db")
 
-
-// Página inicial de projetos
-
-// List All Projects
+// Lista todos os projetos
 router.get('/', eUser, async (req, res) => {
     if (req.user.typ_user == "Administrador") {
 
@@ -42,9 +39,7 @@ router.get('/', eUser, async (req, res) => {
 
             var projects = await Project.findAll({
                 where: filterConditions
-            })
-
-           
+            })          
 
             // Carregue os clientes com base nos projetos
             const customers = await Customer.findAll({
@@ -65,12 +60,18 @@ router.get('/', eUser, async (req, res) => {
                 project.favorite = favorite
             });
 
-            res.render("projects/projects", { user: req.user, customers: uniqueCustomers, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+            // Renderiza a view
+            res.render("projects/projects", { 
+                user: req.user, 
+                customers: uniqueCustomers, 
+                projects: projects, 
+                styles: [{ src: "/styles/pages/projects.css" }],
+                scripts: [{ src: "/js/projects.js" }]
+            });
         } catch (error) {
             req.flash("error_msg", "Erro ao listar projetos - " + error);
             res.redirect("/home");
         }
-
     }
     else {
        await User_Permissions.findAll({ where: { id_user: req.user.id_user } })
@@ -95,8 +96,6 @@ router.get('/', eUser, async (req, res) => {
                     filterConditions.id_customer = filterOptions.client;
                 }
 
-
-
                 // Busca os projetos correspondentes aos IDs coletados
                await Project.findAll({ where: { id_project: projectIds, ...filterConditions } })
                     .then(async (projects) => {
@@ -116,7 +115,13 @@ router.get('/', eUser, async (req, res) => {
                             project.customer = customer;
                             project.favorite = favorite
                         });
-                        res.render("projects/projects", { user: req.user, projects: projects, styles: [{ src: "/styles/pages/projects.css" }] });
+
+                        // Renderiza a view
+                        res.render("projects/projects", { user: req.user, 
+                            projects: projects, 
+                            styles: [{ src: "/styles/pages/projects.css" }],
+                            scripts: [{ src: "/js/projects.js" }]
+                        });
                     })
                     .catch((error) => {
                         req.flash("error_msg", "Erro ao listar projetos - " + error);
@@ -212,22 +217,7 @@ router.get('/recents', eUser, async (req, res) => {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// View project ID
+// Visualiza projeto
 router.get('/view/:id', eUser, async (req, res) => {
     try {
         const idProject = req.params.id
@@ -244,7 +234,12 @@ router.get('/view/:id', eUser, async (req, res) => {
                 dashboard.project = project
             })
 
-            res.render('projects/view', { project, dashboards, styles: [{ src: "/styles/pages/projects.css" }] });
+            res.render('projects/view', { 
+                project, 
+                dashboards, 
+                styles: [{ src: "/styles/pages/projects.css" }],
+                scripts: [{ src: "/js/viewproject.js" }]
+            });
         } else {
             const userPermissions = await User_Permissions.findAll({ where: { id_user: req.user.id_user } });
             const dashboardIds = userPermissions.map(permission => permission.id_dashboard);
@@ -270,7 +265,13 @@ router.get('/view/:id', eUser, async (req, res) => {
                 dashboard.project = project
             })
 
-            res.render("projects/view", { user: req.user, project, dashboards, styles: [{ src: "/styles/pages/projects.css" }] });
+            res.render("projects/view", { 
+                user: req.user, 
+                project, 
+                dashboards, 
+                styles: [{ src: "/styles/pages/projects.css" }],
+                scripts: [{ src: "/js/viewproject.js" }]
+            });
         }
     } catch (error) {
         console.error("Erro ao listar projetos e dashboards:", error);
@@ -318,9 +319,13 @@ router.get('/customer/:id', (req, res) => {
 })
 
 // Add Project
-router.get("/add", eUser, (req, res) => {
+router.get("/add", eAdmin, (req, res) => {
     Customer.findAll().then((customers) => {
-        res.render("projects/addproject", { customers: customers, styles: [{ src: "/styles/pages/projects.css" }] })
+        res.render("projects/addproject", { 
+            customers: customers, 
+            styles: [{ src: "/styles/pages/projects.css" }],
+            scripts: [{ src: "/js/addproject.js" }]
+        })
     }).catch((error) => {
         req.flash("error_msg", "Erro ao listar clientes " + error)
         res.redirect("/home")
@@ -328,6 +333,7 @@ router.get("/add", eUser, (req, res) => {
 
 })
 
+// Salva novo projeto
 router.post("/new", eAdmin, upload.fields([
     { name: 'des_project_image_desktop', maxCount: 1 },
     { name: 'des_project_image_mobile', maxCount: 1 },
@@ -366,7 +372,7 @@ router.post("/new", eAdmin, upload.fields([
 
 })
 
-
+// Coleta todos os dashboards de determinado projeto
 router.get('/get-dashboards/:projectIds', (req, res) => {
     const projectIds = req.params.projectIds.split(','); // Obtenha os IDs dos projetos selecionados
 
@@ -377,13 +383,20 @@ router.get('/get-dashboards/:projectIds', (req, res) => {
     })
 });
 
-
-// Edit Project
+// Edita Projecto
 router.get("/project/edit/:id", eAdmin, (req, res) => {
     Project.findByPk(req.params.id).then((project) => {
         Customer.findByPk(project.id_customer).then((customerProject) => {
             Customer.findAll().then((customers) => {
-                res.render("projects/editproject", { project: project, customerProject: customerProject, customers: customers, styles: [{ src: "/styles/pages/projects.css" }] })
+
+                // Renderiza a view
+                res.render("projects/editproject", { 
+                    project: project, 
+                    customerProject: customerProject, 
+                    customers: customers, 
+                    styles: [{ src: "/styles/pages/projects.css" }],
+                    scripts: [{ src: "/js/editproject.js" }]
+                })
             }).catch((error) => {
                 req.flash("error_msg", "Erro ao listar clientes " + error)
                 res.redirect("/home")
@@ -458,6 +471,7 @@ router.post("/update/:id", eAdmin, upload.fields([
     })
 })
 
+// Coleta todos os projetos de determinado cliente
 router.get('/get-projects/:id_customer', (req, res) => {
     const customer = req.params.id_customer
 
@@ -468,12 +482,11 @@ router.get('/get-projects/:id_customer', (req, res) => {
     })
 });
 
-
 // Delete Project
 router.post("/project/delete", eAdmin, (req, res) => {
     const projectId = req.body.id;
 
-    // Passo 1: Encontre e exclua todas as permissões associadas ao usuário
+    // Encontre e exclua todas as permissões associadas ao usuário
     Project.destroy({ where: { id_project: projectId } })
         .then(() => {
             req.flash("success_msg", "Seu projeto foi excluído com sucesso.");

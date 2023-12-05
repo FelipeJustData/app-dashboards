@@ -15,7 +15,7 @@ const multer = require("multer");
 const { storage } = require('../config/multerConfig');
 const upload = multer({ storage: storage('usuario') });
 
-// List All Users
+// Rota para listar todos os usuários
 router.get('/users', eAdmin, (req, res) => {
     User.findAll().then((users) => {
         res.render("users/users", { users: users })
@@ -26,7 +26,7 @@ router.get('/users', eAdmin, (req, res) => {
 
 })
 
-
+// Rota para exibir o formulário para adicionar novo usuário
 router.get("/register", eAdmin, (req, res) => {
     Projects.findAll().then((projects) => {
         res.render("users/register", { projects: projects })
@@ -37,9 +37,7 @@ router.get("/register", eAdmin, (req, res) => {
 
 })
 
-
-
-// Add new User
+// Salvar novo usuário
 router.post('/users/new', eAdmin, upload.single('photo_user'), async (req, res) => {
     var errors = []
 
@@ -116,7 +114,6 @@ router.post('/users/new', eAdmin, upload.single('photo_user'), async (req, res) 
                                                         })
                                                     }
                                                 }
-
                                             } else {
                                                 await User_Permissions.create({
                                                     id_user: newUser.id_user,
@@ -126,10 +123,8 @@ router.post('/users/new', eAdmin, upload.single('photo_user'), async (req, res) 
                                                 })
                                             }
                                         }
-
                                     }
                                 }
-
                                 req.flash("success_msg", "Usuário cadastrado com sucesso")
                                 res.redirect("/users/users")
                             }).catch((error) => {
@@ -146,35 +141,7 @@ router.post('/users/new', eAdmin, upload.single('photo_user'), async (req, res) 
         })
     }
 })
-/*
-// Search User by ID
-router.get("/users/edit/:id", eAdmin, (req, res) => {
-    User.findOne({ where: { id_user: req.params.id } }).then((user) => {
-        res.render("users/editusers", { user: user })
-    }).catch((error) => {
-        req.flash("error_msg", "Usuário não existe - " + error)
-        res.redirect("/users/users")
-    })
-})
 
-// Save Edit User
-router.post("/users/edit", (req, res) => {
-
-    User.update({
-        name_user: req.body.name,
-        email_user: req.body.email,
-        typ_user: req.body.user_type
-    }, {
-        where: { id_user: req.body.id }
-    }).then(() => {
-        req.flash("success_msg", "Usuário editado com sucesso")
-        res.redirect("/users/users")
-    }).catch((error) => {
-        req.flash("error_msg", "Erro ao editar usuário - " + error)
-        res.redirect("/users/users")
-    })
-})
-*/
 // Rota para exibir o formulário de edição de usuário e permissões
 router.get('/users/edit/:id', eAdmin, async (req, res) => {
     try {
@@ -206,7 +173,6 @@ router.get('/users/edit/:id', eAdmin, async (req, res) => {
     }
 });
 
-
 // Rota para exibir o formulário de edição de perfil usuário
 router.get('/users/perfil/:id', eUser, async (req, res) => {
     try {
@@ -229,44 +195,42 @@ router.get('/users/perfil/:id', eUser, async (req, res) => {
     }
 });
 
-
 // Rota para processar a edição do usuário e permissões 
 router.post('/users/perfil/:id', eUser, upload.single('photo_user'), async (req, res) => {
-
     try {
+        const userId = req.params.id;
+        const photoUser = req.file.filename
+        const password = req.body.password
 
-        
-            const userId = req.params.id;
-            const photoUser = req.file.filename
-            const password = req.body.password
+        if (password) {
 
-            if (password) {
+            var errors = []
 
-                var errors = []
+            if (!req.body.password || typeof req.body.password == undefined || req.body.password == null) {
+                errors.push({ texto: "Senha inválido" })
+            }
 
-        if (!req.body.password || typeof req.body.password == undefined || req.body.password == null) {
-            errors.push({ texto: "Senha inválido" })
-        }
+            if (req.body.password.length < 4) {
+                errors.push({ texto: "Senha muito curta" })
+            }
 
-        if (req.body.password.length < 4) {
-            errors.push({ texto: "Senha muito curta" })
-        }
+            if (req.body.password != req.body.password2) {
+                errors.push({ texto: "Senhas diferentes, tente novamente" })
+            }
 
-        if (req.body.password != req.body.password2) {
-            errors.push({ texto: "Senhas diferentes, tente novamente" })
-        }
-
-        if (errors.length > 0) {
-            res.render("users/editperfil/", { errors: errors, userEdit: req.user,
-                styles: [{ src: "/styles/pages/users.css" }] })
-        }
-        else {
+            if (errors.length > 0) {
+                res.render("users/editperfil/", {
+                    errors: errors, userEdit: req.user,
+                    styles: [{ src: "/styles/pages/users.css" }]
+                })
+            }
+            else {
 
                 const updateUser = {
                     password_user: req.body.password,
                     photo_user: photoUser
                 }
-    
+
                 bcrypt.genSalt(10, (error, salt) => {
                     bcrypt.hash(updateUser.password_user, salt, async (error, hash) => {
                         if (error) {
@@ -286,37 +250,31 @@ router.post('/users/perfil/:id', eUser, upload.single('photo_user'), async (req,
                     })
                 })
             }
-                
-            }else{
-                User.update(
-                    {photo_user: photoUser},
-                    {
-                        where: { id_user: userId },
-                    }
-                );
-            }
-            req.flash("success_msg", "Usuário atualizado com sucesso");
-            res.redirect(`/users/users/perfil/${req.params.id}`);                      
-        
+
+        } else {
+            User.update(
+                { photo_user: photoUser },
+                {
+                    where: { id_user: userId },
+                }
+            );
+        }
+        req.flash("success_msg", "Usuário atualizado com sucesso");
+        res.redirect(`/users/users/perfil/${req.params.id}`);
     } catch (error) {
         req.flash("error_msg", "Erro ao atualizar usuário - " + error);
         res.redirect(`/users/users/perfil/${req.params.id}`);
     }
 });
 
-
-
-
 // Rota para processar a edição do usuário e permissões 
 router.post('/users/edit/:id', eAdmin, upload.single('photo_user'), async (req, res) => {
 
     try {
         const userId = req.params.id;
-        const photoUser = req.file.filename
+        const photoUser = req.file.filename        
 
-        console.log("AAAAAAAAAAAAAAAAAAK : ")
-
-        // Atualizar os dados do usuário (nome, email, senha, etc.)
+        // Atualizar os dados do usuário
         await User.update(
             {
                 name_user: req.body.name,
@@ -355,7 +313,6 @@ router.post('/users/edit/:id', eAdmin, upload.single('photo_user'), async (req, 
                 }
             }
         }
-
         req.flash("success_msg", "Usuário atualizado com sucesso");
         res.redirect("/users/users");
     } catch (error) {
@@ -369,7 +326,7 @@ router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
     const userId = req.params.id;
     try {
 
-        // Atualizar os dados do usuário (nome, email, senha, etc.)
+        // Atualizar os dados do usuário
         await User.update(
             {
                 typ_user: req.body.user_type,
@@ -378,7 +335,6 @@ router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
                 where: { id_user: userId },
             }
         );
-
 
         // Remover todas as permissões existentes para o usuário
         await User_Permissions.destroy({
@@ -410,8 +366,6 @@ router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
             req.flash("error_msg", "Erro ao cadastrar usuário" + error);
             res.redirect("/users/users");
         }
-
-
         req.flash("success_msg", "Permissão do usuário atualizado com sucesso");
         res.redirect("/users/users");
     } catch (error) {
@@ -420,15 +374,14 @@ router.post('/users/editpermission/:id', eAdmin, async (req, res) => {
     }
 });
 
-
-// Delete User
+// Rota para deletar usuário
 router.post("/users/delete", eAdmin, (req, res) => {
     const userId = req.body.id;
 
-    // Passo 1: Encontre e exclua todas as permissões associadas ao usuário
+    // Encontre e exclua todas as permissões associadas ao usuário
     User_Permissions.destroy({ where: { id_user: userId } })
         .then(() => {
-            // Passo 2: Agora você pode excluir o próprio usuário
+            // Excluir o  usuário
             return User.destroy({ where: { id_user: userId } });
         })
         .then(() => {
@@ -441,21 +394,16 @@ router.post("/users/delete", eAdmin, (req, res) => {
         });
 });
 
-// LOGIN
+// Exibir tela de login
 router.get("/login", (req, res) => {
-    if(!req.user){        
+    if (!req.user) {
         res.render("users/login", { styles: [{ src: "/styles/pages/login.css" }] })
-    }else{
+    } else {
         res.redirect("/")
-    }    
+    }
 })
 
-router.get("/login/:name", (req, res) => {
-    Customer.findOne({ where: { name: req.params.name } }).then((customer) => {
-        res.render("users/login", { customer: customer })
-    })
-})
-
+// Rota para realizar o login do usuário
 router.post("/login", (req, res, next) => {
 
     const rememberMe = Boolean(req.body.rememberMe);
@@ -467,11 +415,12 @@ router.post("/login", (req, res, next) => {
     })(req, res, next);
 
     if (rememberMe) {
-        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Configuração do tempo de expiração do cookie (30 dias)
+        // Configuração do tempo de expiração do cookie (30 dias)
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; 
     }
 })
 
-// LOGOUT
+// Logout
 router.get("/logout", (req, res) => {
     req.logout(function (error) {
         if (error) {
@@ -482,11 +431,8 @@ router.get("/logout", (req, res) => {
     })
 })
 
-module.exports = router
-
-
-//PERMISSIONS
-// Search User by ID
+// Permissões do usuário
+// Rota para exibir as persmissões do usuário por ID do usuário
 router.get("/users/permissions/:id", eAdmin, async (req, res) => {
     try {
         const userId = req.params.id;
@@ -516,7 +462,7 @@ router.get("/users/permissions/:id", eAdmin, async (req, res) => {
     }
 })
 
-
+//Rota para atualizar as permissões do usuário
 router.post("/users/permissions", eAdmin, async (req, res) => {
     try {
         const userId = req.params.id;
@@ -573,9 +519,6 @@ router.get('/users-permissions', async (req, res) => {
     try {
         const usersWithPermissions = await User.findAll({
             include: [
-
-
-
                 {
                     model: Projects,
                     attributes: ['nam_project'],
@@ -590,8 +533,6 @@ router.get('/users-permissions', async (req, res) => {
                     model: Dashboards,
                     attributes: ['title'],
                 }
-
-
             ]
         });
 
@@ -601,7 +542,6 @@ router.get('/users-permissions', async (req, res) => {
         res.status(500).send('Erro ao buscar dados dos usuários.');
     }
 });
-
 
 // Adicionar conteúdo aos favoritos
 router.post('/favorites', eUser, async (req, res) => {
@@ -625,7 +565,7 @@ router.delete('/favorites', eUser, async (req, res) => {
     const contentId = req.body.id_project;
 
     try {
-        await Favorite.destroy({ where: {id_user: userId,id_project: contentId } });
+        await Favorite.destroy({ where: { id_user: userId, id_project: contentId } });
         res.json({ success: true });
     } catch (error) {
         console.error(error);
@@ -633,6 +573,4 @@ router.delete('/favorites', eUser, async (req, res) => {
     }
 });
 
-
-  
-  module.exports = router;
+module.exports = router;
