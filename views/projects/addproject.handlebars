@@ -5,7 +5,8 @@
 {{/each}}
 
 <h2 class="title-page"><span style="color: var(--just-colors-006, #F90196);">+</span> Add Projeto</h2>
-<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span> Novo projeto</p>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span
+        style="color:#F90196">&nbsp;/&nbsp;</span> Novo projeto</p>
 <div class="container container-addproject">
     <form action="/projects/new" method="POST" enctype="multipart/form-data" id="form-project">
         <div class="row">
@@ -54,8 +55,9 @@
                 <input type="text" id="nam_project" name="nam_project" placeholder="Nome do projeto"
                     class="form-control" required>
                 <label for="owner" class="mt-4">Owner:</label>
-                <select class="form-select form-control" aria-label="Owner" id="owner" name="owner" class="form-control" required>
-                    <option selected>Autocomplete</option>
+                <select class="form-select form-control" aria-label="Owner" id="owner" name="owner" 
+                    required disabled>
+                    <option value="{{user.id_user}}">{{user.name_user}}</option>
                 </select>
                 <label for="objective" class="mt-4">Objetivo do projeto:</label>
                 <textarea rows="4" cols="50" id="objective" name="objective_project" class="form-control"
@@ -86,9 +88,9 @@
                 <label for="dat_expiration">Data expiração:</label>
                 <input type="date" name="dat_expiration" id="dat_expiration" class="form-control">
                 <label for="status" class="mt-4">Status:</label>
-                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status" class="form-control"
-                    required>
-                    <option  value="" disabled selected hidden>Selecionar</option>
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status"
+                    class="form-control" required>
+                    <option value="" disabled selected hidden>Selecionar</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
                     <option value="homolog interna">Homologação interna</option>
                     <option value="homolog externa">Homologação externa</option>
@@ -101,7 +103,7 @@
                 <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
                 <select class="form-select form-control" aria-label="des_autoplay_timing" id="des_autoplay_timing"
                     name="des_autoplay_timing" class="form-control">
-                    <option  value="" disabled selected hidden>Selecionar</option>
+                    <option value="" disabled selected hidden>Selecionar</option>
                     <option value="10">10 Segundos</option>
                     <option value="20">20 Segundos</option>
                     <option value="30">30 Segundos</option>
@@ -112,10 +114,12 @@
 
                 <label for="des_title_color" class="mt-4">Cor personalizada para o título:</label>
                 <input type="text" name="des_title_color" id="des_title_color" class="form-control"
-                    placeholder="#FFFFFF">
+                    placeholder="#FFFFFF" disabled>
+                    
                 <label for="des_bg_title_color" class="mt-4">Cor personalizada para o fundo do título:</label>
                 <input type="text" name="des_bg_title_color" id="des_bg_title_color" class="form-control"
-                    placeholder="#FFFFFF">
+                    placeholder="#FFFFFF" disabled>
+                    
                 <div class="row mt-4">
                     <div class="col text-end">
                         <button type="submit" class="btn btn-confirm-form">Enviar</button>
@@ -356,3 +360,4 @@
         </div>
     </div>
 </div>
+

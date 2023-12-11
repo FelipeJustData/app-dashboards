@@ -1,3 +1,19 @@
+
+customStyleCustomerY = document.getElementById('custom_color_y')
+customStyleCustomerN = document.getElementById('custom_color_n')
+bgTitleColor = document.getElementById('des_bg_title_color')
+titleColor = document.getElementById('des_title_color')
+
+customStyleCustomerY.addEventListener('click', () => {
+    bgTitleColor.disabled = false;
+    titleColor.disabled = false;
+})
+
+customStyleCustomerN.addEventListener('click', () => {
+    bgTitleColor.disabled = true;
+    titleColor.disabled = true;
+})
+
 const modalUploadDesktop = document.getElementById('modal-upload-desktop');
 const modalUploadMobile = document.getElementById('modal-upload-mobile');
 const modalUploadLogo = document.getElementById('modal-upload-logo');

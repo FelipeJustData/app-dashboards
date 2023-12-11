@@ -21,7 +21,32 @@
 .form-control {
     border-radius: 4px;
     border: 1px solid rgba(201, 201, 201, 0.20);
-    background: var(--just-colors-010, #FBFAF7);
+    background-color: #FBFAF7;
+}
+
+.image-preview-desktop img{
+    height: 200px;
+    object-fit: cover;
+}
+
+.text-image-edit {
+    color: #FFF;
+    font-family: K2D;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+    position: relative;
+    padding-right: 6px;
+}
+
+.custom-file{
+    text-align: end;
+}
+
+.custom-file img{
+    margin-top: -30px;
 }
 
 .status-project {
@@ -83,6 +108,10 @@
     padding: 30px;
 }
 
+.container-viewproject{
+    padding-top: 10px;
+}
+
 .btn-carousel-projects-next,
 .btn-carousel-projects-prev {
     align-items: flex-end;
@@ -126,7 +155,7 @@
     color: #000;
     text-align: center;
     font-family: K2D;
-    font-size: 16px;
+    font-size: 10px;
     font-style: normal;
     font-weight: 300;
     line-height: normal;

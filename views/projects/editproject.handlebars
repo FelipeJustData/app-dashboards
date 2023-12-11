@@ -9,8 +9,11 @@
         <h2 class="title-page">
             <span style="color: var(--just-colors-006, #0DFFBA);">-</span> Editar Projetos
         </h2>
-        <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span style="color:#F90196">&nbsp;/&nbsp;</span>
-            {{customerProject.name_customer}} <span style="color:#F90196">&nbsp;/&nbsp;</span> {{project.nam_project}} <span style="color:#F90196">&nbsp;/&nbsp;</span> Editar Projeto</p>
+        <p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home</a> <span
+                style="color:#F90196">&nbsp;/&nbsp;</span>
+            {{customerProject.name_customer}} <span style="color:#F90196">&nbsp;/&nbsp;</span> {{project.nam_project}}
+            <span style="color:#F90196">&nbsp;/&nbsp;</span> Editar Projeto
+        </p>
     </div>
     <div class="col-6 text-end">
         <div style="float: right !important;">
@@ -24,31 +27,53 @@
         <div class="row">
 
             <div class="col-4">
-                <div class="custom-file" id="select-image-desktop">
-                    <span>Thumb Desktop</span>
+                <span>Thumb Desktop</span>
+                <div class="custom-file mt-1" id="select-image-desktop">
+
                     <div class="image-preview-desktop" id="image-preview-desktop">
+                        <span class="text-image-edit" id="btn-edit-image-desktop">Editar <svg width="22" height="20"
+                                viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.5 18.5H21.5V20H0.5V18.5ZM18.05 5.75C18.65 5.15 18.65 4.25 18.05 3.65L15.35 0.95C14.75 0.35 13.85 0.35 13.25 0.95L2 12.2V17H6.8L18.05 5.75ZM14.3 2L17 4.7L14.75 6.95L12.05 4.25L14.3 2ZM3.5 15.5V12.8L11 5.3L13.7 8L6.2 15.5H3.5Z"
+                                    fill="white" />
+                            </svg>
+                        </span>
                         <img src="{{#if project.des_project_image_desktop}} /uploads/projects/{{project.des_project_image_desktop}} {{else}} /img/img-default.jpg {{/if}}"
                             id="preview-thumb-desk" width="100%" style="cursor: pointer;">
                     </div>
 
-                    <input type="file" id="des_project_image_desktop" name="des_project_image_desktop"
-                        accept="image/*" hidden>
-                    
-                </div>
+                    <input type="file" id="des_project_image_desktop" name="des_project_image_desktop" accept="image/*"
+                        hidden>
 
-                <div class="custom-file mt-4" id="select-image-mobile">
-                    <span>Thumb Mobile</span>
+                </div>
+                <br>
+                <span>Thumb Mobile</span>
+                <div class="custom-file mt-1" id="select-image-mobile">
                     <div class="image-preview-mobile" id="image-preview-mobile">
+                        <span class="text-image-edit" id="btn-edit-image-mobile">Editar <svg width="22" height="20"
+                                viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.5 18.5H21.5V20H0.5V18.5ZM18.05 5.75C18.65 5.15 18.65 4.25 18.05 3.65L15.35 0.95C14.75 0.35 13.85 0.35 13.25 0.95L2 12.2V17H6.8L18.05 5.75ZM14.3 2L17 4.7L14.75 6.95L12.05 4.25L14.3 2ZM3.5 15.5V12.8L11 5.3L13.7 8L6.2 15.5H3.5Z"
+                                    fill="white" />
+                            </svg>
+                        </span>
                         <img src="{{#if project.des_project_image_mobile}} /uploads/projects/{{project.des_project_image_mobile}} {{else}} /img/img-default.jpg {{/if}}"
                             id="preview-thumb-mobile" width="100%" style="cursor: pointer;">
                     </div>
                     <input type="file" id="des_project_image_mobile" name="des_project_image_mobile" accept="image/*"
                         hidden>
                 </div>
-
-                <div class="custom-file mt-4" id="select-image-logo">
-                    <span>Logotipo personalizado para header</span>
+                <br>
+                <span>Logotipo personalizado para header</span>
+                <div class="custom-file mt-1" id="select-image-logo">
                     <div class="image-preview-logo" id="image-preview-logo">
+                        <span class="text-image-edit" id="btn-edit-image-logo">Editar <svg width="22" height="20"
+                                viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.5 18.5H21.5V20H0.5V18.5ZM18.05 5.75C18.65 5.15 18.65 4.25 18.05 3.65L15.35 0.95C14.75 0.35 13.85 0.35 13.25 0.95L2 12.2V17H6.8L18.05 5.75ZM14.3 2L17 4.7L14.75 6.95L12.05 4.25L14.3 2ZM3.5 15.5V12.8L11 5.3L13.7 8L6.2 15.5H3.5Z"
+                                    fill="white" />
+                            </svg>
+                        </span>
                         <img src="{{#if project.des_project_image_logo}} /uploads/projects/{{project.des_project_image_logo}} {{else}} /img/img-default.jpg {{/if}}"
                             id="preview-thumb-logo" width="100%" style="cursor: pointer;">
                     </div>
@@ -64,7 +89,8 @@
                 <input type="text" id="nam_project" name="nam_project" class="form-control"
                     value="{{project.nam_project}}" required>
                 <label for="owner" class="mt-4">Owner:</label>
-                <select class="form-select form-control" aria-label="Owner" id="owner" name="owner" class="form-control" required>
+                <select class="form-select form-control" aria-label="Owner" id="owner" name="owner" class="form-control"
+                    required>
                     <option selected>Autocomplete</option>
                 </select>
                 <label for="objective" class="mt-4">Objetivo do projeto:</label>
@@ -88,9 +114,9 @@
                 <input type="date" name="dat_expiration" id="dat_expiration" class="form-control"
                     value="{{project.dat_expiration}}">
                 <label for="status" class="mt-4">Status:</label>
-                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status" class="form-control"
-                    required>
-                    <option value="{{project.des_status}}" selected>{{project.des_status}}</option>
+                <select class="form-select form-control" aria-label="Status" id="des_status" name="des_status"
+                    class="form-control" required>
+                    <option value="{{project.des_status}}" selected hidden>{{project.des_status}}</option>
                     <option value="desenvolvimento">Em desenvolvimento</option>
                     <option value="homolog interna">Homologação interna</option>
                     <option value="homolog externa">Homologação externa</option>
@@ -102,7 +128,7 @@
                 </select>
                 <label for="des_autoplay_timing" class="mt-4">Autplay Timing:</label>
                 <select class="form-select form-control" aria-label="des_autoplay_timing" id="des_autoplay_timing"
-                    name="des_autoplay_timing" class="form-control" required>
+                    name="des_autoplay_timing" class="form-control">
                     <option value="{{project.des_autoplay_timing}}" selected>{{project.des_autoplay_timing}} Segundos
                     </option>
                     <option value="10">10 Segundos</option>

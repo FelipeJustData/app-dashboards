@@ -12,6 +12,7 @@ body {
 .card-img-top{
   height: 100px;
   border-radius: 0;
+  object-fit: cover;
 }
 
 /* Estilos personalizados para o menu lateral */
@@ -27,6 +28,38 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+
+input::placeholder,
+select:required:invalid {
+    color: #808080 !important;
+    font-family: K2D !important;
+    font-size: 13px !important;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.form-control {
+    color: #1c1c1c ;
+    font-family: K2D;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.custom-file span,
+label{
+  font-size: 15px;
+}
+
+
+
+
+
+
+
+
 
 /* Modo escuro */
 #dark-mode body .sidebar {
