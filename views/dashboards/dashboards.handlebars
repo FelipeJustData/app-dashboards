@@ -1,10 +1,9 @@
-
-
 <h2 class="title-page"><span><svg width="5" height="17" viewBox="0 0 5 17" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <rect y="16.5" width="16" height="5" transform="rotate(-90 0 16.5)" fill="#F90196" />
         </svg></span> Dashboards </h2>
-<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home </a> <span style="color:#F90196" >&nbsp;/&nbsp; </span> Dashboards</p>
+<p class="breadcrumb"><a href="/" style="text-decoration: none !important; color:inherit">Home </a> <span
+        style="color:#F90196">&nbsp;/&nbsp; </span> Dashboards</p>
 
 <div class="container container-dashboards">
     <div class="row">
@@ -21,7 +20,8 @@
                             <div class="row align-items-center">
                                 {{/if}}
                                 <div class="col-12 col-md-3 mt-5 item-{{@index}} align-self-center">
-                                    <a href="/dashboards/view/{{id_dashboard}}" style="text-decoration: none !important;color: inherit !important">
+                                    <a href="/dashboards/view/{{id_dashboard}}"
+                                        style="text-decoration: none !important;color: inherit !important">
                                         <div class="row align-items-center">
                                             <!--
                                             <div class="col-4">
@@ -30,7 +30,8 @@
                                             -->
                                             <div class="col-9">
                                                 <h4 class="title-dash-list">{{title}}</h4>
-                                                <p class="project-dash-list">{{project.customer.name_customer}} / {{project.nam_project}}</p>                                            
+                                                <p class="project-dash-list">{{project.customer.name_customer}} /
+                                                    {{project.nam_project}}</p>
                                                 <span class="status-dash mt-1">{{des_status}}</span>
                                             </div>
                                             <div class="col-2 text-start">
@@ -48,39 +49,53 @@
                             </div>
                         </div>
                         {{/if}}
-                        
-                    {{/each}}
+
+                        {{/each}}
+                    </div>
+
                 </div>
 
             </div>
+            <div class="row mt-4">
+                
+                <div class="col-md-12 text-center">
+                    <div class="d-inline-flex">
+                        <button class="carousel-control-prev btn-carousel-dashboards-prev" type="button"
+                            data-bs-target="#dashboardCarousel2" data-bs-slide="prev">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="41" height="48" viewBox="0 0 41 48"
+                                    fill="none">
+                                    <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                    </div>
+                    <div class="d-inline-flex">
+                        <ul class="pagination">
 
-        </div>
-        <div class="row mt-4">
-            <div class="col-6 col-btn-carousel-dashboards-prev">
-                <!-- Controles do carousel abaixo -->
-                <button class="carousel-control-prev btn-carousel-dashboards-prev" type="button"
-                    data-bs-target="#dashboardCarousel2" data-bs-slide="prev">
-                    <span aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="41" height="48" viewBox="0 0 41 48" fill="none">
-                            <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="carousel-control-next btn-carousel-dashboards-next" type="button"
-                    data-bs-target="#dashboardCarousel2" data-bs-slide="next">
-                    <span aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="48" viewBox="0 0 42 48" fill="none">
-                            <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                        </ul>
+                    </div>
+                    <div class="d-inline-flex">
+                        <button class="carousel-control-next btn-carousel-dashboards-next" type="button"
+                            data-bs-target="#dashboardCarousel2" data-bs-slide="next" style="margin-left: 20px;">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="48" viewBox="0 0 42 48"
+                                    fill="none">
+                                    <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
 </div>
+<script>
+    const dashboardsCount = {{ dashboards.length }};
+</script>

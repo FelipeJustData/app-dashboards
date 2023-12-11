@@ -25,8 +25,16 @@
     position: static;
 }
 
-.col-btn-carousel-dashboards-prev {
-    padding-left: 45% !important;
+.pagination button{
+    color: #808080;
+    text-align: center;
+    font-family: K2D;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 110.5%; /* 22.1px */  
+    border: none;
+    margin: 0 10px;
 }
 
 .status-dash {

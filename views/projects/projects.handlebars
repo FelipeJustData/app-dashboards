@@ -12,7 +12,7 @@
     <form id="filterForm">
       <label for="status">Status:</label>
       <select name="status" id="status">
-        <option  value="" disabled selected>Selecionar</option>
+        <option value="" disabled selected>Selecionar</option>
         <option value="desenvolvimento">Em desenvolvimento</option>
         <option value="homolog interna">Homologação interna</option>
         <option value="homolog externa">Homologação externa</option>
@@ -26,13 +26,13 @@
       <input type="date" name="expirationDate" id="expirationDate">
       <label for="client">Cliente:</label>
       <select class="form-select form-control" aria-label="Selecionar Cliente" id="client" name="customer"
-                    class="form-control" required>
-                    <option value="" disabled selected>Selecionar</option>
-                    {{#each customers}}
-                    <option value={{id_customer}}>{{name_customer}}</option>
-                    {{else}}
-                    {{/each}}
-                </select>
+        class="form-control" required>
+        <option value="" disabled selected>Selecionar</option>
+        {{#each customers}}
+        <option value={{id_customer}}>{{name_customer}}</option>
+        {{else}}
+        {{/each}}
+      </select>
       <button type="button" onclick="applyFilters()">Aplicar Filtros</button>
     </form>
   </div>
@@ -40,32 +40,31 @@
 </div>
 
 <div class="row">
-  <div class="col-12">
+  <div class="col-12 bg-projects">
     <!-- listagem de projetos -->
     <div id="projects-carousel" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         {{#each projects}}
         {{#if (eq @index 0)}}
-        <div class="carousel-item active">
+        <div class="carousel-item active" id="project-{{id_project}}">
           <div class="row">
             {{/if}}
             {{#if (and (eq (mod @index 8) 0) (gte @index 1))}}
-            <div class="carousel-item">
+            <div class="carousel-item" id="project-{{id_project}}">
               <div class="row">
                 {{/if}}
                 <div class="col-md-3 mt-4" data-content-id="{{id_project}}">
-
                   <div class="card" style="height: 100%;">
                     <div class="card-body text-center">
                       <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-8">
+                        <div class="col-1"></div>
+                        <div class="col-10">
                           <a href="/projects/view/{{id_project}}" style="text-decoration: none !important;">
-                            <p style="margin-bottom: 0;"><b class="card-title">{{nam_project}}</b></p>
+                            <p class="card-title" style="margin-bottom: 0;"><b>{{nam_project}}</b></p>
                           </a>
                           <span class="status-project mt-1">{{des_status}}</span>
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                           <span style="position: absolute;right: 10px;top: 10px;"
                             class="favorite-toggle d-inline {{#if (eq favorite.id_project id_project)}} favorited {{/if}} all-projects"
                             onclick="toggleFavoriteAllProjects({{id_project}})">
@@ -121,36 +120,46 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 col-btn-carousel-projects-prev">
-        <button class="carousel-control-prev btn-carousel-projects-prev" type="button"
-          data-bs-target="#projects-carousel" data-bs-slide="prev">
-          <span aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="48" viewBox="0 0 41 48" fill="none">
-              <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span class="visually-hidden">Previous</span>
-        </button>
+      <div class="col-md-3">
+
       </div>
-      <div class="col-md-6">
-        <!-- Paginação numérica
-              <ol class="carousel-indicators mt-2">
-                  {{#each projects}}
-                  <li data-bs-target="#projects-carousel" data-bs-slide-to="{{@index}}" {{#if (eq @index
-                      0)}}class="active" {{/if}}></li>
-                  {{/each}}
-              </ol> -->
-        <button class="carousel-control-next btn-carousel-projects-next" type="button"
-          data-bs-target="#projects-carousel" data-bs-slide="next">
-          <span aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="48" viewBox="0 0 42 48" fill="none">
-              <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span class="visually-hidden">Next</span>
-        </button>
+      <div class="col-md-6 text-center">
+        <div class="d-inline-flex">
+          <button class="carousel-control-prev btn-carousel-projects-prev" type="button"
+            data-bs-target="#projects-carousel" data-bs-slide="prev">
+            <span aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="41" height="48" viewBox="0 0 41 48" fill="none">
+                <path d="M27 34L17 24L27 14" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+        </div>
+        <div class="d-inline-flex">
+          <ul class="pagination">
+
+          </ul>
+        </div>
+        <div class="d-inline-flex">
+          <button class="carousel-control-next btn-carousel-projects-next" type="button"
+            data-bs-target="#projects-carousel" data-bs-slide="next" style="margin-left: 20px;">
+            <span aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="48" viewBox="0 0 42 48" fill="none">
+                <path d="M18 14L28 24L18 34" stroke="#C6C6C6" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-3">
+
       </div>
     </div>
   </div>
+</div>
+<script>
+  const projectsCount = {{ projects.length }}; // Substitua isso pelo código real para obter a contagem de projetos
+</script>

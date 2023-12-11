@@ -40,7 +40,11 @@ router.get("/", eUser, async (req, res) => {
                 dashboard.project = project
             })
 
-            res.render("dashboards/dashboards", { user: req.user, dashboards: dashboards, styles: [{ src: "/styles/pages/dashboards.css" }] })
+            res.render("dashboards/dashboards", { 
+                user: req.user, 
+                dashboards: dashboards, 
+                styles: [{ src: "/styles/pages/dashboards.css" }],
+                scripts: [{ src: "/js/dashboards.js" }] })
 
         } catch (error) {
             req.flash("error_msg", "Erro ao listar dashboards - " + error);
@@ -74,7 +78,11 @@ router.get("/", eUser, async (req, res) => {
                         dashboard.project = project
                     })
 
-                    res.render("dashboards/dashboards", { user: req.user, dashboards: dashboards, styles: [{ src: "/styles/pages/dashboards.css" }] })
+                    res.render("dashboards/dashboards", { 
+                        user: req.user, 
+                        dashboards: dashboards, 
+                        styles: [{ src: "/styles/pages/dashboards.css" }],
+                        scripts: [{ src: "/js/dashboards.js" }] })
 
                 } catch (error) {
 

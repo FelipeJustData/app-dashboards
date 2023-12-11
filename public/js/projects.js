@@ -76,3 +76,29 @@ function applyFilters() {
   // Redirecionar para a rota com os parâmetros de consulta
   window.location.href = `/projects?${queryParams.toString()}`;
 }
+
+function totalSlides(projectsCount, itemsPerPage) {
+  return Math.ceil(projectsCount / itemsPerPage);
+}
+
+
+const itemsPerPage = 8; // Número de itens por página
+const totalPages = totalSlides(projectsCount, itemsPerPage);
+
+const paginationContainer = document.querySelector('.pagination');
+
+
+
+// Adicione um ouvinte de clique para cada página
+for (let i = 1; i <= totalPages; i++) {
+  const li = document.createElement('li');
+  li.classList.add('page-item');
+
+  const btn = document.createElement('button');
+  btn.setAttribute('data-bs-target', '#projects-carousel')
+  btn.setAttribute('data-bs-slide-to', i - 1)
+  btn.textContent = i
+
+  li.appendChild(btn);
+  paginationContainer.appendChild(li);
+}
